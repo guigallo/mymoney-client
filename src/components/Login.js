@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 import PropTypes from 'prop-types';
-import { browserHistory } from 'react-router';
 import styles from '../styles/login';
 import withStyles from '@material-ui/core/styles/withStyles';
 import config from '../config/config';
@@ -17,12 +17,14 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import LockIcon from '@material-ui/icons/LockOutlined';
 
+
 class Login extends Component {
   constructor(props) {
     super(props);
     this.classes = props.classes;
     this.state = {
-      msg: props.location.query.msg,
+      authenticated: false,
+      msg: props.location.search.substring(5),
       email: '',
       password: ''
     };
@@ -42,17 +44,23 @@ class Login extends Component {
 
     fetch(`${config.apiAdrres}/log/in`, requestInfo)
       .then(response => {
-        console.log(response);
         if(response.ok)
           return response.text();
         else 
-          throw new Error('Não foi possível fazer login');
+          switch(response.status) {
+            case 401:
+              throw new Error('Senha incorreta');
+            case 404:
+              throw new Error('Usuário não encontrado');
+            default:
+              throw new Error('Não foi possível fazer login');
+          }
       })
       .then(token => {
         localStorage.setItem('auth-token', token);
-        browserHistory.push('/user');
+        this.setState({ authenticated: true });
       })
-      .catch(error => this.setState({ msg: error.message }));
+      .catch(error =>  this.setState({ msg: error.message }));
   };
 
   handleChange = name => event => {
@@ -61,57 +69,61 @@ class Login extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <CssBaseline />
-        <main className={this.classes.layout}>
-          <Paper className={this.classes.paper}>
-            <Avatar className={this.classes.avatar}>
-              <LockIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <form className={this.classes.form} method="post" onSubmit={this.sendForm}>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="email">Email Address</InputLabel>
-                <Input
-                  id="email"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  value={this.state.name}
-                  onChange={this.handleChange('email')}
-                />
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Password</InputLabel>
-                <Input
-                  name="password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={this.state.password}
-                  onChange={this.handleChange('password')}
-                />
-              </FormControl>
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={this.classes.submit}
-              >
+      this.state.authenticated ? (
+        <Redirect to="/user" />
+      ) : (
+        <React.Fragment>
+          <CssBaseline />
+          <main className={this.classes.layout}>
+            <Paper className={this.classes.paper}>
+              <Avatar className={this.classes.avatar}>
+                <LockIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
                 Sign in
-              </Button>
-            </form>
-            <span className={this.classes.message}>{this.state.msg}</span>
-          </Paper>
-        </main>
-      </React.Fragment>
+              </Typography>
+              <form className={this.classes.form} method="post" onSubmit={this.sendForm}>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="email">Email Address</InputLabel>
+                  <Input
+                    id="email"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={this.state.name}
+                    onChange={this.handleChange('email')}
+                  />
+                </FormControl>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="password">Password</InputLabel>
+                  <Input
+                    name="password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={this.state.password}
+                    onChange={this.handleChange('password')}
+                  />
+                </FormControl>
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={this.classes.submit}
+                >
+                  Sign in
+                </Button>
+              </form>
+              <span className={this.classes.message}>{this.state.msg}</span>
+            </Paper>
+          </main>
+        </React.Fragment>
+      )
     );
   };
 };

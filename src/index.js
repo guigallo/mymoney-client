@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
+import Routes from './Routes';
 
+/*
 import { Route, Router, browserHistory} from 'react-router';
 
 import Login from './components/Login';
@@ -12,7 +14,6 @@ function verifyAuth(nextState, replace) {
     replace('/?msg=Você preicsa estar logado');
   }
 }
-
 ReactDOM.render(
   (
     <Router history={ browserHistory }>
@@ -20,6 +21,11 @@ ReactDOM.render(
       <Route path="/user" component={ User } onEnter={ verifyAuth } />
     </Router>
   ),
+  document.getElementById('root')
+);*/
+
+ReactDOM.render(
+  <Routes />,
   document.getElementById('root')
 );
 
