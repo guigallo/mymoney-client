@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -29,19 +30,30 @@ import CreditCardIcon from '@material-ui/icons/CreditCard';
 import MoneyOffIcon from '@material-ui/icons/MoneyOff';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import 'typeface-roboto';
 
-const routes = [
-  { path: '/dashboard', text: 'Dashboard', icon: DashboardIcon },
-  { path: '/user', text: 'Users', icon: PeopleIcon },
-  { path: '/account', text: 'Accounts', icon: AccountBalanceIcon },
-  { path: '/category', text: 'Categories', icon: CategoryIcon },
-  { path: '/creditcard', text: 'Credit Cards', icon: CreditCardIcon },
-  { path: '/expense', text: 'Expenses', icon: MoneyOffIcon },
-  { path: '/income', text: 'Incomes', icon: AttachMoneyIcon },
-  { path: '/transfer', text: 'Transfers', icon: CompareArrowsIcon }
-]
+const routes = {
+  main: [
+    { path: '/dashboard', text: 'Dashboard', icon: DashboardIcon }
+  ],
+  transactions: [
+    { path: '/account', text: 'Accounts', icon: AccountBalanceIcon },
+    { path: '/income', text: 'Incomes', icon: AttachMoneyIcon },
+    { path: '/expense', text: 'Expenses', icon: MoneyOffIcon },
+    { path: '/transfer', text: 'Transfers', icon: CompareArrowsIcon }
+  ],
+  configs: [
+    { path: '/creditcard', text: 'Credit Cards', icon: CreditCardIcon },
+    { path: '/category', text: 'Categories', icon: CategoryIcon },
+    { path: '/user', text: 'Users', icon: PeopleIcon }
+  ],
+  reports: [
+    { path: '/#', text: 'Current month', icon: AssignmentIcon },
+    { path: '/#', text: 'Last quarter', icon: AssignmentIcon }
+  ]
+}
 
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
@@ -109,29 +121,43 @@ class Layout extends React.Component {
             </IconButton>
           </div>
           <Divider />
-
           <List>
             <div>
-              {routes.map(route => {
-                const Icon = route.icon;
-                return (
-                  <Link key={ route.path } to={ route.path } className={ classes.link } >
-                    <ListItemLink component="div">
-                      <ListItemIcon>
-                        <Icon />
-                      </ListItemIcon>
-                      <ListItemText primary={ route.text } />
-                    </ListItemLink>
-                  </Link>
-                );
-              })}
+              { createListMenu(routes.main, classes) }
+              <Divider />
+              { createListMenu(routes.transactions, classes) }
+              <Divider />
+              { createListMenu(routes.configs, classes) }
+              <Divider />
+              { createListMenu(routes.reports, classes, 'Reports') }
             </div>
           </List>
-          <Divider />
         </Drawer>
       </>
     );
   }
+}
+
+function createListMenu(arr, classes, subHeader = '') {
+  return (
+    <>
+      {subHeader !== '' ? (<ListSubheader inset>{ subHeader }</ListSubheader>) : '' }
+      {arr.map(route => {
+        const Icon = route.icon;
+        return (
+          <Link key={ route.path } to={ route.path } className={ classes.link } >
+            <ListItemLink component="div">
+              <ListItemIcon>
+                <Icon />
+              </ListItemIcon>
+              <ListItemText primary={ route.text } />
+            </ListItemLink>
+          </Link>
+        )}
+      )}
+      <Divider />
+    </>
+  );
 }
 
 Layout.propTypes = {
