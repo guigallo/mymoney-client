@@ -1,18 +1,36 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
-import Login from './components/Login';
+import Layout from './templates/Layout'
+import Login from './templates/Login';
 import User from './views/UsersView';
 import Accounts from './views/AccountsView';
+import Protected from './services/Protected';
+
+function PrivateRoute({ component: Component, ...rest }) {
+  return (
+    <Route {...rest} render={props =>
+      Protected.isAuthenticated() ? (
+        <>
+          <Layout />
+          <Component {...props} />
+        </>
+      ) : (
+        <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
+      )
+    } />
+  );
+}
 
 const Routes = () => (
   <Router>
-    <div>
-      <Route exact path="/" component={ Login } />
+    <>
       <Route path="/login" component={ Login } />
-      <Route path="/user" component={ User } />      
-      <Route path="/account" component={ Accounts } />
-    </div>
+
+      <PrivateRoute exact path="/" component={ () => (<p>dashboard</p>)} />
+      <PrivateRoute path="/account" component={ Accounts } />
+      <PrivateRoute path="/user" component={ User } />
+    </>
   </Router>
 );
 

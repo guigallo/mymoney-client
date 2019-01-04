@@ -1,10 +1,11 @@
 import React from 'react';
 import Protected from '../services/Protected';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import styles from '../styles/content'
+import Typography from '@material-ui/core/Typography';
 
 import AccountsController from '../controllers/AccountsController';
-
-import Layout from '../components/Layout';
 import TableCustom from '../components/TableCustom';
 
 class Accounts extends React.Component {
@@ -18,23 +19,31 @@ class Accounts extends React.Component {
       this.props.List();
     })
   }
-
+  
   render = () => {
+    const { classes } = this.props;
     return this.state.authenticated ? (
-      <Layout
-        key={ this.props.rows || 0 }
-        name='Accounts'
-        View={ TableCustom }
-        columns={[
-          {name: 'Name', property: 'name',  sum: false, numeric: false },
-          {name: 'Balance', property: 'value',  sum: true, numeric: true  },
-          {name: 'Final monthly balance', property: 'monthlyExpected',  sum: false, numeric: true }
-        ]}
-        rows={ this.props.accounts }
-        order={ 'desc' }
-        orderBy={ 'name' }
-        rowsPerPage={ 5 }
-      />
+      
+      <main className={ classes.content }>
+        <div className={ classes.appBarSpacer } />
+
+        <Typography variant="h4" gutterBottom component="h2">
+          Accounts
+        </Typography>
+
+        <TableCustom
+          key={ this.props.accounts || 'empty' }
+          columns={[
+            {name: 'Name', property: 'name',  sum: false, numeric: false },
+            {name: 'Balance', property: 'value',  sum: true, numeric: true  },
+            {name: 'Final monthly balance', property: 'monthlyExpected',  sum: false, numeric: true }
+          ]}
+          rows={ this.props.accounts || [] }
+          order={ 'desc' }
+          orderBy={ 'name' }
+          rowsPerPage={ 5 }
+        />
+      </main>
     ) : (
       <p>not auth</p>
     )
@@ -54,4 +63,4 @@ const mapDispatchToProps = dispatch => ({
   //Sort: (list, order, orderBy) => dispatch(AccountsController.sort(list, order, orderBy))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Accounts);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Accounts));

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../styles/header';
+import { Link } from "react-router-dom";
 
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
@@ -18,13 +19,29 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import CategoryIcon from '@material-ui/icons/Category';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
+import MoneyOffIcon from '@material-ui/icons/MoneyOff';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
 import 'typeface-roboto';
+
+const routes = [
+  { path: '/dashboard', text: 'Dashboard', icon: DashboardIcon },
+  { path: '/user', text: 'Users', icon: PeopleIcon },
+  { path: '/account', text: 'Accounts', icon: AccountBalanceIcon },
+  { path: '/category', text: 'Categories', icon: CategoryIcon },
+  { path: '/creditcard', text: 'Credit Cards', icon: CreditCardIcon },
+  { path: '/expense', text: 'Expenses', icon: MoneyOffIcon },
+  { path: '/income', text: 'Incomes', icon: AttachMoneyIcon },
+  { path: '/transfer', text: 'Transfers', icon: CompareArrowsIcon }
+]
 
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
@@ -45,7 +62,7 @@ class Layout extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root}>
+      <>
         <CssBaseline />
         <AppBar
           position="absolute"
@@ -92,54 +109,28 @@ class Layout extends React.Component {
             </IconButton>
           </div>
           <Divider />
+
           <List>
             <div>
-              <ListItemLink href="/dashboard">
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-              </ListItemLink>
-              <ListItemLink href="/user">
-                <ListItemIcon>
-                  <ShoppingCartIcon />
-                </ListItemIcon>
-                <ListItemText primary="Users" />
-              </ListItemLink>
-              <ListItemLink href="/account">
-                <ListItemIcon>
-                  <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Accounts" />
-              </ListItemLink>
+              {routes.map(route => {
+                const Icon = route.icon;
+                return (
+                  <Link key={ route.path } to={ route.path } className={ classes.link } >
+                    <ListItemLink component="div">
+                      <ListItemIcon>
+                        <Icon />
+                      </ListItemIcon>
+                      <ListItemText primary={ route.text } />
+                    </ListItemLink>
+                  </Link>
+                );
+              })}
             </div>
           </List>
           <Divider />
         </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Typography variant="h4" gutterBottom component="h2">
-            {this.props.name}
-          </Typography>
-
-          {viewOrMessage(this.props)}
-        </main>
-      </div>
+      </>
     );
-  }
-}
-
-function viewOrMessage(props) {
-  if(props.View !== undefined && props.rows !== undefined) {
-    return (
-      <props.View
-        columns={ props.columns }
-        rows={ props.rows }
-        order={ props.order }
-        orderBy={ props.orderBy }
-        rowsPerPage={ props.rowsPerPage }
-      />
-    )
   }
 }
 

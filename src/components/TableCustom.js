@@ -52,7 +52,7 @@ class CustomTable extends React.Component {
   render() {
     const { classes, columns } = this.props;
     const { rowsPerPage, page, rows } = this.state;
-    const totalRows = rows !== undefined ? rows.size : 0;
+    const totalRows = ! Object.keys(rows).length === 0 && rows.constructor === Object ? rows.size : 0;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
 
     return (
@@ -68,12 +68,12 @@ class CustomTable extends React.Component {
 
             <TableBody>
               {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-                <TableRow key={row._id}>
+                <TableRow key={ row.hasOwnProperty('_id') ? row._id : row.id }>
                   {columns.map((column, index) => 
                     isHeaderCell(index) ? (
                       <TableCell key={ column.property } component="th" scope="row">{ row[column.property] }</TableCell> 
                     ) : (
-                      <TableCell key={ column.property } align="right">{ row[column.property] }</TableCell> 
+                      <TableCell key={ column.property } align={ column.numeric === true ? "right" : 'left' } >{ row[column.property] }</TableCell> 
                     )
                   )}
                 </TableRow> 
@@ -140,7 +140,7 @@ function sumColumn(column, rows) {
 };
 
 CustomTable.propTypes = {
-  rows: PropTypes.object.isRequired,
+  //rows: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
   rowsPerPage: PropTypes.number.isRequired,

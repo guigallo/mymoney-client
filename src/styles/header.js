@@ -1,9 +1,9 @@
 const drawerWidth = 240;
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
+  //root: {
+    //display: 'flex',
+  //},
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
@@ -59,12 +59,8 @@ const styles = theme => ({
       width: theme.spacing.unit * 9,
     },
   },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-    height: '100vh',
-    overflow: 'auto',
+  link: {
+    textDecoration: 'none'
   },
   chartContainer: {
     marginLeft: -22,
