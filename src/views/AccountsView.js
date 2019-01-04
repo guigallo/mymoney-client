@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AccountsController from '../controllers/AccountsController';
 
 import Layout from '../components/Layout';
-import Table from '../components/Table';
+import TableCustom from '../components/TableCustom';
 
 class Accounts extends React.Component {
   state = {
@@ -24,7 +24,7 @@ class Accounts extends React.Component {
       <Layout
         key={ this.props.rows || 0 }
         name='Accounts'
-        View={ Table }
+        View={ TableCustom }
         columns={[
           {name: 'Name', property: 'name',  sum: false, numeric: false },
           {name: 'Balance', property: 'value',  sum: true, numeric: true  },
@@ -33,6 +33,7 @@ class Accounts extends React.Component {
         rows={ this.props.accounts }
         order={ 'desc' }
         orderBy={ 'name' }
+        rowsPerPage={ 5 }
       />
     ) : (
       <p>not auth</p>
@@ -50,7 +51,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   List: () => dispatch(AccountsController.list()),
-  Sort: (list, order, orderBy) => dispatch(AccountsController.sort(list, order, orderBy))
+  //Sort: (list, order, orderBy) => dispatch(AccountsController.sort(list, order, orderBy))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Accounts);

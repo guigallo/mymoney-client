@@ -129,7 +129,6 @@ class Layout extends React.Component {
   }
 }
 
-//<this.state.View data={ this.state.data } />
 function viewOrMessage(props) {
   if(props.View !== undefined && props.rows !== undefined) {
     return (
@@ -138,6 +137,7 @@ function viewOrMessage(props) {
         rows={ props.rows }
         order={ props.order }
         orderBy={ props.orderBy }
+        rowsPerPage={ props.rowsPerPage }
       />
     )
   }
