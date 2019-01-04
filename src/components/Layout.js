@@ -131,7 +131,6 @@ class Layout extends React.Component {
 
 //<this.state.View data={ this.state.data } />
 function viewOrMessage(props) {
-  console.log(props)
   if(props.View !== undefined && props.rows !== undefined) {
     return (
       <props.View

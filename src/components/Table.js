@@ -140,6 +140,7 @@ class CustomPaginationActionsTable extends React.Component {
   state = {
     page: 0,
     rowsPerPage: 5,
+    rows: this.props.rows,
     order: this.props.order,
     orderBy: this.props.orderBy,
   };
@@ -153,18 +154,26 @@ class CustomPaginationActionsTable extends React.Component {
   };
 
   handleRequestSort = (event, property) => {
-    const isDesc = this.state.orderBy === property && this.state.order === 'desc';
-    const order = isDesc ? 'asc' : 'desc';
-    this.setState({order, orderBy: property});
-    sortList(this.props.rows, order, property)
-    console.log(order)
-    console.log(property)
+    let newOrder;
+    let newOrderBy;
+    if(this.state.orderBy === property) {
+      newOrder = this.state.order === 'asc' ? 'desc' : 'asc';
+      newOrderBy = this.state.orderBy
+    } else {
+      newOrder = 'desc';
+      newOrderBy = property;
+    }
+
+    this.setState({
+      rows: sortList(this.props.rows, newOrder, newOrderBy),
+      order: newOrder,
+      orderBy: newOrderBy,
+    });
   };
 
   render() {
-    console.log(this.props)
-    const { classes, columns, rows } = this.props;
-    const { rowsPerPage, page } = this.state;
+    const { classes, columns } = this.props;
+    const { rowsPerPage, page, rows } = this.state;
     const totalRows = rows !== undefined ? rows.size : 0;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
 
@@ -180,7 +189,6 @@ class CustomPaginationActionsTable extends React.Component {
             />
 
             <TableBody>
-              {console.log(rows)}
               {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
                 <TableRow key={row._id}>
                   {columns.map((column, index) => 
@@ -238,20 +246,20 @@ class CustomPaginationActionsTable extends React.Component {
         </div>
       </Paper>
     );
-  }
-}
+  };
+};
 
 function isHeaderCell(index) {
   return index === 0 ? true : false;
-}
+};
 
 function sumColumn(column, rows) {
   return rows.reduce((prev, current) => {
     return current[column.property] !== undefined ? 
       prev[column.property] + current[column.property] :
       prev[column.property];
-  })
-}
+  });
+};
 
 CustomPaginationActionsTable.propTypes = {
   classes: PropTypes.object.isRequired,

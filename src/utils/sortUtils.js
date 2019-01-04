@@ -1,7 +1,4 @@
 export function asc(a, b, orderBy) {
-  console.log(orderBy)
-  console.log(b[orderBy])
-  console.log(b[orderBy] < a[orderBy])
   if (a[orderBy] < b[orderBy])
     return -1;
   if (a[orderBy] > b[orderBy])
@@ -17,27 +14,16 @@ export function desc(a, b, orderBy) {
   return 0;
 }
 
-export function stableSort(array, cmp) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = cmp(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map(el => el[0]);
-}
-
-export function getSorting(order, orderBy) {
-  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
-}
-
 export function sortList(list, sort, sortBy) {
-  console.log(list, sort, sortBy)
-  list.sort((a, b) => {
-    console.log(a)
-    console.log(b)
-    console.log(asc(a, b, sortBy))
-    return asc(a, b, sortBy)
-  });
-  console.log(list)
+  if(sort === 'asc') {
+    return list.sort((a, b) => {
+      return asc(a, b, sortBy);
+    })
+  }
+
+  if(sort === 'desc') {
+    return list.sort((a, b) => {
+      return desc(a, b, sortBy);
+    })
+  }
 }

@@ -31,7 +31,7 @@ class Accounts extends React.Component {
           {name: 'Final monthly balance', property: 'monthlyExpected',  sum: false, numeric: true }
         ]}
         rows={ this.props.accounts }
-        order={ 'asc' }
+        order={ 'desc' }
         orderBy={ 'name' }
       />
     ) : (
