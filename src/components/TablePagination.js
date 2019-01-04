@@ -30,7 +30,8 @@ class TablePaginationActions extends React.Component {
   };
 
   render() {
-    const { classes, count, page, rowsPerPage, theme } = this.props;
+    const { classes, count, page, theme } = this.props;
+    const rowsPerPage = parseInt(this.props.rowsPerPage);
 
     return (
       <div className={classes.root}>

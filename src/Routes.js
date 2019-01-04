@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Login from './components/Login';
-import User from './components/User';
+import User from './views/UsersView';
 import Accounts from './views/AccountsView';
 
 const Routes = () => (

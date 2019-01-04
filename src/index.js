@@ -7,9 +7,10 @@ import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux'
 
 import Routes from './Routes';
-import { accounts } from './reducers/accountsReducers';
+import accounts from './reducers/accountsReducers';
+import users from './reducers/usersReducers';
 
-const reducers = combineReducers({ accounts });
+const reducers = combineReducers({ accounts, users });
 const store = new createStore(reducers, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(

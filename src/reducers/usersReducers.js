@@ -1,6 +1,6 @@
 import { List } from 'immutable';
 
-export default function accounts(state = [], action) {
+export default function users(state = [], action) {
   switch (action.type) {
     case 'LIST':
       const props = {
