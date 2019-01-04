@@ -1,10 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-//import Footer from './components/Footer';
 
 import Login from './components/Login';
 import User from './components/User';
-import Account from './components/Account';
+import Accounts from './views/AccountsView';
 
 const Routes = () => (
   <Router>
@@ -12,7 +11,7 @@ const Routes = () => (
       <Route exact path="/" component={ Login } />
       <Route path="/login" component={ Login } />
       <Route path="/user" component={ User } />      
-      <Route path="/account" component={ Account } />
+      <Route path="/account" component={ Accounts } />
     </div>
   </Router>
 );

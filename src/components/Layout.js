@@ -24,16 +24,14 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import PeopleIcon from '@material-ui/icons/People';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-
+import 'typeface-roboto';
 
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 
-class Dashboard extends React.Component {
-  state = {
-    open: true,
-  };
+class Layout extends React.Component {
+  state = { open: true };
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -72,7 +70,7 @@ class Dashboard extends React.Component {
               noWrap
               className={classes.title}
             >
-              Accounts
+              Mymoney
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -121,19 +119,33 @@ class Dashboard extends React.Component {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Typography variant="h4" gutterBottom component="h2">
-            Orders
+            {this.props.name}
           </Typography>
-          <Typography component="div" className={classes.chartContainer}>
-            SimpleLineChart
-          </Typography>
+
+          {viewOrMessage(this.props)}
         </main>
       </div>
     );
   }
 }
 
-Dashboard.propTypes = {
+//<this.state.View data={ this.state.data } />
+function viewOrMessage(props) {
+  console.log(props)
+  if(props.View !== undefined && props.rows !== undefined) {
+    return (
+      <props.View
+        columns={ props.columns }
+        rows={ props.rows }
+        order={ props.order }
+        orderBy={ props.orderBy }
+      />
+    )
+  }
+}
+
+Layout.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(Layout);

@@ -1,6 +1,12 @@
-export default {
-  getAccounts() {
-    return new Promise((resolve, reject) => {
+import { listAccounts } from '../actions/accountsActions';
+
+export default class AccountsController {
+  constructor(accounts = []) {
+    this.accounts = accounts
+  }
+
+  static list() {
+    return dispatch => {
       const auth = JSON.parse(localStorage.getItem('auth-token'));
       const headers = new Headers({ 'x-access-token': auth.token });
       const init = {
@@ -21,8 +27,17 @@ export default {
             default:  throw new Error('Fail to get accounts');
           }
         })
-        .then(json => resolve(json.result))
-        .catch(err => reject(new Error(`Fail to get accounts. ${err}`)));
-    });
+        .then(json => {
+          dispatch(listAccounts(json.result))
+          return json.result;
+        })
+        .catch(err => new Error(`Fail to get accounts. ${err}`));
+    }
+  }
+
+  static sort(list, order, orderBy) {
+    return dispatch => {
+      dispatch([list, order, orderBy]);
+    }
   }
 }
