@@ -15,13 +15,16 @@ import Paper from '@material-ui/core/Paper';
 import { styles } from '../styles/table';
 
 class CustomTable extends React.Component {
-  state = {
-    page: 0,
-    rowsPerPage: this.props.rowsPerPage,
-    rows: this.props.rows,
-    order: this.props.order,
-    orderBy: this.props.orderBy,
-  };
+  constructor(props) {
+   super(props); 
+   this.state = {
+     page: 0,
+     rowsPerPage: props.rowsPerPage,
+     rows: props.rows,
+     order: props.order,
+     orderBy: props.orderBy,
+   };
+  }
 
   handleChangePage = (event, page) => {
     this.setState({ page });

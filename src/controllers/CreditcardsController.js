@@ -1,6 +1,6 @@
-import { usersActions } from '../redux/actions';
+import { creditcardActions } from '../redux/actions';
 
-export default class UsersController {
+export default class CreditcardsController {
   static list() {
     return dispatch => {
       const auth = JSON.parse(localStorage.getItem('auth-token'));
@@ -12,22 +12,28 @@ export default class UsersController {
         cache: 'default'
       };
   
-      fetch('http://localhost:3001/users', init)
+      fetch('http://localhost:3001/creditcards', init)
         .then(response => {
           if(response.ok)
             return response.json();
     
           switch(response.status) {
-            case 404: throw new Error('No users found');
+            case 404: throw new Error('No creditcards found');
             case 500: throw new Error('Fail to access server');
-            default:  throw new Error('Fail to get users');
+            default:  throw new Error('Fail to get creditcards');
           }
         })
         .then(json => {
-          dispatch(usersActions.list(json.result))
+          dispatch(creditcardActions.list(json.result))
           return json.result;
         })
-        .catch(err => new Error(`Fail to get users. ${err}`));
+        .catch(err => new Error(`Fail to get creditcards. ${err}`));
+    }
+  }
+
+  static sort(list, order, orderBy) {
+    return dispatch => {
+      dispatch([list, order, orderBy]);
     }
   }
 }

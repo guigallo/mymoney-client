@@ -50,8 +50,8 @@ const routes = {
     { path: '/user', text: 'Users', icon: PeopleIcon }
   ],
   reports: [
-    { path: '/#', text: 'Current month', icon: AssignmentIcon },
-    { path: '/#', text: 'Last quarter', icon: AssignmentIcon }
+    { path: '/report1', text: 'Current month', icon: AssignmentIcon },
+    { path: '/report2', text: 'Last quarter', icon: AssignmentIcon }
   ]
 }
 

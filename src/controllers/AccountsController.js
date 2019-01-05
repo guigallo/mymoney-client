@@ -1,10 +1,6 @@
-import { listAccounts } from '../actions/accountsActions';
+import { accountsActions } from '../redux/actions';
 
 export default class AccountsController {
-  constructor(accounts = []) {
-    this.accounts = accounts
-  }
-
   static list() {
     return dispatch => {
       const auth = JSON.parse(localStorage.getItem('auth-token'));
@@ -28,7 +24,7 @@ export default class AccountsController {
           }
         })
         .then(json => {
-          dispatch(listAccounts(json.result))
+          dispatch(accountsActions.list(json.result))
           return json.result;
         })
         .catch(err => new Error(`Fail to get accounts. ${err}`));

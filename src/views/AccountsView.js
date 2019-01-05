@@ -23,7 +23,6 @@ class Accounts extends React.Component {
   render = () => {
     const { classes } = this.props;
     return this.state.authenticated ? (
-      
       <main className={ classes.content }>
         <div className={ classes.appBarSpacer } />
 
@@ -32,14 +31,14 @@ class Accounts extends React.Component {
         </Typography>
 
         <TableCustom
-          key={ this.props.accounts || 'empty' }
+          key={ this.props.accounts || 'accempty' }
           columns={[
             {name: 'Name', property: 'name',  sum: false, numeric: false },
             {name: 'Balance', property: 'value',  sum: true, numeric: true  },
             {name: 'Final monthly balance', property: 'monthlyExpected',  sum: false, numeric: true }
           ]}
           rows={ this.props.accounts || [] }
-          order={ 'desc' }
+          order={ 'asc' }
           orderBy={ 'name' }
           rowsPerPage={ 5 }
         />
