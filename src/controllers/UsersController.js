@@ -1,4 +1,4 @@
-import { usersActions } from '../redux/actions';
+import { usersActions } from '../actions/actions';
 
 export default class UsersController {
   static list() {

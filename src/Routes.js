@@ -6,6 +6,8 @@ import Login from './templates/Login';
 import User from './views/UsersView';
 import Accounts from './views/AccountsView';
 import Creditcards from './views/CreditcardsView';
+import Expenses from './views/ExpensesView';
+import View from './views/View';
 import Protected from './services/Protected';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -31,6 +33,8 @@ const Routes = () => (
       <PrivateRoute path="/account" component={ Accounts } />
       <PrivateRoute path="/user" component={ User } />
       <PrivateRoute path="/creditcard" component={ Creditcards } />
+      <PrivateRoute path="/expense" component={ Expenses } />
+      <PrivateRoute path="/dashboard" component={ View } />
     </>
   </Router>
 );

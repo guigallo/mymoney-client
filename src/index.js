@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
-import { combineReducers, applyMiddleware, createStore } from 'redux'
+import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 
 import Routes from './Routes';
-import { accounts, users, creditcards } from './redux-reducers/reducers';
+import { accounts, users, creditcards, expenses } from './reducers/reducers';
 
-const reducers = combineReducers({ accounts, users, creditcards });
+const reducers = combineReducers({ accounts, users, creditcards, expenses });
 const store = new createStore(reducers, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(

@@ -1,6 +1,6 @@
-import { creditcardActions } from '../actions/actions';
+import { expensesActions } from '../actions/actions';
 
-export default class CreditcardsController {
+export default class ExpensesController {
   static list() {
     return dispatch => {
       const auth = JSON.parse(localStorage.getItem('auth-token'));
@@ -12,22 +12,22 @@ export default class CreditcardsController {
         cache: 'default'
       };
   
-      fetch('http://localhost:3001/creditcards', init)
+      fetch('http://localhost:3001/expenses', init)
         .then(response => {
           if(response.ok)
             return response.json();
     
           switch(response.status) {
-            case 404: throw new Error('No creditcards found');
+            case 404: throw new Error('No expenses found');
             case 500: throw new Error('Fail to access server');
-            default:  throw new Error('Fail to get creditcards');
+            default:  throw new Error('Fail to get expenses');
           }
         })
         .then(json => {
-          dispatch(creditcardActions.list(json.result))
+          dispatch(expensesActions.list(json.result))
           return json.result;
         })
-        .catch(err => new Error(`Fail to get creditcards. ${err}`));
+        .catch(err => new Error(`Fail to get expenses. ${err}`));
     }
   }
 
