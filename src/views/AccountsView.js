@@ -1,5 +1,5 @@
 import View from './View';
-import AccountsController from '../controllers/AccountsController';
+import { AccountsController } from '../controllers/controllers';
 import { connect } from 'react-redux';
 import { dispatchProps } from '../reducers/reducers';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,11 +12,16 @@ class AccountsView extends View {
     
     this.name = NAME;
     this.columns = [
-      {name: 'Name', property: 'name',  sum: false, numeric: false },
-      {name: 'Balance', property: 'value',  sum: true, numeric: true  },
-      {name: 'Final monthly balance', property: 'monthlyExpected',  sum: false, numeric: true }
+      {name: 'Name', property: 'name',  sum: false, align: 'left' },
+      {name: 'Balance', property: 'value',  sum: true, align: 'right' },
+      {name: 'Final monthly balance', property: 'monthlyExpected',  sum: false, align: 'right' }
     ];
   }
 }
 
-export default connect(...dispatchProps(NAME.toLowerCase(), AccountsController))(withStyles(styles)(AccountsView));
+export default connect (
+  ...dispatchProps(
+    NAME.toLowerCase(),
+    AccountsController))(
+  withStyles(styles)(AccountsView)
+);

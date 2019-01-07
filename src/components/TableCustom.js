@@ -14,15 +14,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { styles } from '../styles/table';
 
-class CustomTable extends React.Component {
+class TableCustom extends React.Component {
   constructor(props) {
    super(props); 
    this.state = {
      page: 0,
      rowsPerPage: props.rowsPerPage,
      rows: props.rows,
-     order: props.order,
-     orderBy: props.orderBy,
+     order: 'asc',
+     orderBy: 'none',
    };
   }
 
@@ -76,7 +76,7 @@ class CustomTable extends React.Component {
                     isHeaderCell(index) ? (
                       <TableCell key={ column.property } component="th" scope="row">{ row[column.property] }</TableCell> 
                     ) : (
-                      <TableCell key={ column.property } align={ column.numeric === true ? "right" : 'left' } >{ row[column.property] }</TableCell> 
+                      <TableCell key={ column.property } align={ column.align } >{ row[column.property] }</TableCell> 
                     )
                   )}
                 </TableRow> 
@@ -142,13 +142,13 @@ function sumColumn(column, rows) {
   });
 };
 
-CustomTable.propTypes = {
+TableCustom.propTypes = {
   //rows: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  order: PropTypes.string.isRequired,
-  orderBy: PropTypes.string.isRequired,
+  //order: PropTypes.string.isRequired,
+  //orderBy: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(CustomTable);
+export default withStyles(styles)(TableCustom);

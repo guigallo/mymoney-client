@@ -1,5 +1,5 @@
 import View from './View';
-import ExpensesController from '../controllers/ExpensesController';
+import { ExpensesController } from '../controllers/controllers';
 import { connect } from 'react-redux';
 import { dispatchProps } from '../reducers/reducers';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,14 +12,19 @@ class ExpensesView extends View {
     
     this.name = NAME;
     this.columns = [
-      {name: 'Date', property: 'date',  sum: false, numeric: false  },
-      {name: 'Description', property: 'description',  sum: false, numeric: false },
-      {name: 'Value', property: 'value',  sum: true, numeric: true  },
-      {name: 'Paid', property: 'paid',  sum: false, numeric: false },
-      {name: 'Account', property: 'account',  sum: false, numeric: false },
-      {name: 'Category', property: 'category',  sum: false, numeric: false }
+      {name: 'Date', property: 'date',  sum: false, align: 'left'  },
+      {name: 'Description', property: 'description',  sum: false, align: 'left' },
+      {name: 'Value', property: 'value',  sum: true, align: 'right'  },
+      {name: 'Paid', property: 'paid',  sum: false, align: 'left' },
+      {name: 'Account', property: 'account',  sum: false, align: 'left' },
+      {name: 'Category', property: 'category',  sum: false, align: 'left' }
     ];
   }
 }
 
-export default connect(...dispatchProps(NAME.toLowerCase(), ExpensesController))(withStyles(styles)(ExpensesView));
+export default connect (
+  ...dispatchProps(
+    NAME.toLowerCase(),
+    ExpensesController))(
+  withStyles(styles)(ExpensesView)
+);

@@ -27,7 +27,7 @@ class View extends React.Component {
     </main>
   ) : (
     <p>not auth</p>
-  )
+  );
 }
 
 export default View;

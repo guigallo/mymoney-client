@@ -1,13 +1,12 @@
 import { List } from 'immutable';
 
 function reducer(name, state, action) {
-
   switch (action.type) {
     case `LIST_${name}`:
       return {
         list: new List(action.list),
-        sort: 'asc',
-        sortBy: 'name',
+        order: 'none',
+        orderBy: 'none',
         key: action.key
       }
 
@@ -24,8 +23,8 @@ export const expenses = (state = [], action) => reducer('EXPENSES', state, actio
 export const dispatchProps = (name, Controller) => {
   const mapStateToProps = state => ({
     list: state[name].list,
-    sort: state[name].sort,
-    sortBy: state[name].sortBy
+    order: state[name].order,
+    orderBy: state[name].orderBy
   });
   
   const mapDispatchToProps = dispatch => ({

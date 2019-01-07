@@ -16,29 +16,27 @@ export default function SortableTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        {columns.map(column => {
-          return (
-            <TableCell
-              key={column.property}
-              align={column.numeric ? 'right' : 'left'}
-              sortDirection={orderBy === column.property ? order : false}
+        {columns.map(column => 
+          <TableCell
+            key={ column.property }
+            align={ column.align }
+            sortDirection={ orderBy === column.property ? order : false }
+          >
+            <Tooltip
+              title="Sort"
+              placement={ column.align === 'right' ? 'bottom-end' : 'bottom-start' }
+              enterDelay={300}
             >
-              <Tooltip
-                title="Sort"
-                placement={column.numeric ? 'bottom-end' : 'bottom-start'}
-                enterDelay={300}
+              <TableSortLabel
+                active={orderBy === column.property}
+                direction={order}
+                onClick={createSortHandler(column.property)}
               >
-                <TableSortLabel
-                  active={orderBy === column.property}
-                  direction={order}
-                  onClick={createSortHandler(column.property)}
-                >
-                  {column.name}
-                </TableSortLabel>
-              </Tooltip>
-            </TableCell>
-          );
-        }, this)}
+                {column.name}
+              </TableSortLabel>
+            </Tooltip>
+          </TableCell>
+        )}
       </TableRow>
     </TableHead>
   )

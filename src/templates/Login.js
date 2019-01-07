@@ -17,7 +17,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import LockIcon from '@material-ui/icons/LockOutlined';
 
-
 class Login extends Component {
   constructor(props) {
     super(props);
