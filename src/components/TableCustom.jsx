@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { sortList } from '../utils/sortUtils';
 import TableHead from './TableHead';
 import TablePaginationActionsWrapped from './TablePagination';
+import DateUtils from '../utils/DateUtils';
 
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -13,6 +14,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { styles } from '../styles/table';
+import LensIcons from '@material-ui/icons/Lens';
 
 class TableCustom extends React.Component {
   constructor(props) {
@@ -54,7 +56,7 @@ class TableCustom extends React.Component {
 
   render() {
     const { classes, columns } = this.props;
-    const { rowsPerPage, page, rows } = this.state;
+    const { rowsPerPage, page, rows, order, orderBy } = this.state;
     const totalRows = ! Object.keys(rows).length === 0 && rows.constructor === Object ? rows.size : 0;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
 
@@ -64,21 +66,40 @@ class TableCustom extends React.Component {
           <Table className={classes.table}>
             <TableHead 
               columns={ columns }
-              order={ this.state.order }
-              orderBy={ this.state.orderBy }
+              order={ order }
+              orderBy={ orderBy }
               onRequestSort={ this.handleRequestSort }
             />
 
             <TableBody>
               {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
                 <TableRow key={ row.hasOwnProperty('_id') ? row._id : row.id }>
-                  {columns.map((column, index) => 
-                    isHeaderCell(index) ? (
-                      <TableCell key={ column.property } component="th" scope="row">{ row[column.property] }</TableCell> 
-                    ) : (
-                      <TableCell key={ column.property } align={ column.align } >{ row[column.property] }</TableCell> 
-                    )
-                  )}
+                  {columns.map((column, index) => {
+                    let display = ''
+                    switch(column.type) {
+                      case String:
+                        display = row[column.property];
+                        break;
+
+                      case Number:
+                        display = row[column.property].toFixed(2);
+                        break;
+
+                      case Date:
+                        display = DateUtils.toStringDate(new Date(row[column.property]), 'pt-br');
+                        break;
+
+                      case Boolean:
+                        display = (<LensIcons className={ row[column.property] ? classes.paid : classes.unpaid } />)
+                        break;
+
+                      default:
+                        display = 'invalid type';
+                        break;
+                    }
+
+                    return (<TableCell key={ column.property } align={ column.align } >{ display }</TableCell>)
+                  })}
                 </TableRow> 
                 
               ))}
@@ -143,12 +164,9 @@ function sumColumn(column, rows) {
 };
 
 TableCustom.propTypes = {
-  //rows: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-  //order: PropTypes.string.isRequired,
-  //orderBy: PropTypes.string.isRequired,
+  rowsPerPage: PropTypes.number.isRequired
 };
 
 export default withStyles(styles)(TableCustom);

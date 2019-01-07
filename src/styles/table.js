@@ -1,3 +1,5 @@
+import { green, red } from "@material-ui/core/colors";
+
 export const styles = theme => ({
   root: {
     width: '100%',
@@ -9,7 +11,13 @@ export const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
-})
+  paid: {
+    color: green[500],
+  },
+  unpaid: {
+    color: red[500],
+  }
+});
 
 export const actionsStyles = theme => ({
   root: {

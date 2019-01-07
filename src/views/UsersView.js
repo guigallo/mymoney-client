@@ -12,9 +12,9 @@ class ExpensesView extends View {
     
     this.name = NAME;
     this.columns = [
-      {name: 'Name', property: 'name',  sum: false, align: 'left' },
-      {name: 'Email', property: 'email',  sum: false, align: 'left'  },
-      {name: 'Permissions', property: 'permFriendly',  sum: false, align: 'left' }
+      { name: 'Name',         property: 'name',         type: String, sum: false, align: 'left' },
+      { name: 'Email',        property: 'email',        type: String, sum: false, align: 'left' },
+      { name: 'Permissions',  property: 'permFriendly', type: String, sum: false, align: 'left' }
     ];
   }
 }

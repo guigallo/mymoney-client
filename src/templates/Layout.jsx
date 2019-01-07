@@ -166,11 +166,8 @@ class Layout extends React.Component {
           <List>
             <div>
               { createListMenu(routes.main, classes) }
-              <Divider />
               { createListMenu(routes.transactions, classes) }
-              <Divider />
               { createListMenu(routes.configs, classes) }
-              <Divider />
               { createListMenu(routes.reports, classes, 'Reports') }
             </div>
           </List>

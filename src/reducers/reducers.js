@@ -45,6 +45,9 @@ export const accounts = (state = [], action) => reducer('ACCOUNTS', state, actio
 export const creditcards = (state = [], action) => reducer('CREDITCARDS', state, action);
 export const users = (state = [], action) => reducer('USERS', state, action);
 export const expenses = (state = [], action) => reducer('EXPENSES', state, action);
+export const incomes = (state = [], action) => reducer('INCOMES', state, action);
+export const transfers = (state = [], action) => reducer('TRANSFERS', state, action);
+export const categories = (state = [], action) => reducer('CATEGORIES', state, action);
 
 export const dispatchProps = (name, Controller) => {
   const mapStateToProps = state => ({

@@ -8,6 +8,9 @@ import User from './views/UsersView';
 import Accounts from './views/AccountsView';
 import Creditcards from './views/CreditcardsView';
 import Expenses from './views/ExpensesView';
+import Incomes from './views/IncomesView';
+import Transfers from './views/TransfersView';
+import Categories from './views/CategoriesView';
 import View from './views/View';
 import Protected from './services/Protected';
 
@@ -31,11 +34,14 @@ const Routes = () => (
       <Route path="/logout" component={ Logout } />
 
       <PrivateRoute exact path="/" component={ () => (<p>dashboard</p>)} />
+      <PrivateRoute path="/dashboard" component={ View } />
       <PrivateRoute path="/account" component={ Accounts } />
       <PrivateRoute path="/user" component={ User } />
       <PrivateRoute path="/creditcard" component={ Creditcards } />
       <PrivateRoute path="/expense" component={ Expenses } />
-      <PrivateRoute path="/dashboard" component={ View } />
+      <PrivateRoute path="/income" component={ Incomes } />
+      <PrivateRoute path="/transfer" component={ Transfers } />
+      <PrivateRoute path="/category" component={ Categories } />
     </>
   </Router>
 );

@@ -12,9 +12,9 @@ class AccountsView extends View {
     
     this.name = NAME;
     this.columns = [
-      {name: 'Name', property: 'name',  sum: false, align: 'left' },
-      {name: 'Balance', property: 'value',  sum: true, align: 'right' },
-      {name: 'Final monthly balance', property: 'monthlyExpected',  sum: false, align: 'right' }
+      { name: 'Name',                   property: 'name',             type: String, sum: false, align: 'left' },
+      { name: 'Balance',                property: 'value',            type: Number, sum: true,  align: 'right' },
+      { name: 'Final monthly balance',  property: 'monthlyExpected',  type: String, sum: false, align: 'right' }
     ];
   }
 }

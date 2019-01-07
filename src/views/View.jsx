@@ -10,24 +10,27 @@ class View extends React.Component {
     this.setState({ authenticated: Protected.isAuthenticated()},
       () => this.props.List() );
   
-  render = () => this.state.authenticated ? (
-    <main className={ this.props.classes.content }>
-      <div className={ this.props.classes.appBarSpacer } />
+  render = () => {
+    const { classes, list } = this.props;
+    const { name, columns } = this;
 
-      <Typography variant="h4" gutterBottom component="h2">
-        {this.name}
-      </Typography>
+    return this.state.authenticated && (
+      <main className={ classes.content }>
+        <div className={ classes.appBarSpacer } />
 
-      <TableCustom
-        key={ this.props.list || 'empty' }
-        columns={ this.columns }
-        rows={ this.props.list || [] }
-        rowsPerPage={ 5 }
-      />
-    </main>
-  ) : (
-    <p>not auth</p>
-  );
+        <Typography variant="h4" gutterBottom component="h2">
+          { name }
+        </Typography>
+
+        <TableCustom
+          key={ list || 'empty' }
+          columns={ columns }
+          rows={ list || [] }
+          rowsPerPage={ 5 }
+        />
+      </main>
+    )
+  }
 }
 
 export default View;

@@ -11,11 +11,11 @@ class CreditcardsView extends View {
     
     this.name = 'Credit Cards';
     this.columns = [
-      {name: 'Name', property: 'name',  sum: false, align: 'left' },
-      {name: 'Limit', property: 'limit',  sum: true, align: 'right'  },
-      {name: 'Closing day', property: 'closingDay',  sum: false, align: 'right' },
-      {name: 'Due date', property: 'dueDate',  sum: false, align: 'right' },
-      {name: 'Account', property: 'account',  sum: false, align: 'left' }
+      { name: 'Name',         property: 'name',       type: String, sum: false, align: 'left' },
+      { name: 'Limit',        property: 'limit',      type: Number, sum: true,  align: 'right' },
+      { name: 'Closing day',  property: 'closingDay', type: String, sum: false, align: 'right' },
+      { name: 'Due date',     property: 'dueDate',    type: String, sum: false, align: 'right' },
+      { name: 'Account',      property: 'account',    type: String, sum: false, align: 'left' }
     ];
   }
 }

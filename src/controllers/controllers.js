@@ -3,7 +3,10 @@ import {
   accountsActions,
   creditcardActions,
   expensesActions,
-  usersActions
+  incomesActions,
+  usersActions,
+  transfersActions,
+  categoriesActions
 } from '../actions/actions';
 
 class Controller {
@@ -18,4 +21,7 @@ class Controller {
 export const AccountsController = new Controller('accounts', accountsActions);
 export const CreditcardsController = new Controller('creditcards', creditcardActions);
 export const ExpensesController = new Controller('expenses', expensesActions);
+export const IncomesController = new Controller('incomes', incomesActions);
 export const UsersController = new Controller('users', usersActions);
+export const TransfersController = new Controller('transfers', transfersActions);
+export const CategoriesController = new Controller('categories', categoriesActions);

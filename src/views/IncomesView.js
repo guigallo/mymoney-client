@@ -1,12 +1,12 @@
 import View from './View';
-import { ExpensesController } from '../controllers/controllers';
+import { IncomesController } from '../controllers/controllers';
 import { connect } from 'react-redux';
 import { dispatchProps } from '../reducers/reducers';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../styles/content';
 
-const NAME = 'Expenses';
-class ExpensesView extends View {
+const NAME = 'Incomes';
+class IncomesView extends View {
   constructor(props) {
     super(props);
     
@@ -25,6 +25,6 @@ class ExpensesView extends View {
 export default connect (
   ...dispatchProps(
     NAME.toLowerCase(),
-    ExpensesController))(
-  withStyles(styles)(ExpensesView)
+    IncomesController))(
+  withStyles(styles)(IncomesView)
 );
