@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../styles/header';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
@@ -18,7 +18,10 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -60,15 +63,19 @@ function ListItemLink(props) {
 }
 
 class Layout extends React.Component {
-  state = { open: true };
+  state = { open: true, openMenuUser: false, anchorEl: null };
 
-  handleDrawerOpen = () => {
+  handleDrawerOpen = () =>
     this.setState({ open: true });
-  };
 
-  handleDrawerClose = () => {
+  handleDrawerClose = () =>
     this.setState({ open: false });
-  };
+
+  handleMenuUser = (event) =>
+    this.setState({ openMenuUser: true, anchorEl: event.currentTarget });
+
+  handleCloseMenuUser = () =>
+    this.setState({ openMenuUser: false, anchorEl: null });
 
   render() {
     const { classes } = this.props;
@@ -101,13 +108,48 @@ class Layout extends React.Component {
             >
               Mymoney
             </Typography>
+
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+            
+            <div>
+              <IconButton
+                aria-owns={ this.state.openMenuUser ? 'menu-appbar' : undefined }
+                aria-haspopup="true"
+                onClick={ this.handleMenuUser }
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={ this.state.anchorEl }
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={ this.state.openMenuUser }
+                onClose={ this.handleCloseMenuUser }
+              >
+                <MenuItem onClick={ this.handleCloseMenuUser }>Profile</MenuItem>
+                <MenuItem onClick={ this.handleCloseMenuUser }>My account</MenuItem>
+                <MenuItem onClick={ this.handleCloseMenuUser }>
+                  <Link to={ '/logout' } className={ classes.menuUser } >
+                    Logout
+                  </Link>
+                </MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
+
         <Drawer
           variant="permanent"
           classes={{

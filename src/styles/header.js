@@ -33,6 +33,10 @@ const styles = theme => ({
   menuButtonHidden: {
     display: 'none',
   },
+  menuUser: {
+    textDecoration: 'none',
+    color: theme.palette.text.primary
+  },
   title: {
     flexGrow: 1,
   },

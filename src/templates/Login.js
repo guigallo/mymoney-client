@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import PropTypes from 'prop-types';
 import styles from '../styles/login';
 import withStyles from '@material-ui/core/styles/withStyles';
-import config from '../config/config';
+import { logIn } from '../services/api';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -34,32 +34,12 @@ class Login extends Component {
 
   sendForm(event) {
     event.preventDefault();
-
-    const requestInfo = {
-      method: 'POST',
-      body: JSON.stringify({ email: this.state.email, password: this.state.password }),
-      headers: new Headers({'Content-Type': 'application/json'})
-    }
-
-    fetch(`${config.apiAdrres}/log/in`, requestInfo)
-      .then(response => {
-        if(response.ok)
-          return response.text();
-        else 
-          switch(response.status) {
-            case 401:
-              throw new Error('Senha incorreta');
-            case 404:
-              throw new Error('Usuário não encontrado');
-            default:
-              throw new Error('Não foi possível fazer login');
-          }
-      })
+    logIn(this.state.email, this.state.password)
       .then(token => {
         localStorage.setItem('auth-token', token);
         this.setState({ authenticated: true });
       })
-      .catch(error =>  this.setState({ msg: error.message }));
+      .catch(errorMessage =>  this.setState({ msg: errorMessage }));
   };
 
   handleChange = name => event => {

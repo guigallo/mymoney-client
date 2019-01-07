@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 import Layout from './templates/Layout'
 import Login from './templates/Login';
+import Logout from './templates/Logout';
 import User from './views/UsersView';
 import Accounts from './views/AccountsView';
 import Creditcards from './views/CreditcardsView';
@@ -27,6 +28,7 @@ const Routes = () => (
   <Router>
     <>
       <Route path="/login" component={ Login } />
+      <Route path="/logout" component={ Logout } />
 
       <PrivateRoute exact path="/" component={ () => (<p>dashboard</p>)} />
       <PrivateRoute path="/account" component={ Accounts } />
