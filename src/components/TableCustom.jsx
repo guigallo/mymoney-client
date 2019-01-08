@@ -82,7 +82,7 @@ class TableCustom extends React.Component {
                         break;
 
                       case Number:
-                        display = row[column.property].toFixed(2);
+                        display = row[column.property] !== undefined ? row[column.property].toFixed(2) : row[column.property];
                         break;
 
                       case Date:
@@ -94,7 +94,7 @@ class TableCustom extends React.Component {
                         break;
 
                       default:
-                        display = 'invalid type';
+                        display = column.type(row[column.property]);
                         break;
                     }
 

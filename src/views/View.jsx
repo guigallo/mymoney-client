@@ -17,7 +17,7 @@ class View extends React.Component {
   render = () => {
     const { title, columns } = this.state;
     const { list, classes } = this.props;
-    const key = list !== undefined ? list.key : 'empty';
+    const key = list !== undefined ? list : `empty${this.title}`;
     const rows = list !== undefined ? list : [];
 
     return (

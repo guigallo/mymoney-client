@@ -11,7 +11,6 @@ import Expenses from './views/ExpensesView';
 import Incomes from './views/IncomesView';
 import Transfers from './views/TransfersView';
 import Categories from './views/CategoriesView';
-import View from './views/View';
 import Protected from './services/Protected';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -33,8 +32,8 @@ const Routes = () => (
       <Route path="/login" component={ Login } />
       <Route path="/logout" component={ Logout } />
 
-      <PrivateRoute exact path="/" component={ () => (<p>dashboard</p>)} />
-      <PrivateRoute path="/dashboard" component={ View } />
+      <PrivateRoute exact path="/" component={ () => (<p>dashboard</p>) } />
+      <PrivateRoute path="/dashboard" component={ () => (<p>dashboard</p>) } />
       <PrivateRoute path="/account" component={ Accounts } />
       <PrivateRoute path="/user" component={ User } />
       <PrivateRoute path="/creditcard" component={ Creditcards } />
