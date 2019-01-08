@@ -8,18 +8,17 @@ class View extends React.Component {
     this.state = {
       authenticated: false,
       title,
-      columns,
-      data: []
+      columns
     }
   };
 
-  componentDidMount = () => this.props.List().then(list => {console.log(list); this.setState({ data: list })});
+  componentDidMount = () => this.props.List();
   
   render = () => {
-    const { data, title, columns } = this.state;
-    const { classes } = this.props;
-    const key = data.list !== undefined ? data.list.key : 'empty';
-    console.log(this.state.data)
+    const { title, columns } = this.state;
+    const { list, classes } = this.props;
+    const key = list !== undefined ? list.key : 'empty';
+    const rows = list !== undefined ? list : [];
 
     return (
       <main className={ classes.content }>
@@ -32,7 +31,7 @@ class View extends React.Component {
         <TableCustom
           key={ key }
           columns={ columns }
-          rows={ data.list || [] }
+          rows={ rows }
           rowsPerPage={ 5 }
         />
       </main>

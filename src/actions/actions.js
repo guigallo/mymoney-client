@@ -1,7 +1,7 @@
 class Action {
   constructor(name) { this.name = name }
 
-  list = (list) => ({ type: `LIST_${this.name}`, list, key: new Date().getTime() })
+  list = (list) =>{ console.log(list); return ({ type: `LIST_${this.name}`, list, key: new Date().getTime(), teste:'asdfasd' })}
 }
 
 export const accountsActions = new Action('ACCOUNTS');

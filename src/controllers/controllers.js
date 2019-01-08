@@ -15,7 +15,9 @@ class Controller {
     this.action = action
   }
 
-  list = () => dispatch => getAll(this.name).then(json => dispatch(this.action.list(json)));
+  list = () => dispatch =>
+    getAll(this.name)
+      .then(json => dispatch(this.action.list(json)));
 }
 
 export const AccountsController = new Controller('accounts', accountsActions);

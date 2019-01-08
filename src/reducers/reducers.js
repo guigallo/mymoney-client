@@ -13,6 +13,7 @@ function reducer(name, state, action) {
 
         return newUser;
       });
+      console.log(newList)
       return { list: new List(newList), key: action.key }
 
     case `LIST_${name}`:
