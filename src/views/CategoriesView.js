@@ -5,21 +5,20 @@ import { dispatchProps } from '../reducers/reducers';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../styles/content';
 
-const NAME = 'Categories';
+const title = 'Categories';
+const columns = [
+  { name: 'Name',  property: 'name', type: String, sum: false, align: 'left' },
+];
+
 class CategoriesView extends View {
   constructor(props) {
-    super(props);
-    
-    this.name = NAME;
-    this.columns = [
-      { name: 'Name',  property: 'name', type: String, sum: false, align: 'left' },
-    ];
+    super(props, title, columns);
   }
 }
 
 export default connect (
   ...dispatchProps(
-    NAME.toLowerCase(),
+    title.toLowerCase(),
     CategoriesController))(
   withStyles(styles)(CategoriesView)
 );

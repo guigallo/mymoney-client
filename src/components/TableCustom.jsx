@@ -74,7 +74,7 @@ class TableCustom extends React.Component {
             <TableBody>
               {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
                 <TableRow key={ row.hasOwnProperty('_id') ? row._id : row.id }>
-                  {columns.map((column, index) => {
+                  {columns.map(column => {
                     let display = ''
                     switch(column.type) {
                       case String:
