@@ -57,7 +57,7 @@ class TableCustom extends React.Component {
   render() {
     const { classes, columns } = this.props;
     const { rowsPerPage, page, rows, order, orderBy } = this.state;
-    const totalRows = ! Object.keys(rows).length === 0 && rows.constructor === Object ? rows.size : 0;
+    const totalRows = rows.size !== undefined ? rows.size : 0;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
 
     return (
@@ -112,22 +112,24 @@ class TableCustom extends React.Component {
             </TableBody>
 
             <TableFooter>
-              <TableRow>
-                {totalRows > 0 ? (
-                  columns.map((column, index) => {
-                    if(isHeaderCell(index)) 
-                      return ( <TableCell key="header">Total</TableCell> )
+              {hasSum(columns) && (
+                <TableRow>
+                  {totalRows > 0 ? (
+                    columns.map((column, index) => {
+                      if(isHeaderCell(index)) 
+                        return ( <TableCell key="header">Total</TableCell> )
 
-                    return column.sum ? (
-                      <TableCell key={column.name} align="right">{ sumColumn(column, rows) }</TableCell>
-                    ) : (
-                      <TableCell key={column.name} colSpan={1} />
-                    )
-                  })
-                ) : (
-                  <TableCell colSpan={6} />
-                )}
-              </TableRow>
+                      return column.sum ? (
+                        <TableCell key={column.name} align="right">{ sumColumn(column, rows) }</TableCell>
+                      ) : (
+                        <TableCell key={column.name} colSpan={1} />
+                      )
+                    })
+                  ) : (
+                    <TableCell colSpan={columns.length} />
+                  )}
+                </TableRow>
+              )}
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
@@ -151,16 +153,18 @@ class TableCustom extends React.Component {
   };
 };
 
-function isHeaderCell(index) {
-  return index === 0 ? true : false;
-};
+const hasSum = (columns) => 
+  columns.find(column => column.sum === true);
 
-function sumColumn(column, rows) {
-  return rows.reduce((prev, current) => {
-    return current[column.property] !== undefined ? 
-      prev[column.property] + current[column.property] :
-      prev[column.property];
+const isHeaderCell = (index) =>
+  index === 0 ? true : false;
+
+const sumColumn = (column, rows) => {
+  let sum = 0;
+  rows.forEach(row => {
+    sum += row[column.property];
   });
+  return sum.toFixed(2);
 };
 
 TableCustom.propTypes = {
