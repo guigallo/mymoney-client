@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from '../../styles/content'
 
 const title = 'Credit Cards';
+const path = '/creditcard';
 const columns = [
   { name: 'Name',         property: 'name',       type: String, sum: false, align: 'left' },
   { name: 'Limit',        property: 'limit',      type: Number, sum: true,  align: 'right' },
@@ -16,7 +17,7 @@ const columns = [
 
 class CreditcardsList extends List {
   constructor(props) {
-    super(props, title, columns);
+    super(props, title, path, columns);
   }
 }
 

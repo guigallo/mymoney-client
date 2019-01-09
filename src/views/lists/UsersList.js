@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from '../../styles/content'
 
 const title = 'Users';
-
+const path = '/user';
 const friendly = (value) => permissionsFriendly(value)
 const columns = [
   { name: 'Name',         property: 'name',         type: String,   sum: false, align: 'left' },
@@ -16,7 +16,7 @@ const columns = [
 
 class UsersList extends List {
   constructor(props) {
-    super(props, title, columns);
+    super(props, title, path, columns);
   }
 }
 

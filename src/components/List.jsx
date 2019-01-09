@@ -1,20 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
 import TableCustom from '../components/TableCustom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 class View extends React.Component {
-  constructor(props, title, columns) {
+  constructor(props, title, path, columns) {
     super(props);
     this.state = {
-      authenticated: false,
+      //authenticated: false,
       title,
+      path,
       columns
     }
   };
 
   componentDidMount = () => this.props.List();
+
+  createLink = props => <Link to={`${this.state.path}/create`} {...props} />
   
   render = () => {
     const { title, columns } = this.state;
@@ -31,17 +35,20 @@ class View extends React.Component {
             { title }
           </Typography>
           
-          <Fab variant="extended" aria-label="Create" className={ classes.create }>
+          <Fab component={this.createLink}
+               aria-label="Create"
+               color='primary'
+               variant="extended"
+               className={ classes.create }>
             <AddIcon className={ classes.extendedIcon } />
             Create
           </Fab>
         </div>
 
-        <TableCustom
-          key={ key }
-          columns={ columns }
-          rows={ rows }
-          rowsPerPage={ 5 }
+        <TableCustom key={ key }
+                     columns={ columns }
+                     rows={ rows }
+                     rowsPerPage={ 5 }
         />
       </main>
     );

@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from '../../styles/content';
 
 const title = 'Transfers';
+const path = '/transfer';
 const columns = [
   { name: 'Account Out',  property: 'accountOut', type: String, sum: false, align: 'left' },
   { name: 'Account In',   property: 'accountIn',  type: String, sum: false, align: 'left' },
@@ -15,7 +16,7 @@ const columns = [
 
 class TransfersList extends List {
   constructor(props) {
-    super(props, title, columns);
+    super(props, title, path, columns);
   }
 }
 

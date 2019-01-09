@@ -6,13 +6,14 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from '../../styles/content';
 
 const title = 'Categories';
+const path = '/category';
 const columns = [
   { name: 'Name',  property: 'name', type: String, sum: false, align: 'left' },
 ];
 
 class CategoriesList extends List {
   constructor(props) {
-    super(props, title, columns);
+    super(props, title, path, columns);
   }
 }
 

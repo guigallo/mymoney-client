@@ -39,12 +39,8 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    //width: 400,
-  },
   buttonWrapper: {
+    marginTop: '8px',
     display: 'flex',
     justifyContent: 'flex-end',
   },
