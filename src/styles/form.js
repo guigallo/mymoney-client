@@ -1,4 +1,5 @@
 const styles = theme => ({
+  //
   appBarSpacer: theme.mixins.toolbar,
   content: {
     width: '86%', //
@@ -16,11 +17,36 @@ const styles = theme => ({
   title: {
     alignSelf: 'flex-end',
   },
-  create: {
+
+  //
+
+  button: {
     margin: theme.spacing.unit,
   },
   extendedIcon: {
     marginRight: theme.spacing.unit,
+  },
+
+  //
+
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 3,
+  },
+  tableWrapper: {
+    overflowX: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    //width: 400,
+  },
+  buttonWrapper: {
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 })
 

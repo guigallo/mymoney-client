@@ -1,6 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import TableCustom from '../components/TableCustom';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 class View extends React.Component {
   constructor(props, title, columns) {
@@ -24,9 +26,16 @@ class View extends React.Component {
       <main className={ classes.content }>
         <div className={ classes.appBarSpacer } />
 
-        <Typography variant="h4" gutterBottom component="h2">
-          { title }
-        </Typography>
+        <div className={ classes.titleContainer }>
+          <Typography variant="h4" gutterBottom component="h2" className={ classes.title }>
+            { title }
+          </Typography>
+          
+          <Fab variant="extended" aria-label="Create" className={ classes.create }>
+            <AddIcon className={ classes.extendedIcon } />
+            Create
+          </Fab>
+        </div>
 
         <TableCustom
           key={ key }

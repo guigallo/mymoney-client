@@ -1,9 +1,9 @@
-import View from './View';
-import { ExpensesController } from '../controllers/controllers';
+import List from '../../components/List';
+import { ExpensesController } from '../../controllers/controllers';
 import { connect } from 'react-redux';
-import { dispatchProps } from '../reducers/reducers';
+import { dispatchProps } from '../../reducers/reducers';
 import { withStyles } from '@material-ui/core/styles';
-import styles from '../styles/content';
+import styles from '../../styles/content';
 
 const title = 'Expenses';
 const columns = [
@@ -15,7 +15,7 @@ const columns = [
   { name: 'Value',       property: 'value',       type: Number,   sum: true,  align: 'right' },
 ];
 
-class ExpensesView extends View {
+class ExpensesList extends List {
   constructor(props) {
     super(props, title, columns);
   }
@@ -25,5 +25,5 @@ export default connect (
   ...dispatchProps(
     title.toLowerCase(),
     ExpensesController))(
-  withStyles(styles)(ExpensesView)
+  withStyles(styles)(ExpensesList)
 );

@@ -1,9 +1,9 @@
-import View from './View';
-import { TransfersController } from '../controllers/controllers';
+import List from '../../components/List';
+import { TransfersController } from '../../controllers/controllers';
 import { connect } from 'react-redux';
-import { dispatchProps } from '../reducers/reducers';
+import { dispatchProps } from '../../reducers/reducers';
 import { withStyles } from '@material-ui/core/styles';
-import styles from '../styles/content';
+import styles from '../../styles/content';
 
 const title = 'Transfers';
 const columns = [
@@ -13,7 +13,7 @@ const columns = [
   { name: 'Value',        property: 'value',      type: Number, sum: true,  align: 'right' },
 ];
 
-class TransfersView extends View {
+class TransfersList extends List {
   constructor(props) {
     super(props, title, columns);
   }
@@ -23,5 +23,5 @@ export default connect (
   ...dispatchProps(
     title.toLowerCase(),
     TransfersController))(
-  withStyles(styles)(TransfersView)
+  withStyles(styles)(TransfersList)
 );
