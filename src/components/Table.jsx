@@ -78,27 +78,27 @@ class TableCustom extends React.Component {
                     let display = ''
                     switch(column.type) {
                       case String:
-                        display = row[column.property];
+                        display = row[column.id];
                         break;
 
                       case Number:
-                        display = row[column.property] !== undefined ? row[column.property].toFixed(2) : row[column.property];
+                        display = row[column.id] !== undefined ? row[column.id].toFixed(2) : row[column.id];
                         break;
 
                       case Date:
-                        display = DateUtils.toStringDate(new Date(row[column.property]), 'pt-br');
+                        display = DateUtils.toStringDate(new Date(row[column.id]), 'pt-br');
                         break;
 
                       case Boolean:
-                        display = (<LensIcons className={ row[column.property] ? classes.paid : classes.unpaid } />)
+                        display = (<LensIcons className={ row[column.id] ? classes.paid : classes.unpaid } />)
                         break;
 
                       default:
-                        display = column.type(row[column.property]);
+                        display = column.type(row[column.id]);
                         break;
                     }
 
-                    return (<TableCell key={ column.property } align={ column.align } >{ display }</TableCell>)
+                    return (<TableCell key={ column.id } align={ column.align } >{ display }</TableCell>)
                   })}
                 </TableRow> 
                 
@@ -120,9 +120,9 @@ class TableCustom extends React.Component {
                         return ( <TableCell key="header">Total</TableCell> )
 
                       return column.sum ? (
-                        <TableCell key={column.name} align="right">{ sumColumn(column, rows) }</TableCell>
+                        <TableCell key={column.id} align="right">{ sumColumn(column, rows) }</TableCell>
                       ) : (
-                        <TableCell key={column.name} colSpan={1} />
+                        <TableCell key={column.id} colSpan={1} />
                       )
                     })
                   ) : (
@@ -162,7 +162,7 @@ const isHeaderCell = (index) =>
 const sumColumn = (column, rows) => {
   let sum = 0;
   rows.forEach(row => {
-    sum += row[column.property];
+    sum += row[column.id];
   });
   return sum.toFixed(2);
 };

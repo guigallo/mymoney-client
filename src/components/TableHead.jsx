@@ -9,8 +9,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 export default function SortableTableHead(props) {
   const { columns, order, orderBy, onRequestSort } = props;
 
-  const createSortHandler = property => event => {
-    onRequestSort(event, property);
+  const createSortHandler = id => event => {
+    onRequestSort(event, id);
   };
 
   return (
@@ -18,9 +18,9 @@ export default function SortableTableHead(props) {
       <TableRow>
         {columns.map(column => 
           <TableCell
-            key={ column.property }
+            key={ column.id }
             align={ column.align }
-            sortDirection={ orderBy === column.property ? order : false }
+            sortDirection={ orderBy === column.id ? order : false }
           >
             <Tooltip
               title="Sort"
@@ -28,11 +28,11 @@ export default function SortableTableHead(props) {
               enterDelay={300}
             >
               <TableSortLabel
-                active={orderBy === column.property}
+                active={orderBy === column.id}
                 direction={order}
-                onClick={createSortHandler(column.property)}
+                onClick={createSortHandler(column.id)}
               >
-                {column.name}
+                {column.label}
               </TableSortLabel>
             </Tooltip>
           </TableCell>

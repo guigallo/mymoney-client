@@ -19,7 +19,7 @@ const Input = (props) => {
       margin="normal"
       variant="outlined"
 
-      placeholder={  property.type !== 'number' ? property.placeholder : '' }
+      placeholder={  property.type !== 'number' ? property.label : '' }
       InputProps={{
         startAdornment: property.type === 'number' ? <InputAdornment position="start">R$</InputAdornment> : ''
       }}

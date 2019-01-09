@@ -28,11 +28,11 @@ export const incomes =      (state, action) => reducer('INCOMES',      state, ac
 export const transfers =    (state, action) => reducer('TRANSFERS',    state, action);
 export const categories =   (state, action) => reducer('CATEGORIES',   state, action);
 
-export const dispatchProps = (name, Controller) => {
+export const dispatchProps = (store, Controller) => {
   const mapStateToProps = state => ({
-    list: state[name].list,
-    order: state[name].order,
-    orderBy: state[name].orderBy
+    list: state[store].list,
+    order: state[store].order,
+    orderBy: state[store].orderBy
   });
   
   const mapDispatchToProps = dispatch => ({

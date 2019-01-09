@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Input from './Input';
+import Input from '../components/Input';
 
 class Form extends React.Component {
   constructor(middleware) {
     super(middleware.props);
     this.state = {
       classes: middleware.props.classes,
-      route: middleware.route,
-      ...this.propertiesToState(middleware.route.properties)
+      model: middleware.model,
+      ...this.propertiesToState(middleware.model.properties)
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -29,7 +29,7 @@ class Form extends React.Component {
     this.setState({ [name]: event.target.value });
 
   clearForm = () => {
-    const properties = this.state.route.properties;
+    const properties = this.state.model.properties;
     let clearProperties = {};
     properties.forEach(property => 
       clearProperties[property.id] = ''
@@ -38,10 +38,10 @@ class Form extends React.Component {
   }
 
   cancelLink = props =>
-    <Link to={`${this.state.route.path}`} {...props} />
+    <Link to={`${this.state.model.path}`} {...props} />
 
   render = () => {
-    const { title, properties } = this.state.route;
+    const { title, properties } = this.state.model;
     const { classes } = this.props;
 
     return (

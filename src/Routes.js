@@ -4,20 +4,29 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Layout from './templates/Layout'
 import Login from './templates/Login';
 import Logout from './templates/Logout';
-import User from './views/lists/UsersList';
 
-import Accounts from './views/lists/AccountsList';
-//import AccountCreate from './views/create/AccountCreate';
-
-import Incomes from './views/lists/IncomesList';
-//import { AccountCreate, IncomeCreate } from './views/Create';
-import Create from './views/Create';
-
-import Creditcards from './views/lists/CreditcardsList';
-import Expenses from './views/lists/ExpensesList';
-import Transfers from './views/lists/TransfersList';
-import Categories from './views/lists/CategoriesList';
+import Restful from './views/Restful';
 import Protected from './services/Protected';
+
+import Controllers from './controllers/RestfulControllers';
+
+import account from './models/account';
+import category from './models/category';
+import creditcard from './models/creditcard';
+import expense from './models/expense';
+import income from './models/income';
+import transfer from './models/transfer';
+import user from './models/user';
+
+const restfulRoutes = [
+  { id: 'account', store: 'accounts', model: account, Controller: Controllers.Accounts },
+  { id: 'income', store: 'incomes', model: income, Controller: Controllers.Incomes },
+  { id: 'expense', store: 'expenses', model: expense, Controller: Controllers.Expenses },
+  { id: 'transfer', store: 'transfers', model: transfer, Controller: Controllers.Transfers },
+  { id: 'creditcard', store: 'creditcards', model: creditcard, Controller: Controllers.Creditcards },
+  { id: 'category', store: 'categories', model: category, Controller: Controllers.Categories },
+  { id: 'user', store: 'users', model: user, Controller: Controllers.Users },
+];
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props =>
@@ -32,16 +41,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   } />
 );
 
-const restFull = [
-  'account',
-  'income',
-  'expense',
-  'transfer',
-  'creditcard',
-  'category',
-  'user'
-]
-
 const Routes = () => (
   <Router>
     <>
@@ -51,16 +50,11 @@ const Routes = () => (
       <PrivateRoute exact path="/" component={ () => (<p>dashboard</p>) } />
       <PrivateRoute path="/dashboard" component={ () => (<p>dashboard</p>) } />
 
-      <PrivateRoute exact path="/account" component={ Accounts } />
-      <PrivateRoute exact path="/income" component={ Incomes } />
-      <PrivateRoute exact path="/expense" component={ Expenses } />
-      <PrivateRoute exact path="/transfer" component={ Transfers } />
-      <PrivateRoute exact path="/creditcard" component={ Creditcards } />
-      <PrivateRoute exact path="/category" component={ Categories } />
-      <PrivateRoute exact path="/user" component={ User } />
-
-      {restFull.map(route =>
-        <PrivateRoute key={`create-${route}`} exact path={`/${route}/create`} component={ Create[route] } />
+      {Restful(restfulRoutes).map(route =>
+        <PrivateRoute key={`list-${route.id}`} exact path={`/${route.id}`} component={ route.list } />
+      )}
+      {Restful(restfulRoutes).map(route =>
+        <PrivateRoute key={`create-${route.id}`} exact path={`/${route.id}/create`} component={ route.create } />
       )}
 
     </>
