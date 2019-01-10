@@ -1,13 +1,13 @@
-import createProperty from '../utils/createProperty';
+import { createProperty } from '../utils/propertyType';
 
 export default {
   title: 'Credit card',
   path: '/creditcard',
   properties: [
-    createProperty('name',        'Name',         String, false,  'left'),
-    createProperty('limit',       'Limit',        Number, true,   'right'),
-    createProperty('closingDay',  'Closing day',  String, false,  'right'),
-    createProperty('dueDate',     'Due date',     String, false,  'right'),
-    createProperty('account',     'Account',      String, false,  'left'),
+    createProperty('name',        'Name',         String,   false,  'left'),
+    createProperty('limit',       'Limit',        'Money',  true,   'right'),
+    createProperty('closingDay',  'Closing day',  Number,   false,  'right'),
+    createProperty('dueDate',     'Due date',     Number,   false,  'right'),
+    createProperty('account',     'Account',      String,   false,  'left'),
   ]
 };

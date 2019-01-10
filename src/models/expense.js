@@ -1,4 +1,4 @@
-import createProperty from '../utils/createProperty';
+import { createProperty } from '../utils/propertyType';
 
 export default {
   title: 'Expense',
@@ -9,6 +9,6 @@ export default {
     createProperty('description', 'Description',  String,   false,  'left'),
     createProperty('account',     'Account',      String,   false,  'left'),
     createProperty('category',    'Category',     String,   false,  'left'),
-    createProperty('value',       'Value',        Number,   true,   'right'),
+    createProperty('value',       'Value',        'Money',  true,   'right'),
   ]
 };

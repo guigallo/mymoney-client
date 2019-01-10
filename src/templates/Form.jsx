@@ -25,8 +25,18 @@ class Form extends React.Component {
     return newState;
   }
 
-  handleChange = name => event => 
-    this.setState({ [name]: event.target.value });
+  handleChange = (name, property = '') => event => {
+    let value = event.target.value;
+    if(property.hasOwnProperty('type')) {
+      const actual = event.target.value;
+      if (actual === '')
+        value = true;
+      else
+        value = actual === 'true' ? false : true;
+    }
+    
+    this.setState({ [name]: value });
+  }
 
   clearForm = () => {
     const properties = this.state.model.properties;
@@ -56,9 +66,10 @@ class Form extends React.Component {
           <form className={classes.tableWrapper}>
             {properties.map(property => (
               <Input
-                key={ property.id }
+                key={ property.id + property.label }
                 value={ this.state[property.id]}
                 handleChange={ this.handleChange }
+                togleChange={ this.togleSwitch }
                 property={ property }
               />
             ))}

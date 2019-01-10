@@ -1,14 +1,14 @@
-import createProperty from '../utils/createProperty';
+import { createProperty, show } from '../utils/propertyType';
 
 const friendly = (value) => permissionsFriendly(value)
 export default {
   title: 'User',
   path: '/user',
   properties: [
-    createProperty('name', 'Name', String, false, 'left'),
-    createProperty('email', 'Email', 'email', false, 'left'),
-    createProperty('password', 'Password', 'password', false, 'left'),
-    createProperty('permissions', 'Permissions', friendly, false, 'left'),
+    createProperty('name',        'Name',         String,     false, 'left'),
+    createProperty('email',       'Email',        'email',    false, 'left'),
+    createProperty('password',    'Password',     'password', false, 'left',  show.form),
+    createProperty('permissions', 'Permissions',  friendly,   false, 'left',  show.list),
   ]
 };
 

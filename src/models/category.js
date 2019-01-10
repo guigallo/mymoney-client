@@ -1,4 +1,4 @@
-import createProperty from '../utils/createProperty';
+import { createProperty } from '../utils/propertyType';
 
 export default {
   title: 'Category',

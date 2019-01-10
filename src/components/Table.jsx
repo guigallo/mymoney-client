@@ -15,6 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { styles } from '../styles/table';
 import LensIcons from '@material-ui/icons/Lens';
+import { ignoreFormProperties } from '../utils/propertyType';
 
 class TableCustom extends React.Component {
   constructor(props) {
@@ -78,6 +79,7 @@ class TableCustom extends React.Component {
                     let display = ''
                     switch(column.type) {
                       case String:
+                      case 'email':
                         display = row[column.id];
                         break;
 
@@ -93,12 +95,22 @@ class TableCustom extends React.Component {
                         display = (<LensIcons className={ row[column.id] ? classes.paid : classes.unpaid } />)
                         break;
 
+                      case 'Money':
+                        display = row[column.id] !== undefined ? `R$ ${row[column.id].toFixed(2)}` : row[column.id];
+                        break;
+                  
+                      case 'password':
+                        display = '';
+                        break;
+
                       default:
                         display = column.type(row[column.id]);
                         break;
                     }
 
-                    return (<TableCell key={ column.id } align={ column.align } >{ display }</TableCell>)
+                    return ignoreFormProperties(column) ? null : (
+                      <TableCell key={ column.id + column.label } align={ column.align } >{ display }</TableCell>
+                    )
                   })}
                 </TableRow> 
                 
@@ -116,13 +128,15 @@ class TableCustom extends React.Component {
                 <TableRow>
                   {totalRows > 0 ? (
                     columns.map((column, index) => {
+                      if(ignoreFormProperties(column)) return null;
+
                       if(isHeaderCell(index)) 
                         return ( <TableCell key="header">Total</TableCell> )
 
                       return column.sum ? (
-                        <TableCell key={column.id} align="right">{ sumColumn(column, rows) }</TableCell>
+                        <TableCell key={column.id + column.name} align="right">{ sumColumn(column, rows) }</TableCell>
                       ) : (
-                        <TableCell key={column.id} colSpan={1} />
+                        <TableCell key={column.id + column.name} colSpan={1} />
                       )
                     })
                   ) : (
