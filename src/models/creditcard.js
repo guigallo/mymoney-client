@@ -8,6 +8,6 @@ export default {
     createProperty('limit',       'Limit',        'Money',  true,   'right'),
     createProperty('closingDay',  'Closing day',  Number,   false,  'right'),
     createProperty('dueDate',     'Due date',     Number,   false,  'right'),
-    createProperty('account',     'Account',      String,   false,  'left'),
+    createProperty('account',     'Account',      'Select', false,  'left'),
   ]
 };

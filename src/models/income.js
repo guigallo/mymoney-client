@@ -7,8 +7,8 @@ export default {
     createProperty('paid',        'Paid',         Boolean,  false,  'left'),
     createProperty('date',        'Date',         Date,     false,  'left'),
     createProperty('description', 'Description',  String,   false,  'left'),
-    createProperty('account',     'Account',      String,   false,  'left'),
-    createProperty('category',    'Category',     String,   false,  'left'),
+    createProperty('account',     'Account',      'Select', false,  'left'),
+    createProperty('category',    'Category',     'Select', false,  'left'),
     createProperty('value',       'Value',        'Money',  true,   'right'),
   ]
 };

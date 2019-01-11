@@ -3,7 +3,11 @@ class Action {
 
   list = (list) => ({
     type: `LIST_${this.name}`, list//, key: new Date().getTime()
-  })
+  });
+  
+  relations = rel => ({
+    type: `RELATIONS_${this.name}`, relations: rel
+  });
 }
 
 export const accountsActions = new Action('ACCOUNTS');

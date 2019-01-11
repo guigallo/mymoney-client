@@ -5,17 +5,10 @@ function reducer(name, state, action) {
     state = [];
 
   switch (action.type) {
-    /*case 'LIST_USERS':
-      let newList = action.list.map(user => {
-        let newUser = { permFriendly: permissionsFriendly(user.permissions) };
-        for(let propertyName in user)
-          newUser[propertyName] = user[propertyName];
+    case `LIST_${name}`: return { list: new List(action.list) };
 
-        return newUser;
-      });
-      return { list: new List(newList), key: action.key }*/
+    case `RELATIONS_${name}`: return { relationsData: action.relations };
 
-    case `LIST_${name}`: return { list: new List(action.list) }
     default: return state;
   }
 }
@@ -28,15 +21,20 @@ export const incomes =      (state, action) => reducer('INCOMES',      state, ac
 export const transfers =    (state, action) => reducer('TRANSFERS',    state, action);
 export const categories =   (state, action) => reducer('CATEGORIES',   state, action);
 
-export const dispatchProps = (store, Controller) => {
+export const dispatchProps = (store, Controller, relations = []) => {
   const mapStateToProps = state => ({
     list: state[store].list,
     order: state[store].order,
-    orderBy: state[store].orderBy
+    orderBy: state[store].orderBy,
+    relations: relations.map(relation => (
+      relation
+    )),
+    relationsData: state[store].relationsData
   });
   
   const mapDispatchToProps = dispatch => ({
     List: () => dispatch(Controller.list()),
+    Relations: relations => dispatch(Controller.relations(relations))
   });
 
   return [

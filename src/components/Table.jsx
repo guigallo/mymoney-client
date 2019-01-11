@@ -80,6 +80,7 @@ class TableCustom extends React.Component {
                     switch(column.type) {
                       case String:
                       case 'email':
+                      case 'Select':
                         display = row[column.id];
                         break;
 

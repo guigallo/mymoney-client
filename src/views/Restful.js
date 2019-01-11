@@ -14,7 +14,10 @@ export default (restfulRoutes) =>
   restfulRoutes.map(route =>
     restful[route.id] = {
       id: route.id,
-      create: exportFactory(route.model, Form, stylesForm),
+      create: connect(
+        ...dispatchProps(route.store, route.Controller, route.relations))(
+          exportFactory(route.model, Form, stylesForm)),
+      
       list: connect(
         ...dispatchProps(route.store, route.Controller))(
           exportFactory(route.model, List, stylesList)),

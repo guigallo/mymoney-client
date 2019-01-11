@@ -12,12 +12,25 @@ import {
 class Controller {
   constructor(name, action) {
     this.name = name;
-    this.action = action
+    this.action = action;
   }
 
   list = () => dispatch =>
     getAll(this.name)
       .then(json => dispatch(this.action.list(json)));
+
+  relations = rels => dispatch => {
+    let promises = rels.map(rel => getAll(rel));
+    Promise.all(promises)
+      .then(datas => {
+        let relates = datas.map((data, index) => {
+          const store = rels[index];
+          return({ [store]: data });
+        });
+
+        dispatch(this.action.relations(relates))
+      });
+    }
 }
 
 export default {
@@ -29,13 +42,3 @@ export default {
   Transfers: new Controller('transfers', transfersActions),
   Categories: new Controller('categories', categoriesActions),
 }
-
-/*
-export const AccountsController = new Controller('accounts', accountsActions);
-export const CreditcardsController = new Controller('creditcards', creditcardActions);
-export const ExpensesController = new Controller('expenses', expensesActions);
-export const IncomesController = new Controller('incomes', incomesActions);
-export const UsersController = new Controller('users', usersActions);
-export const TransfersController = new Controller('transfers', transfersActions);
-export const CategoriesController = new Controller('categories', categoriesActions);
-*/

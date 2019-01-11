@@ -15,6 +15,7 @@ class Form extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.propRelation = this.propRelation.bind(this);
   };
   
   propertiesToState(properties) {
@@ -50,6 +51,33 @@ class Form extends React.Component {
   cancelLink = props =>
     <Link to={`${this.state.model.path}`} {...props} />
 
+  componentDidMount = () => this.props.Relations(this.props.relations);
+
+  propRelation(id) {
+    const datas = this.props.relationsData;
+    
+    if(datas !== undefined) {
+      let stores = [];
+      datas.forEach(data => {
+        if(id === 'account' && data.hasOwnProperty('accounts')) {
+          stores.push(data.accounts);
+          return stores;
+        }
+
+        if(id === 'category' && data.hasOwnProperty('categories')) {
+          stores.push(data.categories);
+          return stores;
+        }
+
+        if((id === 'accountIn' || id === 'accountOut') && data.hasOwnProperty('accounts')) {
+          stores.push(data.accounts);
+          return stores;
+        }
+      });
+      return stores;
+    }
+  }
+
   render = () => {
     const { title, properties } = this.state.model;
     const { classes } = this.props;
@@ -71,6 +99,7 @@ class Form extends React.Component {
                 handleChange={ this.handleChange }
                 togleChange={ this.togleSwitch }
                 property={ property }
+                propRelation={ property.type === 'Select' ? this.propRelation(property.id) : [] }
               />
             ))}
 
