@@ -7,7 +7,7 @@ import {
   usersActions,
   transfersActions,
   categoriesActions
-} from '../actions/actions';
+} from '../actions/rest.actions';
 
 class Controller {
   constructor(name, action) {
