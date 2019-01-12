@@ -42,15 +42,15 @@ const routes = {
     { path: '/dashboard', text: 'Dashboard', icon: DashboardIcon }
   ],
   transactions: [
-    { path: '/account', text: 'Accounts', icon: AccountBalanceIcon },
-    { path: '/income', text: 'Incomes', icon: AttachMoneyIcon },
-    { path: '/expense', text: 'Expenses', icon: MoneyOffIcon },
-    { path: '/transfer', text: 'Transfers', icon: CompareArrowsIcon }
+    { path: '/accounts', text: 'Accounts', icon: AccountBalanceIcon },
+    { path: '/incomes', text: 'Incomes', icon: AttachMoneyIcon },
+    { path: '/expenses', text: 'Expenses', icon: MoneyOffIcon },
+    { path: '/transfers', text: 'Transfers', icon: CompareArrowsIcon }
   ],
   configs: [
-    { path: '/creditcard', text: 'Credit Cards', icon: CreditCardIcon },
-    { path: '/category', text: 'Categories', icon: CategoryIcon },
-    { path: '/user', text: 'Users', icon: PeopleIcon }
+    { path: '/creditcards', text: 'Credit Cards', icon: CreditCardIcon },
+    { path: '/categories', text: 'Categories', icon: CategoryIcon },
+    { path: '/users', text: 'Users', icon: PeopleIcon }
   ],
   reports: [
     { path: '/report1', text: 'Current month', icon: AssignmentIcon },

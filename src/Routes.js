@@ -19,13 +19,13 @@ import transfer from './models/transfer';
 import user from './models/user';
 
 const restfulRoutes = [
-  { id: 'account',    store: 'accounts',    model: account,     Controller: Controllers.Accounts },
-  { id: 'income',     store: 'incomes',     model: income,      Controller: Controllers.Incomes,      relations:['accounts', 'categories'] },
-  { id: 'expense',    store: 'expenses',    model: expense,     Controller: Controllers.Expenses,     relations:['accounts', 'categories'] },
-  { id: 'transfer',   store: 'transfers',   model: transfer,    Controller: Controllers.Transfers,    relations:['accounts'] },
-  { id: 'creditcard', store: 'creditcards', model: creditcard,  Controller: Controllers.Creditcards,  relations:['accounts'] },
-  { id: 'category',   store: 'categories',  model: category,    Controller: Controllers.Categories },
-  { id: 'user',       store: 'users',       model: user,        Controller: Controllers.Users },
+  { id: 'accounts',     store: 'accounts',    model: account,     Controller: Controllers.Accounts },
+  { id: 'incomes',      store: 'incomes',     model: income,      Controller: Controllers.Incomes,      relations:['accounts', 'categories'] },
+  { id: 'expenses',     store: 'expenses',    model: expense,     Controller: Controllers.Expenses,     relations:['accounts', 'categories'] },
+  { id: 'transfers',    store: 'transfers',   model: transfer,    Controller: Controllers.Transfers,    relations:['accounts'] },
+  { id: 'creditcards',  store: 'creditcards', model: creditcard,  Controller: Controllers.Creditcards,  relations:['accounts'] },
+  { id: 'categories',   store: 'categories',  model: category,    Controller: Controllers.Categories },
+  { id: 'users',        store: 'users',       model: user,        Controller: Controllers.Users },
 ];
 
 const PrivateRoute = ({ component: Component, ...rest }) => (

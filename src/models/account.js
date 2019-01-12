@@ -2,7 +2,7 @@ import { createProperty, show } from '../utils/propertyType';
 
 export default {
   title: 'Account',
-  path: '/account',
+  path: '/accounts',
   properties: [
     createProperty('name',            'Name',                   String,   false,  'left'),
     createProperty('value',           'Balance',                'Money',  true,   'right', show.list),

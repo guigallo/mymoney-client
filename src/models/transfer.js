@@ -2,7 +2,7 @@ import { createProperty } from '../utils/propertyType';
 
 export default {
   title: 'Transfer',
-  path: '/transfer',
+  path: '/transfers',
   properties: [
     createProperty('accountOut',  'Account Out',  'Select', false,  'left'),
     createProperty('accountIn',   'Account In',   'Select', false,  'left'),

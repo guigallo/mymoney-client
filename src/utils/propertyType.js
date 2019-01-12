@@ -6,32 +6,14 @@ export const show = {
 };
 
 const ignore = (property, showConst) => {
-  if(property.show === show.all || property.show === showConst) {
+  if(property.show === show.all || property.show === showConst)
     return false;
-  } else {
+  else
     return true;
-  }
 }
 
-export const ignoreListProperties = (property) => {
-  return ignore(property, show.form);
-  /*
-  if(property.show === show.all || property.show === show.form) {
-    return false;
-  } else {
-    return true;
-  }*/
-};
-
-export const ignoreFormProperties = (property) => {
-  return ignore(property, show.list);
-  /*
-  if(property.show === show.all || property.show === show.list) {
-    return false;
-  } else {
-    return true;
-  }*/
-};
+export const ignoreListProperties = (property) => ignore(property, show.form);
+export const ignoreFormProperties = (property) => ignore(property, show.list);
 
 export const createProperty = (id, label, type, sum, align, show = SHOW_ALL) =>
   ({ id, label, type, sum, align, show });

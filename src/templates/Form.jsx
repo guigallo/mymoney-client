@@ -4,6 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Input from '../components/Input';
+import { post } from '../services/api';
+import { show } from '../utils/propertyType';
+import Snackbar from '../components/Snackbar';
 
 class Form extends React.Component {
   constructor(middleware) {
@@ -11,11 +14,13 @@ class Form extends React.Component {
     this.state = {
       classes: middleware.props.classes,
       model: middleware.model,
+      snacks: [],
       ...this.propertiesToState(middleware.model.properties)
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.propRelation = this.propRelation.bind(this);
+    this.sendForm = this.sendForm.bind(this);
   };
   
   propertiesToState(properties) {
@@ -59,28 +64,51 @@ class Form extends React.Component {
     if(datas !== undefined) {
       let stores = [];
       datas.forEach(data => {
-        if(id === 'account' && data.hasOwnProperty('accounts')) {
+        if(id === 'account' && data.hasOwnProperty('accounts'))
           stores.push(data.accounts);
-          return stores;
-        }
 
-        if(id === 'category' && data.hasOwnProperty('categories')) {
+        if(id === 'category' && data.hasOwnProperty('categories'))
           stores.push(data.categories);
-          return stores;
-        }
 
-        if((id === 'accountIn' || id === 'accountOut') && data.hasOwnProperty('accounts')) {
+        if((id === 'accountIn' || id === 'accountOut') && data.hasOwnProperty('accounts'))
           stores.push(data.accounts);
-          return stores;
-        }
       });
       return stores;
     }
   }
 
+  sendForm = event => {
+    event.preventDefault();
+    const { properties } = this.state.model
+
+    let body = {}
+    properties.forEach(prop => {
+      if(prop.show === show.all || prop.show === show.form)
+        body[prop.id] = this.state[prop.id];
+    });
+    const route = this.state.model.path;
+
+    post(route, body)
+      .then(response => {
+        if(response.errors.length > 0) {
+          let snacks = this.state.snacks;
+          response.errors.forEach(error => 
+            snacks = snacks.concat({
+              variant: 'error',
+              message: error.msg,
+            })
+          );
+          
+          this.setState({ snacks });
+        }
+      })
+      .catch(fail => console.log(fail));
+  }
+
   render = () => {
     const { title, properties } = this.state.model;
     const { classes } = this.props;
+    const { snacks } = this.state;
 
     return (
       <main className={ classes.content }>
@@ -91,7 +119,7 @@ class Form extends React.Component {
         </Typography>
 
         <Paper className={classes.root}>
-          <form className={classes.tableWrapper}>
+          <form className={classes.tableWrapper} onSubmit={this.sendForm} method="post">
             {properties.map(property => (
               <Input
                 key={ property.id + property.label }
@@ -104,7 +132,7 @@ class Form extends React.Component {
             ))}
 
             <div className={ classes.buttonWrapper }>
-              <Button variant="contained" color="primary" className={ classes.button }>
+              <Button type='submit' variant="contained" color="primary" className={ classes.button }>
                 Create
               </Button>
 
@@ -118,6 +146,10 @@ class Form extends React.Component {
             </div>
           </form>
         </Paper>
+
+        {snacks.length > 0 && (
+          <Snackbar snacks={ snacks } />
+        )}
       </main>
     );
   };

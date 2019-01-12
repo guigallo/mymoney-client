@@ -3,7 +3,7 @@ import { createProperty, show } from '../utils/propertyType';
 const friendly = (value) => permissionsFriendly(value)
 export default {
   title: 'User',
-  path: '/user',
+  path: '/users',
   properties: [
     createProperty('name',        'Name',         String,     false, 'left'),
     createProperty('email',       'Email',        'email',    false, 'left'),

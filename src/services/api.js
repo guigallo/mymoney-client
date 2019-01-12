@@ -28,7 +28,7 @@ export const logIn = (email, password) =>
 export const getAll = (route) =>
   new Promise((resolve, reject) => {
     const auth = JSON.parse(localStorage.getItem('auth-token'));
-    const headers = new Headers({ 'x-access-token': auth.token });
+    const headers = new Headers({ 'x-access-token': auth.token, 'Content-Type': 'application/json' });
     const init = {
       method: 'GET',
       headers,
@@ -51,3 +51,42 @@ export const getAll = (route) =>
       .catch(err => reject(`Fail to get ${route}. ${err}`));
   });
   
+const createHeaders = (headersInit) => {
+  let obj = {};
+  headersInit.forEach(header => {
+    if(header === 'json')
+      obj['Content-Type'] = 'application/json';
+
+    if(header === 'auth') {
+      const auth = JSON.parse(localStorage.getItem('auth-token'))
+      obj['x-access-token'] = auth.token;
+    }
+  });
+  return new Headers(obj);
+};
+
+const createInit = (method, body, headersInit) => ({
+  method,
+  body: JSON.stringify(body),
+  mode: 'cors',
+  headers: createHeaders(headersInit)
+});
+
+export const post = (route, body) => {
+  return new Promise(resolve => {
+    const init = createInit('POST', body, ['json', 'auth']);
+    
+    fetch(`${PATH_API}${route}`, init)
+      .then(response => {
+        switch(response.status) {
+          case 201:
+          case 422:
+            resolve(response.json());
+            break;
+          case 500: throw new Error('Fail to request');
+          default: throw new Error('Impossible to request');
+        }
+      })
+      .then(json => resolve(json))
+  })
+};

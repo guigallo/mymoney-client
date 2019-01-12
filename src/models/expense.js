@@ -2,7 +2,7 @@ import { createProperty } from '../utils/propertyType';
 
 export default {
   title: 'Expense',
-  path: '/expense',
+  path: '/expenses',
   properties: [
     createProperty('paid',        'Paid',         Boolean,  false,  'left'),
     createProperty('date',        'Date',         Date,     false,  'left'),

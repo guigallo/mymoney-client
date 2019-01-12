@@ -49,7 +49,7 @@ class Login extends Component {
   render() {
     return (
       this.state.authenticated ? (
-        <Redirect to="/user" />
+        <Redirect to="/" />
       ) : (
         <React.Fragment>
           <CssBaseline />
