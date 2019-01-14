@@ -5,22 +5,15 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case 'ENQUEUE_SNACKBAR':
-      return {
-        ...state,
-        notifications: [
-            ...state.notifications,
-          {
-            ...action.notification,
-          },
-        ],
+      return { notifications: state.notifications
+        .concat(action.notification)
       };
 
     case 'REMOVE_SNACKBAR':
-      return {
-        ...state,
-        notifications: state.notifications.filter(
-        notification => notification.key !== action.key,
-        ),
+      return { notifications: state.notifications
+        .filter(notification =>
+          notification.key !== action.key
+        )
       };
 
     default:

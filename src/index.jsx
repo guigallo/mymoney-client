@@ -16,7 +16,7 @@ import {
   transfers,
   categories
 } from './reducers/rest.reducers';
-import notificationReducer from './reducers/notification.reducers';
+import notificationStore from './reducers/notification.reducers';
 
 const reducers = combineReducers({
   accounts,
@@ -26,7 +26,7 @@ const reducers = combineReducers({
   incomes,
   transfers,
   categories,
-  notificationReducer
+  notificationStore
 });
 const store = new createStore(reducers, applyMiddleware(thunkMiddleware));
 

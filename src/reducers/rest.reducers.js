@@ -1,4 +1,5 @@
 import { List } from 'immutable';
+import { enqueueSnackbar } from '../actions/notification.actions';
 
 function reducer(name, state, action) {
   if(state === undefined)
@@ -8,9 +9,6 @@ function reducer(name, state, action) {
     case `LIST_${name}`: return { list: new List(action.list) };
 
     case `RELATIONS_${name}`: return { relationsData: action.relations };
-    
-    case 'ENQUEUE_SNACKBAR': return { ...state, notifications: [ ...state.notifications, { ...action.notification } ] };
-    case 'REMOVE_SNACKBAR': return { ...state, notifications: state.notifications.filter( notification => notification.key !== action.key) };
 
     default: return state;
   }
@@ -23,7 +21,6 @@ export const expenses =       (state, action) => reducer('EXPENSES',     state, 
 export const incomes =        (state, action) => reducer('INCOMES',      state, action);
 export const transfers =      (state, action) => reducer('TRANSFERS',    state, action);
 export const categories =     (state, action) => reducer('CATEGORIES',   state, action);
-export const notifications =  (state, action) => reducer('SNACKBAR',     state, action);
 
 export const dispatchProps = (store, Controller, relations = []) => {
   const mapStateToProps = state => ({
@@ -38,7 +35,8 @@ export const dispatchProps = (store, Controller, relations = []) => {
   
   const mapDispatchToProps = dispatch => ({
     List: () => dispatch(Controller.list()),
-    Relations: relations => dispatch(Controller.relations(relations))
+    Relations: relations => dispatch(Controller.relations(relations)),
+    Notify: snackbar => dispatch(enqueueSnackbar(snackbar))
   });
 
   return [

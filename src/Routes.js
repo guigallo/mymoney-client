@@ -51,10 +51,10 @@ const Routes = () => (
       <PrivateRoute path="/dashboard" component={ () => (<p>dashboard</p>) } />
 
       {Restful(restfulRoutes).map(route =>
-        <PrivateRoute key={`list-${route.id}`} exact path={`/${route.id}`} component={ route.list } />
-      )}
-      {Restful(restfulRoutes).map(route =>
-        <PrivateRoute key={`create-${route.id}`} exact path={`/${route.id}/create`} component={ route.create } />
+        <>
+          <PrivateRoute key={`list-${route.id}`} exact path={`/${route.id}`} component={ route.list } />
+          <PrivateRoute key={`create-${route.id}`} exact path={`/${route.id}/create`} component={ route.create } />
+        </>
       )}
 
     </>

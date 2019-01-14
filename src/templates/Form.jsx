@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import Input from '../components/Input';
 import { post } from '../services/api';
 import { show } from '../utils/propertyType';
-import Snackbar from '../components/Snackbar';
 
 class Form extends React.Component {
   constructor(middleware) {
@@ -14,7 +13,6 @@ class Form extends React.Component {
     this.state = {
       classes: middleware.props.classes,
       model: middleware.model,
-      snacks: [],
       ...this.propertiesToState(middleware.model.properties)
     };
 
@@ -91,15 +89,13 @@ class Form extends React.Component {
     post(route, body)
       .then(response => {
         if(response.errors.length > 0) {
-          let snacks = this.state.snacks;
           response.errors.forEach(error => 
-            snacks = snacks.concat({
-              variant: 'error',
+            this.props.Notify({
               message: error.msg,
-            })
+              options: {
+                  variant: 'error',
+              }})
           );
-          
-          this.setState({ snacks });
         }
       })
       .catch(fail => console.log(fail));
@@ -108,7 +104,6 @@ class Form extends React.Component {
   render = () => {
     const { title, properties } = this.state.model;
     const { classes } = this.props;
-    const { snacks } = this.state;
 
     return (
       <main className={ classes.content }>
@@ -146,10 +141,6 @@ class Form extends React.Component {
             </div>
           </form>
         </Paper>
-
-        {snacks.length > 0 && (
-          <Snackbar snacks={ snacks } />
-        )}
       </main>
     );
   };

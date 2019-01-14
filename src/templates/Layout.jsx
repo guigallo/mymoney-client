@@ -5,6 +5,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../styles/header';
 import { Link } from 'react-router-dom';
+import Notifier from '../components/Notifier';
+import { SnackbarProvider } from 'notistack';
 
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
@@ -83,6 +85,11 @@ class Layout extends React.Component {
     return (
       <>
         <CssBaseline />
+
+        <SnackbarProvider maxSnack={7}>
+          <Notifier />
+        </SnackbarProvider>
+
         <AppBar
           position="absolute"
           className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
@@ -180,6 +187,8 @@ class Layout extends React.Component {
 function createListMenu(arr, classes, subHeader = '') {
   return (
     <>
+      
+
       {subHeader !== '' ? (<ListSubheader inset>{ subHeader }</ListSubheader>) : '' }
       {arr.map(route => {
         const Icon = route.icon;
@@ -203,4 +212,6 @@ Layout.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Layout);
+
+const LayoutWithStyles = withStyles(styles)(Layout);
+export default LayoutWithStyles;
