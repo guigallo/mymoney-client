@@ -3,7 +3,7 @@ import { category, icon } from '../utils/Menu';
 import Model from './Model';
 
 const id = 'transfers';
-const title = 'Transfer';
+const title = 'Transfers';
 const properties = [
   createProperty('accountOut',  'Account Out',  'Select', false,  'left'),
   createProperty('accountIn',   'Account In',   'Select', false,  'left'),

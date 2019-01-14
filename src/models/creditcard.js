@@ -3,7 +3,7 @@ import { category, icon } from '../utils/Menu';
 import Model from './Model';
 
 const id = 'creditcards';
-const title = 'Credit card';
+const title = 'Credit cards';
 const properties = [
   createProperty('name',        'Name',         String,   false,  'left'),
   createProperty('limit',       'Limit',        'Money',  true,   'right'),

@@ -24,7 +24,7 @@ const permissionsFriendly = (permissions) => {
 }
 
 const id = 'users';
-const title = 'User';
+const title = 'Users';
 const properties = [
   createProperty('name',        'Name',         String,     false, 'left'),
   createProperty('email',       'Email',        'email',    false, 'left'),
