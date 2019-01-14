@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { sortList } from '../utils/sortUtils';
 import TableHead from './TableHead';
 import TablePaginationActionsWrapped from './TablePagination';
 import DateUtils from '../utils/DateUtils';
+import { sortList } from '../utils/sortUtils';
+import { ignoreFormProperties } from '../utils/propertyType';
+import { styles } from '../styles/table';
 
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -13,9 +15,8 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { styles } from '../styles/table';
 import LensIcons from '@material-ui/icons/Lens';
-import { ignoreFormProperties } from '../utils/propertyType';
+
 
 class TableCustom extends React.Component {
   constructor(props) {

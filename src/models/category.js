@@ -1,9 +1,17 @@
 import { createProperty } from '../utils/propertyType';
+import { category, icon } from '../utils/Menu';
+import Model from './Model';
 
-export default {
-  title: 'Category',
-  path: '/categories',
-  properties: [
-    createProperty('name', 'Name', String, false, 'left'),
-  ]
+const id = 'categories';
+const title = 'Category';
+const properties = [
+  createProperty('name', 'Name', String, false, 'left'),
+];
+const menu = {
+  enable: true,
+  visible: true,
+  category: category.configs,
+  icon: icon.category
 };
+
+export default new Model(id, title, properties, menu);

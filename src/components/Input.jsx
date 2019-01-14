@@ -1,13 +1,12 @@
 import React from 'react';
+import styles from '../styles/input';
+import { ignoreListProperties } from '../utils/propertyType';
+
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import withStyles from '@material-ui/core/styles/withStyles';
-import styles from '../styles/input';
-import { ignoreListProperties } from '../utils/propertyType';
-
-
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';

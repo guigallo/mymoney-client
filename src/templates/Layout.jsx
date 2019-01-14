@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { withStyles } from '@material-ui/core/styles';
-import styles from '../styles/header';
 import { Link } from 'react-router-dom';
-import Notifier from '../components/Notifier';
 import { SnackbarProvider } from 'notistack';
 
+import styles from '../styles/header';
+import Notifier from '../components/Notifier';
+import { listMenu } from '../routes/restRoutes';
+import { icon } from '../utils/Menu';
+import classNames from 'classnames';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
 import Divider from '@material-ui/core/Divider';
@@ -27,36 +30,16 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PeopleIcon from '@material-ui/icons/People';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import CategoryIcon from '@material-ui/icons/Category';
-import CreditCardIcon from '@material-ui/icons/CreditCard';
-import MoneyOffIcon from '@material-ui/icons/MoneyOff';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import 'typeface-roboto';
 
 const routes = {
   main: [
-    { path: '/dashboard', text: 'Dashboard', icon: DashboardIcon }
-  ],
-  transactions: [
-    { path: '/accounts', text: 'Accounts', icon: AccountBalanceIcon },
-    { path: '/incomes', text: 'Incomes', icon: AttachMoneyIcon },
-    { path: '/expenses', text: 'Expenses', icon: MoneyOffIcon },
-    { path: '/transfers', text: 'Transfers', icon: CompareArrowsIcon }
-  ],
-  configs: [
-    { path: '/creditcards', text: 'Credit Cards', icon: CreditCardIcon },
-    { path: '/categories', text: 'Categories', icon: CategoryIcon },
-    { path: '/users', text: 'Users', icon: PeopleIcon }
+    { path: '/dashboard', title: 'Dashboard', menu: { icon: icon.dashboard } }
   ],
   reports: [
-    { path: '/report1', text: 'Current month', icon: AssignmentIcon },
-    { path: '/report2', text: 'Last quarter', icon: AssignmentIcon }
+    { path: '/report1', title: 'Current month', menu: { icon: icon.assignment } },
+    { path: '/report2', title: 'Last quarter', menu: { icon: icon.assignment } }
   ]
 }
 
@@ -86,7 +69,10 @@ class Layout extends React.Component {
       <>
         <CssBaseline />
 
-        <SnackbarProvider maxSnack={7}>
+        <SnackbarProvider
+          maxSnack={7}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        >
           <Notifier />
         </SnackbarProvider>
 
@@ -172,9 +158,8 @@ class Layout extends React.Component {
           <Divider />
           <List>
             <div>
-              { createListMenu(routes.main, classes) }
-              { createListMenu(routes.transactions, classes) }
-              { createListMenu(routes.configs, classes) }
+              { createListMenu(listMenu('transactions'), classes) }
+              { createListMenu(listMenu('configs'), classes) }
               { createListMenu(routes.reports, classes, 'Reports') }
             </div>
           </List>
@@ -187,18 +172,16 @@ class Layout extends React.Component {
 function createListMenu(arr, classes, subHeader = '') {
   return (
     <>
-      
-
       {subHeader !== '' ? (<ListSubheader inset>{ subHeader }</ListSubheader>) : '' }
       {arr.map(route => {
-        const Icon = route.icon;
+        const Icon = route.menu.icon;
         return (
           <Link key={ route.path } to={ route.path } className={ classes.link } >
             <ListItemLink component="div">
               <ListItemIcon>
                 <Icon />
               </ListItemIcon>
-              <ListItemText primary={ route.text } />
+              <ListItemText primary={ route.title } />
             </ListItemLink>
           </Link>
         )}

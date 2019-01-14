@@ -6,28 +6,11 @@ import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
 
-import Routes from './Routes';
-import { 
-  accounts,
-  users,
-  creditcards,
-  expenses,
-  incomes,
-  transfers,
-  categories
-} from './reducers/rest.reducers';
+import { restReducers } from './routes/restRoutes';
 import notificationStore from './reducers/notification.reducers';
+import Routes from './routes/Routes';
 
-const reducers = combineReducers({
-  accounts,
-  users,
-  creditcards,
-  expenses,
-  incomes,
-  transfers,
-  categories,
-  notificationStore
-});
+const reducers = combineReducers({ ...restReducers, notificationStore });
 const store = new createStore(reducers, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(

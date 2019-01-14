@@ -1,5 +1,5 @@
-class Action {
-  constructor(name) { this.name = name }
+export default class Action {
+  constructor(name) { this.name = name.toUpperCase() }
 
   list = (list) => ({
     type: `LIST_${this.name}`, list//, key: new Date().getTime()
@@ -9,11 +9,3 @@ class Action {
     type: `RELATIONS_${this.name}`, relations: rel
   });
 }
-
-export const accountsActions = new Action('ACCOUNTS');
-export const creditcardActions = new Action('CREDITCARDS');
-export const usersActions = new Action('USERS');
-export const expensesActions = new Action('EXPENSES');
-export const incomesActions = new Action('INCOMES');
-export const transfersActions = new Action('TRANSFERS');
-export const categoriesActions = new Action('CATEGORIES');
