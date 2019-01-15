@@ -196,6 +196,5 @@ Layout.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-
 const LayoutWithStyles = withStyles(styles)(Layout);
 export default LayoutWithStyles;

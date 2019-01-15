@@ -5,10 +5,11 @@ import Model from './Model';
 const id = 'transfers';
 const title = 'Transfers';
 const properties = [
-  createProperty('accountOut',  'Account Out',  'Select', false,  'left'),
-  createProperty('accountIn',   'Account In',   'Select', false,  'left'),
-  createProperty('date',        'Date',         Date,     false,  'left'),
-  createProperty('value',       'Value',        'Money',  true,   'right'),
+  //             id             label           type      sum     align     req    show
+  createProperty('accountOut',  'Account Out',  'Select', false,  'left',   true),
+  createProperty('accountIn',   'Account In',   'Select', false,  'left',   true),
+  createProperty('date',        'Date',         Date,     false,  'left',   true),
+  createProperty('value',       'Value',        'Money',  true,   'right',  true),
 ];
 const menu = {
   enable: true,

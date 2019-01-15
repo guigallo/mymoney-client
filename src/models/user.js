@@ -26,10 +26,11 @@ const permissionsFriendly = (permissions) => {
 const id = 'users';
 const title = 'Users';
 const properties = [
-  createProperty('name',        'Name',         String,     false, 'left'),
-  createProperty('email',       'Email',        'email',    false, 'left'),
-  createProperty('password',    'Password',     'password', false, 'left',  show.form),
-  createProperty('permissions', 'Permissions',  friendly,   false, 'left',  show.list),
+  //             id             label           type        sum     align    req    show
+  createProperty('name',        'Name',         String,     false,  'left',  true),
+  createProperty('email',       'Email',        'email',    false,  'left',  true),
+  createProperty('password',    'Password',     'password', false,  'left',  true,  show.form),
+  createProperty('permissions', 'Permissions',  friendly,   false,  'left',  false, show.list),
 ];
 const menu = {
   enable: true,

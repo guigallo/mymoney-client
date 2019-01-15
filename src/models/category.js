@@ -5,7 +5,8 @@ import Model from './Model';
 const id = 'categories';
 const title = 'Categories';
 const properties = [
-  createProperty('name', 'Name', String, false, 'left'),
+  //             id      label   type    sum    align   req    show
+  createProperty('name', 'Name', String, false, 'left', true),
 ];
 const menu = {
   enable: true,

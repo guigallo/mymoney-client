@@ -5,12 +5,13 @@ import Model from './Model';
 const id = 'incomes';
 const title = 'Incomes';
 const properties = [
-  createProperty('paid',        'Paid',         Boolean,  false,  'left'),
-  createProperty('date',        'Date',         Date,     false,  'left'),
-  createProperty('description', 'Description',  String,   false,  'left'),
-  createProperty('account',     'Account',      'Select', false,  'left'),
-  createProperty('category',    'Category',     'Select', false,  'left'),
-  createProperty('value',       'Value',        'Money',  true,   'right'),
+  //             id             label           type      sum     align     req    show
+  createProperty('paid',        'Paid',         Boolean,  false,  'left',   true),
+  createProperty('date',        'Date',         Date,     false,  'left',   true),
+  createProperty('description', 'Description',  String,   false,  'left',   true),
+  createProperty('account',     'Account',      'Select', false,  'left',   true),
+  createProperty('category',    'Category',     'Select', false,  'left',   true),
+  createProperty('value',       'Value',        'Money',  true,   'right',  true),
 ];
 const menu = {
   enable: true,

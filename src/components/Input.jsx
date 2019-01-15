@@ -56,7 +56,7 @@ const Input = (props) => {
         relations = propRelation[0];
       
       Field = (
-        <FormControl variant="outlined" className={classes.input }>
+        <FormControl variant="outlined" className={classes.input } error >
           <InputLabel /*ref={ labelRef }*/ htmlFor={ property.id } >
             { property.label }
           </InputLabel>
@@ -85,6 +85,7 @@ const Input = (props) => {
           value={ value }
           variant="outlined"
           InputProps={ fieldProps }
+          error={ false }
         >
         </TextField>
       );

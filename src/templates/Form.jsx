@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -13,7 +13,9 @@ class Form extends React.Component {
     this.state = {
       classes: middleware.props.classes,
       model: middleware.model,
-      ...this.propertiesToState(middleware.model.properties)
+      formHasError: false,
+      created: false,
+      ...this.propertiesToState(middleware.model.properties),
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -22,11 +24,15 @@ class Form extends React.Component {
   };
   
   propertiesToState(properties) {
-    let newState = {}
+    let formData = {};
     properties.forEach(property => {
-      newState[property.id] = '';
+      formData[property.id] = {
+        value: '',
+        required: property.required,
+        error: false,
+      };
     });
-    return newState;
+    return { formData };
   }
 
   handleChange = (name, property = '') => event => {
@@ -38,27 +44,25 @@ class Form extends React.Component {
       else
         value = actual === 'true' ? false : true;
     }
-    
-    this.setState({ [name]: value });
+    let formData = this.state.formData;
+    formData[name].value = value;
+    this.setState({ formData });
   }
 
   clearForm = () => {
-    const properties = this.state.model.properties;
-    let clearProperties = {};
-    properties.forEach(property => 
-      clearProperties[property.id] = ''
-    );
-    this.setState({ ...clearProperties });
+    const formData = this.state.formData;
+    for(let prop in formData) {
+      formData[prop].value = '';
+      formData[prop].error = false;
+    }
+    this.setState({ formData });
   }
 
-  cancelLink = props =>
-    <Link to={`${this.state.model.path}`} {...props} />
-
+  cancelLink = props => <Link to={`${this.state.model.path}`} {...props} />
   componentDidMount = () => this.props.Relations(this.props.relations);
 
   propRelation(id) {
     const datas = this.props.relationsData;
-    
     if(datas !== undefined) {
       let stores = [];
       datas.forEach(data => {
@@ -75,37 +79,70 @@ class Form extends React.Component {
     }
   }
 
+  createNotify = (message, variant) => 
+    this.props.Notify({ message, options: { variant } });
+
+  validateForm = () => {
+    const { formData } = this.state;
+    let formHasError = false;
+
+    for(let data in formData) {
+      const prop = formData[data];
+      if(prop.required && prop.value === '') {
+        prop.error = 'Required';
+        formHasError = true;
+        this.createNotify(`${data} is required`, 'error')
+      }
+    }
+    if(formHasError) {
+      this.setState({ formData, formHasError });
+      return false;
+    } else {
+      return true;
+    } 
+  }
+
   sendForm = event => {
     event.preventDefault();
-    const { properties } = this.state.model
+    if(! this.validateForm()) return;
+
+    const { formData } = this.state;
+    const { properties } = this.state.model;
 
     let body = {}
     properties.forEach(prop => {
       if(prop.show === show.all || prop.show === show.form)
-        body[prop.id] = this.state[prop.id];
+        body[prop.id] = formData[prop.id].value;
     });
-    const route = this.state.model.path;
 
+    const route = this.state.model.path;
     post(route, body)
       .then(response => {
-        if(response.errors.length > 0) {
-          response.errors.forEach(error => 
-            this.props.Notify({
-              message: error.msg,
-              options: {
-                  variant: 'error',
-              }})
-          );
+        if(response.errors) {
+          response.errors.forEach(error => {
+            formData[error.param].error = error.msg;
+            this.createNotify(error.msg, 'error');
+          });
+          return this.setState({ formData })
         }
+        
+        this.setState({ created: true });
+        this.createNotify(`${response.result.name} created`, 'success');
       })
-      .catch(fail => console.log(fail));
+      .catch(fail => {
+        this.createNotify(fail, 'error');
+        console.log(fail);
+      });
   }
 
   render = () => {
-    const { title, properties } = this.state.model;
+    const { formData } = this.state;
+    const { title, properties, path } = this.state.model;
     const { classes } = this.props;
 
-    return (
+    return this.state.created ? (
+      <Redirect to={ path } />
+    ) : (
       <main className={ classes.content }>
         <div className={ classes.appBarSpacer } />
 
@@ -117,8 +154,9 @@ class Form extends React.Component {
           <form className={classes.tableWrapper} onSubmit={this.sendForm} method="post">
             {properties.map(property => (
               <Input
+                error={ formData[property.id].error }
                 key={ property.id + property.label }
-                value={ this.state[property.id]}
+                value={ formData[property.id].value }
                 handleChange={ this.handleChange }
                 togleChange={ this.togleSwitch }
                 property={ property }

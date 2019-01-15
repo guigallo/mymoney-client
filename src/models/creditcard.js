@@ -5,11 +5,12 @@ import Model from './Model';
 const id = 'creditcards';
 const title = 'Credit cards';
 const properties = [
-  createProperty('name',        'Name',         String,   false,  'left'),
-  createProperty('limit',       'Limit',        'Money',  true,   'right'),
-  createProperty('closingDay',  'Closing day',  Number,   false,  'right'),
-  createProperty('dueDate',     'Due date',     Number,   false,  'right'),
-  createProperty('account',     'Account',      'Select', false,  'left'),
+  //             id             label           type      sum     align     req    show
+  createProperty('name',        'Name',         String,   false,  'left',   true),
+  createProperty('limit',       'Limit',        'Money',  true,   'right',  true),
+  createProperty('closingDay',  'Closing day',  Number,   false,  'right',  true),
+  createProperty('dueDate',     'Due date',     Number,   false,  'right',  true),
+  createProperty('account',     'Account',      'Select', false,  'left',   true),
 ];
 const menu = {
   enable: true,

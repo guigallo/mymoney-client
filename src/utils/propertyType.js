@@ -4,16 +4,17 @@ export const show = {
   list: 'SHOW_LIST',
   form: 'SHOW_FORM'
 };
-
+/*
 const ignore = (property, showConst) => {
   if(property.show === show.all || property.show === showConst)
     return false;
   else
     return true;
-}
+}*/
+const ignore = (property, showConst) => property.show === show.all || property.show === showConst ? false : true;
 
 export const ignoreListProperties = (property) => ignore(property, show.form);
 export const ignoreFormProperties = (property) => ignore(property, show.list);
 
-export const createProperty = (id, label, type, sum, align, show = SHOW_ALL) =>
-  ({ id, label, type, sum, align, show });
+export const createProperty = (id, label, type, sum, align, required, show = SHOW_ALL) =>
+  ({ id, label, type, sum, align, required, show });
