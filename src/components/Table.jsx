@@ -17,6 +17,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import LensIcons from '@material-ui/icons/Lens';
 
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import InfoIcon from '@material-ui/icons/Info';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 class TableCustom extends React.Component {
   constructor(props) {
    super(props); 
@@ -108,13 +113,25 @@ class TableCustom extends React.Component {
                       <TableCell key={ column.id + column.label } align={ column.align } >{ display }</TableCell>
                     )
                   })}
+
+                  <TableCell align="right">
+                    <IconButton className={classes.button} aria-label="Info">
+                      <InfoIcon />
+                    </IconButton>
+                    <IconButton className={classes.button} aria-label="Edit">
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton className={classes.button} aria-label="Delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow> 
                 
               ))}
 
               {emptyRows > 0 && (
                 <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={7} />
                 </TableRow>
               )}
             </TableBody>
@@ -136,14 +153,15 @@ class TableCustom extends React.Component {
                       )
                     })
                   ) : (
-                    <TableCell colSpan={columns.length} />
+                    <TableCell colSpan={columns.length + 1} />
                   )}
+                  <TableCell/>
                 </TableRow>
               )}
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
-                  colSpan={columns.length}
+                  colSpan={columns.length + 1}
                   count={totalRows}
                   rowsPerPage={rowsPerPage}
                   page={page}

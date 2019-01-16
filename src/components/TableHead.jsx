@@ -38,6 +38,7 @@ export default function SortableTableHead(props) {
             </Tooltip>
           </TableCell>
         })}
+        <TableCell/>
       </TableRow>
     </TableHead>
   )
