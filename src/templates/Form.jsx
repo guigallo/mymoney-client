@@ -60,6 +60,7 @@ class Form extends React.Component {
 
   cancelLink = props => <Link to={`${this.state.model.path}`} {...props} />
   componentDidMount = () => this.props.Relations(this.props.relations);
+  createNotify = (message, variant) => this.props.Notify({ message, options: { variant } });
 
   propRelation(id) {
     const datas = this.props.relationsData;
@@ -78,9 +79,6 @@ class Form extends React.Component {
       return stores;
     }
   }
-
-  createNotify = (message, variant) => 
-    this.props.Notify({ message, options: { variant } });
 
   validateForm = () => {
     const { formData } = this.state;
@@ -102,8 +100,19 @@ class Form extends React.Component {
     } 
   }
 
+  clearErrors = () => {
+    const { formData } = this.state;
+    const formHasError = false;
+
+    for(let data in formData) {
+      formData[data].error = false;
+    }
+    this.setState({ formData, formHasError })
+  }
+
   sendForm = event => {
     event.preventDefault();
+    this.clearErrors();
     if(! this.validateForm()) return;
 
     const { formData } = this.state;

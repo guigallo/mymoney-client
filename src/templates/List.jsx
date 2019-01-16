@@ -24,7 +24,6 @@ class List extends React.Component {
   }
 
   componentDidMount = () => this.props.List();
-
   createLink = props => <Link to={`${this.state.model.path}/create`} {...props} />
   
   render = () => {

@@ -1,12 +1,9 @@
 export const enqueueSnackbar = notification => {
   const { message, options } = notification;
+  const key = new Date().getTime() + Math.random();
   return ({
     type: 'ENQUEUE_SNACKBAR',
-    notification: {
-      key: new Date().getTime() + Math.random(),
-      message,
-      options
-    },
+    notification: { key, message, options },
   });
 }
 

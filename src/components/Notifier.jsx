@@ -7,9 +7,7 @@ import { removeSnackbar } from '../actions/notification.actions';
 class Notifier extends React.Component {
   displayed = [];
   
-  storeDisplayed = id => {
-    this.displayed = [...this.displayed, id];
-  };
+  storeDisplayed = id => { this.displayed = [...this.displayed, id] };
   
   shouldComponentUpdate({ notifications: newSnacks = [] }) {
     const { notifications: currentSnacks } = this.props;
@@ -40,14 +38,12 @@ class Notifier extends React.Component {
   }
 }
 
-const mapStateToProps = store => ({
-  notifications: store.notificationStore.notifications,
-});
+const mapStateToProps = store => ({ notifications: store.notificationStore.notifications });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ removeSnackbar }, dispatch);
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-  )(withSnackbar(Notifier));
+)(withSnackbar(Notifier));
   

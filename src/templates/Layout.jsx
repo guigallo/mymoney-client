@@ -50,17 +50,10 @@ function ListItemLink(props) {
 class Layout extends React.Component {
   state = { open: true, openMenuUser: false, anchorEl: null };
 
-  handleDrawerOpen = () =>
-    this.setState({ open: true });
-
-  handleDrawerClose = () =>
-    this.setState({ open: false });
-
-  handleMenuUser = (event) =>
-    this.setState({ openMenuUser: true, anchorEl: event.currentTarget });
-
-  handleCloseMenuUser = () =>
-    this.setState({ openMenuUser: false, anchorEl: null });
+  handleDrawerOpen = () => this.setState({ open: true });
+  handleDrawerClose = () => this.setState({ open: false });
+  handleMenuUser = (event) => this.setState({ openMenuUser: true, anchorEl: event.currentTarget });
+  handleCloseMenuUser = () => this.setState({ openMenuUser: false, anchorEl: null });
 
   render() {
     const { classes } = this.props;

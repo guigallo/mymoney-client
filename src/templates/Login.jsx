@@ -42,9 +42,7 @@ class Login extends Component {
       .catch(errorMessage =>  this.setState({ msg: errorMessage }));
   };
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
+  handleChange = name => event => { this.setState({ [name]: event.target.value }) };
 
   render() {
     return (

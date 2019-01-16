@@ -16,9 +16,8 @@ export const dispatchProps = (store, Controller, relations = []) => {
     list: state[store].list,
     order: state[store].order,
     orderBy: state[store].orderBy,
-    relations: relations.map(relation => (
-      relation
-    )),
+    //relations: relations.map(relation => (relation)),
+    relations,
     relationsData: state[store].relationsData
   });
   

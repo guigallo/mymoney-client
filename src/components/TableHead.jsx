@@ -10,9 +10,7 @@ import { ignoreFormProperties } from '../utils/propertyType';
 export default function SortableTableHead(props) {
   const { columns, order, orderBy, onRequestSort } = props;
 
-  const createSortHandler = id => event => {
-    onRequestSort(event, id);
-  };
+  const createSortHandler = id => event => { onRequestSort(event, id) };
 
   return (
     <TableHead>

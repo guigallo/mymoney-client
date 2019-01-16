@@ -15,7 +15,7 @@ import Select from '@material-ui/core/Select';
 
 const Input = (props) => {
   if(ignoreListProperties(props.property)) return null;
-  const { property, handleChange, classes, value, propRelation } = props;
+  const { property, error, handleChange, classes, value, propRelation } = props;
 
   var fieldProps = {};
   switch (property.type) {
@@ -56,7 +56,7 @@ const Input = (props) => {
         relations = propRelation[0];
       
       Field = (
-        <FormControl variant="outlined" className={classes.input } error >
+        <FormControl variant="outlined" className={classes.input } error={ error } >
           <InputLabel /*ref={ labelRef }*/ htmlFor={ property.id } >
             { property.label }
           </InputLabel>
@@ -85,7 +85,7 @@ const Input = (props) => {
           value={ value }
           variant="outlined"
           InputProps={ fieldProps }
-          error={ false }
+          error={ error }
         >
         </TextField>
       );

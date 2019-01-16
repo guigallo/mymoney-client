@@ -17,7 +17,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import LensIcons from '@material-ui/icons/Lens';
 
-
 class TableCustom extends React.Component {
   constructor(props) {
    super(props); 
@@ -30,13 +29,8 @@ class TableCustom extends React.Component {
    };
   }
 
-  handleChangePage = (event, page) => {
-    this.setState({ page });
-  };
-
-  handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value });
-  };
+  handleChangePage = (event, page) => { this.setState({ page }) };
+  handleChangeRowsPerPage = event => { this.setState({ rowsPerPage: event.target.value }) };
 
   handleRequestSort = (event, property) => {
     let newOrder;
@@ -169,11 +163,8 @@ class TableCustom extends React.Component {
   };
 };
 
-const hasSum = (columns) => 
-  columns.find(column => column.sum === true);
-
-const isHeaderCell = (index) =>
-  index === 0 ? true : false;
+const hasSum = (columns) => columns.find(column => column.sum === true);
+const isHeaderCell = (index) => index === 0 ? true : false;
 
 const sumColumn = (column, rows) => {
   let sum = 0;

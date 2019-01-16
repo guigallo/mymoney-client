@@ -10,17 +10,9 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 
 class TablePaginationActions extends React.Component {
-  handleFirstPageButtonClick = event => {
-    this.props.onChangePage(event, 0);
-  };
-
-  handleBackButtonClick = event => {
-    this.props.onChangePage(event, this.props.page - 1);
-  };
-
-  handleNextButtonClick = event => {
-    this.props.onChangePage(event, this.props.page + 1);
-  };
+  handleFirstPageButtonClick = event => { this.props.onChangePage(event, 0) };
+  handleBackButtonClick = event => { this.props.onChangePage(event, this.props.page - 1) };
+  handleNextButtonClick = event => { this.props.onChangePage(event, this.props.page + 1) };
 
   handleLastPageButtonClick = event => {
     this.props.onChangePage(
