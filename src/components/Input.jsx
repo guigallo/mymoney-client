@@ -76,13 +76,14 @@ const Input = (props) => {
       break;
 
     default:
+      const val = property.type === Date ? value.substr(0, 10) : value;
       Field = (
         <TextField
           id={ property.id }
           label={ property.type !== Date ? property.label : '' }
           className={ classes.input }
           onChange={ handleChange(property.id) }
-          value={ value }
+          value={ val }
           variant="outlined"
           InputProps={ fieldProps }
           error={ error }

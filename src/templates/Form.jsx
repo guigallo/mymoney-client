@@ -4,13 +4,14 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Input from '../components/Input';
-import { post } from '../services/api';
+import { post, getById } from '../services/api';
 import { show } from '../utils/propertyType';
 
 class Form extends React.Component {
   constructor(middleware) {
     super(middleware.props);
     this.state = {
+      action: middleware.action,
       classes: middleware.props.classes,
       model: middleware.model,
       formHasError: false,
@@ -59,8 +60,27 @@ class Form extends React.Component {
   }
 
   cancelLink = props => <Link to={`${this.state.model.path}`} {...props} />
-  componentDidMount = () => this.props.Relations(this.props.relations);
   createNotify = (message, variant) => this.props.Notify({ message, options: { variant } });
+  componentDidMount = () => {
+    this.props.Relations(this.props.relations);
+    
+    if(this.state.action === 'edit') {
+      const { formData } = this.state;
+      const route = this.state.model.path;
+      const id = this.props.match.params.id;
+      getById(route, id)
+        .then(data => {
+          const result = data.result;
+          for(let prop in result)
+            formData.hasOwnProperty(prop) ?
+              formData[prop].value = result[prop] :
+              formData[prop] = result[prop];
+
+          this.setState({ formData });
+        })
+        .catch(err => this.createNotify(err, 'error'));
+    }
+  }
 
   propRelation(id) {
     const datas = this.props.relationsData;

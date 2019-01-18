@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 import Layout from '../templates/Layout'
 import Login from '../templates/Login';
@@ -30,10 +30,11 @@ const Routes = () => (
       <PrivateRoute path="/dashboard" component={ () => (<p>dashboard</p>) } />
 
       {restRoutes.map(route =>
-        <React.Fragment key={route.id}>
+        <Switch key={route.id}>
           <PrivateRoute exact path={`/${route.id}`} component={ route.list } />
           <PrivateRoute exact path={`/${route.id}/create`} component={ route.create } />
-        </React.Fragment>
+          <PrivateRoute path={`/${route.id}/:id`} component={ route.edit } />
+        </Switch>
       )}
     </>
   </Router>

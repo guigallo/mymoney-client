@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import TableHead from './TableHead';
 import TablePaginationActionsWrapped from './TablePagination';
 import DateUtils from '../utils/DateUtils';
@@ -31,11 +32,13 @@ class TableCustom extends React.Component {
      rows: props.rows,
      order: 'asc',
      orderBy: 'none',
+     path: props.path
    };
   }
 
   handleChangePage = (event, page) => { this.setState({ page }) };
   handleChangeRowsPerPage = event => { this.setState({ rowsPerPage: event.target.value }) };
+  editLink = props => <Link to={`${this.state.path}/${props.id}`} {...props} />;
 
   handleRequestSort = (event, property) => {
     let newOrder;
@@ -115,13 +118,13 @@ class TableCustom extends React.Component {
                   })}
 
                   <TableCell align="right">
-                    <IconButton className={classes.button} aria-label="Info">
+                    <IconButton id={row._id} className={classes.button} aria-label="Info">
                       <InfoIcon />
                     </IconButton>
-                    <IconButton className={classes.button} aria-label="Edit">
+                    <IconButton id={row._id} className={classes.button} aria-label="Edit" component={this.editLink.bind(this)} >
                       <EditIcon />
                     </IconButton>
-                    <IconButton className={classes.button} aria-label="Delete">
+                    <IconButton id={row._id} className={classes.button} aria-label="Delete">
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
