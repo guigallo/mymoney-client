@@ -76,7 +76,7 @@ const Input = (props) => {
       break;
 
     default:
-      const val = property.type === Date ? value.substr(0, 10) : value;
+      const val = property.type === Date && value !== undefined ? value.substr(0, 10) : value;
       Field = (
         <TextField
           id={ property.id }

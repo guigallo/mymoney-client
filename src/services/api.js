@@ -75,7 +75,7 @@ const createInit = (method, headersInit, body = null) => {
   return init;
 };
 
-export const post = (route, body) =>
+export const create = (route, body) =>
   new Promise(resolve => {
     const init = createInit('POST', ['json', 'auth'], body);
     
@@ -115,13 +115,13 @@ export const update = (route, body) =>
 export const getById = (route, id) =>
   new Promise((resolve, reject) => {
     const init = createInit('GET', ['json', 'auth'])
-    fetch(`${PATH_API}/${route}/${id}`, init)
+    fetch(`${PATH_API}${route}/${id}`, init)
       .then(response => {
         if(response.ok) return response.json();
 
         switch(response.status) {
           case 403: reject('User has no permission'); break;
-          case 404: reject('User not found'); break;
+          case 404: reject(`${route} not found`); break;
           case 500: reject('Fail to request'); break;
           default:  reject('Impossible to request'); break;
         }

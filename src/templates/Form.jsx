@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Input from '../components/Input';
-import { post, getById } from '../services/api';
+import { create, getById } from '../services/api';
 import { show } from '../utils/propertyType';
 
 class Form extends React.Component {
@@ -145,7 +145,7 @@ class Form extends React.Component {
     });
 
     const route = this.state.model.path;
-    post(route, body)
+    create(route, body)
       .then(response => {
         if(response.errors) {
           response.errors.forEach(error => {

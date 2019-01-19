@@ -9,7 +9,7 @@ const properties = [
   createProperty('name',            'Name',                   String,   false,  'left',   true),
   createProperty('value',           'Balance',                'Money',  true,   'right',  false,  show.list),
   createProperty('value',           'Start value',            'Money',  true,   'right',  true,   show.form),
-  createProperty('monthlyExpected', 'Final monthly balance',  Number,   false,  'right',  false,  show.list),
+  //createProperty('monthlyExpected', 'Final monthly balance',  Number,   false,  'right',  false,  show.list),
 ];
 const menu = {
   enable: true,

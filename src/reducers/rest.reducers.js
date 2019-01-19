@@ -6,7 +6,7 @@ export function reducer(name, state, action) {
 
   switch (action.type) {
     case `LIST_${name}`: return { list: new List(action.list) };
-    case `RELATIONS_${name}`: return { relationsData: action.relations };
+    case `RELATIONS_${name}`: return { relationsData: action.relationsData };
     case `EDIT_${name}`: return { obj: action.obj, relationsData: action.relationsData };
     default: return state;
   }

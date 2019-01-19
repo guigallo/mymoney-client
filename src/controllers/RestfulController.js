@@ -37,12 +37,14 @@ export default class Controller {
       });
     }
 
+  // deprecated
   edit = (id, rel) => dispatch => {
     getById(this.name, id)
-      .then(obj =>
+      .then(obj => {
+        obj = obj.hasOwnProperty('result') ? obj.result : obj;
         rel === undefined ? dispatch(this.action.edit(obj)) :
           resolveRelations(rel, relationsData => dispatch(this.action.edit(obj, relationsData)))
-      )
+      })
       .catch(error => dispatch(this.action.edit(error)));
   }
 }

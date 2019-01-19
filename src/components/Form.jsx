@@ -11,15 +11,15 @@ class Edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      obj: props.obj,
       fields: props.fields,
       saved: false,
     }
     this.actionForm = props.actionForm;
-    this.type = props.type
+    this.formType = props.formType;
     this.properties = props.properties;
     this.path = props.path;
     this.relationsData = props.relationsData;
+    this.createNotify = props.createNotify;
 
     this.handleChange = this.handleChange.bind(this);
     this.propRelation = this.propRelation.bind(this);
@@ -39,9 +39,9 @@ class Edit extends React.Component {
         value = actual === 'true' ? false : true;
     }
 
-    let obj = this.state.obj;
-    obj.result[name] = value;
-    this.setState({ obj });
+    let fields = this.state.fields;
+    fields[name] = value;
+    this.setState({ fields });
   }
 
   clearForm = () => {
@@ -54,7 +54,6 @@ class Edit extends React.Component {
   }
 
   cancelLink = props => <Link to={`${this.path}`} {...props} />
-  createNotify = (message, variant) => this.props.Notify({ message, options: { variant } });
 
   propRelation(id) {
     const datas = this.relationsData;
@@ -139,20 +138,20 @@ class Edit extends React.Component {
   }
 
   render = () => {
-    const { fields, obj, saved } = this.state;
-    const { properties, path, type } = this;
+    if(this.state.saved === true)
+      return <Redirect to={ this.path } />
+
+    const { fields } = this.state;
+    const { properties, formType } = this;
     const { classes } = this.props;
-
-    if(saved === true)
-      return <Redirect to={ path } />
-
+    
     return (
       <form className={classes.tableWrapper} onSubmit={this.sendForm} method="post">
         {properties.map(property => (
           <Input
             error={ fields[property.id].error }
             key={ property.id + property.label }
-            value={ obj.result[property.id] }
+            value={ fields[property.id].value }
             handleChange={ this.handleChange }
             togleChange={ this.togleSwitch }
             property={ property }
@@ -165,7 +164,7 @@ class Edit extends React.Component {
             Save
           </Button>
 
-          {type !== 'edit' && (
+          {formType !== 'Edit' && (
             <Button variant="outlined" className={ classes.button } onClick={ this.clearForm }>
               Clear
             </Button>
