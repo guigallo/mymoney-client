@@ -28,19 +28,16 @@ class Edit extends React.Component {
 
   handleChange = (name, property = '') => event => {
     let value = event.target.value;
-
+    
     // Convert to bool if is checkbox
     if(property.hasOwnProperty('type')) {
       const actual = event.target.value;
-
-      if (actual === '')
-        value = true;
-      else
-        value = actual === 'true' ? false : true;
+      if (actual === '') value = true;
+      else value = actual === 'true' ? false : true;
     }
 
     let fields = this.state.fields;
-    fields[name] = value;
+    fields[name].value = value;
     this.setState({ fields });
   }
 
@@ -144,6 +141,8 @@ class Edit extends React.Component {
     const { fields } = this.state;
     const { properties, formType } = this;
     const { classes } = this.props;
+
+    //console.log(fields)
     
     return (
       <form className={classes.tableWrapper} onSubmit={this.sendForm} method="post">
