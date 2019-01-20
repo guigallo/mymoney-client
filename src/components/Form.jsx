@@ -95,7 +95,8 @@ class Edit extends React.Component {
     const formHasError = false;
 
     for(let data in fields) {
-      fields[data].error = false;
+      if(fields[data].hasOwnProperty(data))
+        fields[data].error = false;
     }
     this.setState({ fields, formHasError })
   }
@@ -106,7 +107,7 @@ class Edit extends React.Component {
     if(! this.validateForm()) return;
 
     const { fields } = this.state;
-    const { properties } = this.state.model;
+    const { properties, path } = this;
 
     let body = {}
     properties.forEach(prop => {
@@ -114,7 +115,7 @@ class Edit extends React.Component {
         body[prop.id] = fields[prop.id].value;
     });
 
-    const route = this.state.model.path;
+    const route = path;
     this.actionForm(route, body)
       .then(response => {
         if(response.errors) {
@@ -125,7 +126,7 @@ class Edit extends React.Component {
           return this.setState({ fields })
         }
         
-        this.setState({ edited: true });
+        this.setState({ saved: true });
         this.createNotify(`${response.result.name} saved`, 'success');
       })
       .catch(fail => {
