@@ -36,8 +36,8 @@ class TableCustom extends React.Component {
    };
   }
 
-  handleChangePage = (event, page) => { this.setState({ page }) };
-  handleChangeRowsPerPage = event => { this.setState({ rowsPerPage: event.target.value }) };
+  handleChangePage = (event, page) => this.setState({ page });
+  handleChangeRowsPerPage = event => this.setState({ rowsPerPage: parseInt(event.target.value) });
   editLink = props => <Link to={`${this.state.path}/${props.id}`} {...props} />;
 
   handleRequestSort = (event, property) => {
@@ -161,7 +161,7 @@ class TableCustom extends React.Component {
                         return ( <TableCell key="header">Total</TableCell> )
 
                       return column.sum ? (
-                        <TableCell key={column.id + column.name} align="right">{ sumColumn(column, rows) }</TableCell>
+                        <TableCell key={column.id + column.name} align="right">{ sumColumn(column, rows, rowsPerPage, page) }</TableCell>
                       ) : (
                         <TableCell key={column.id + column.name} colSpan={1} />
                       )
@@ -198,11 +198,12 @@ class TableCustom extends React.Component {
 const hasSum = (columns) => columns.find(column => column.sum === true);
 const isHeaderCell = (index) => index === 0 ? true : false;
 
-const sumColumn = (column, rows) => {
+const sumColumn = (column, rows, rowsPerPage, page) => {
   let sum = 0;
-  rows.forEach(row => {
-    sum += row[column.id];
-  });
+  rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    .forEach(row => {
+      sum += row[column.id];
+    });
   return sum.toFixed(2);
 };
 
