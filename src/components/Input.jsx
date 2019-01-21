@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from '../styles/input';
 import { ignoreListProperties } from '../utils/propertyType';
 
@@ -94,4 +95,22 @@ const Input = (props) => {
 
   return Field;
 }
+
+Input.propTypes = {
+  classes: PropTypes.object.isRequired,
+  error: PropTypes.bool.isRequired,
+  value: PropTypes.any.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  property: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    type: PropTypes.any.isRequired,
+    sum: PropTypes.bool.isRequired,
+    align: PropTypes.oneOf(['left', 'right']).isRequired,
+    required: PropTypes.bool.isRequired,
+    show: PropTypes.string.isRequired,
+  }).isRequired,
+  propRelation: PropTypes.array.isRequired,
+}
+
 export default withStyles(styles)(Input);

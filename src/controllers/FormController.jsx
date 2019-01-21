@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { show } from '../utils/propertyType';
 import Form from '../components/Form';
@@ -72,7 +73,10 @@ class FormController extends React.Component {
     for(let data in fields) {
       const prop = fields[data];
       if(prop.required && prop.value === '') {
-        prop.error = 'Required';
+        prop.error = {
+          hasError: true,
+          message: 'Required'
+        };
         formHasError = true;
         this.createNotify(`${data} is required`, 'error')
       }
@@ -91,7 +95,10 @@ class FormController extends React.Component {
 
     for(let data in fields) {
       if(fields[data].hasOwnProperty(data))
-        fields[data].error = false;
+        fields[data].error = {
+          hasError: false,
+          message: ''
+        };
     }
     this.setState({ fields, formHasError })
   }
@@ -147,12 +154,30 @@ class FormController extends React.Component {
 
         sendForm={ this.sendForm }
         handleChange={ this.handleChange }
-        togleChange={ this.togleSwitch }
         propRelation={ this.propRelation }
         clearForm={ this.clearForm }
       />
     )
   };
+}
+
+FormController.propTypes = {
+  actionForm: PropTypes.func.isRequired,
+  createNotify: PropTypes.func.isRequired,
+  fields: PropTypes.object.isRequired,
+  formType: PropTypes.oneOf(['Create', 'Edit']).isRequired,
+  path: PropTypes.string.isRequired,
+  properties: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    type: PropTypes.any.isRequired,
+    sum: PropTypes.bool.isRequired,
+    align: PropTypes.oneOf(['left', 'right']).isRequired,
+    required: PropTypes.bool.isRequired,
+    show: PropTypes.string.isRequired,
+  })).isRequired,
+  relationsData: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 export default FormController;

@@ -63,7 +63,7 @@ class Layout extends React.Component {
         <CssBaseline />
 
         <SnackbarProvider
-          maxSnack={7}
+          maxSnack={3}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         >
           <Notifier />

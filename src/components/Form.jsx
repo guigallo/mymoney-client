@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Input from '../components/Input';
@@ -6,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../styles/form';
-
 
 const Form = props => {
   const {
@@ -18,7 +18,6 @@ const Form = props => {
     properties,
     sendForm,
     handleChange,
-    togleSwitch,
     propRelation,
     clearForm,
   } = props;
@@ -41,11 +40,10 @@ const Form = props => {
         <form className={classes.tableWrapper} onSubmit={ sendForm } method="post">
           {properties.map(property => (
             <Input
-              error={ fields[property.id].error }
+              error={ fields[property.id].error.hasError }
               key={ property.id + property.label }
               value={ fields[property.id].value }
               handleChange={ handleChange }
-              togleChange={ togleSwitch }
               property={ property }
               propRelation={ property.type === 'Select' ? propRelation(property.id) : [] }
             />
@@ -71,5 +69,26 @@ const Form = props => {
     </main>
   )
 };
+
+Form.propTypes = {
+  classes: PropTypes.object.isRequired,
+  formType: PropTypes.oneOf(['Create', 'Edit']).isRequired,
+  title: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  fields: PropTypes.object.isRequired,
+  properties: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    type: PropTypes.any.isRequired,
+    sum: PropTypes.bool.isRequired,
+    align: PropTypes.oneOf(['left', 'right']).isRequired,
+    required: PropTypes.bool.isRequired,
+    show: PropTypes.string.isRequired,
+  })).isRequired,
+  sendForm: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  propRelation: PropTypes.func.isRequired,
+  clearForm: PropTypes.func.isRequired,
+}
 
 export default withStyles(styles)(Form);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Loading from './Loading';
-import Form from '../controllers/FormController';
+import FormController from '../controllers/FormController';
 import { getById } from '../services/api';
 
 class FormTemplate extends React.Component {
@@ -48,7 +48,10 @@ class FormTemplate extends React.Component {
       fields[property.id] = {
         value: '',
         required: property.required,
-        error: false,
+        error: {
+          hasError: false,
+          message: '',
+        },
       };
     });
     return { fields, obj };
@@ -67,7 +70,7 @@ class FormTemplate extends React.Component {
       return <Loading/>
     
     return (
-      <Form
+      <FormController
         title={ title }
         formType={ type }
         actionForm={ actionForm }
