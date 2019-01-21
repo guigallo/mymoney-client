@@ -58,6 +58,17 @@ class TableCustom extends React.Component {
     });
   };
 
+  
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.rows !== nextProps.rows)
+      return true;
+
+    if (this.state !== nextState)
+      return true;
+
+    return false;
+  }
+
   render() {
     const { classes, columns } = this.props;
     const { rowsPerPage, page, rows, order, orderBy } = this.state;

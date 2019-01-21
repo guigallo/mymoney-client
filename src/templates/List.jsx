@@ -9,10 +9,10 @@ class List extends React.Component {
   constructor(middleware) {
     super(middleware.props);
     this.state = {
-      classes: middleware.props.classes,
-      model: middleware.model,
       ...this.propertiesToState(middleware.model.properties)
     };
+    this.classes = middleware.props.classes;
+    this.model = middleware.model;
   };
   
   propertiesToState(properties) {
@@ -24,11 +24,19 @@ class List extends React.Component {
   }
 
   componentDidMount = () => this.props.List();
-  createLink = props => <Link to={`${this.state.model.path}/create`} {...props} />
-  
+  createLink = props => <Link to={`${this.model.path}/create`} {...props} />
+
+  shouldComponentUpdate(nextProps) {
+    if (this.props.list !== nextProps.list)
+      return true;
+
+    return false;
+  }
+
   render = () => {
-    const { title, properties, path } = this.state.model;
-    const { list, classes } = this.props;
+    const { title, properties, path } = this.model;
+    const { classes } = this;
+    const { list } = this.props;
     const key = list !== undefined ? list : `empty${title}`;
     const rows = list !== undefined ? list : [];
     
