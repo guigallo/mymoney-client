@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import TableHead from './TableHead';
 import TablePaginationActionsWrapped from './TablePagination';
 import DateUtils from '../utils/DateUtils';
@@ -17,6 +18,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import LensIcons from '@material-ui/icons/Lens';
 
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import InfoIcon from '@material-ui/icons/Info';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 class TableCustom extends React.Component {
   constructor(props) {
    super(props); 
@@ -26,11 +32,13 @@ class TableCustom extends React.Component {
      rows: props.rows,
      order: 'asc',
      orderBy: 'none',
+     path: props.path
    };
   }
 
   handleChangePage = (event, page) => { this.setState({ page }) };
   handleChangeRowsPerPage = event => { this.setState({ rowsPerPage: event.target.value }) };
+  editLink = props => <Link to={`${this.state.path}/${props.id}`} {...props} />;
 
   handleRequestSort = (event, property) => {
     let newOrder;
@@ -108,13 +116,25 @@ class TableCustom extends React.Component {
                       <TableCell key={ column.id + column.label } align={ column.align } >{ display }</TableCell>
                     )
                   })}
+
+                  <TableCell align="right">
+                    <IconButton id={row._id} className={classes.button} aria-label="Info">
+                      <InfoIcon />
+                    </IconButton>
+                    <IconButton id={row._id} className={classes.button} aria-label="Edit" component={this.editLink.bind(this)} >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton id={row._id} className={classes.button} aria-label="Delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow> 
                 
               ))}
 
               {emptyRows > 0 && (
                 <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={7} />
                 </TableRow>
               )}
             </TableBody>
@@ -136,14 +156,15 @@ class TableCustom extends React.Component {
                       )
                     })
                   ) : (
-                    <TableCell colSpan={columns.length} />
+                    <TableCell colSpan={columns.length + 1} />
                   )}
+                  <TableCell/>
                 </TableRow>
               )}
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
-                  colSpan={columns.length}
+                  colSpan={columns.length + 1}
                   count={totalRows}
                   rowsPerPage={rowsPerPage}
                   page={page}

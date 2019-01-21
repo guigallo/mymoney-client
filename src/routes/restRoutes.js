@@ -18,6 +18,7 @@ const routes = [
   user
 ];
 export const restRoutes = connectFactory(routes);
+
 export const listMenu = category =>
   routes.filter(route => {
     if(! route.menu.enable) return false;

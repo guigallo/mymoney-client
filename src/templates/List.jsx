@@ -27,7 +27,7 @@ class List extends React.Component {
   createLink = props => <Link to={`${this.state.model.path}/create`} {...props} />
   
   render = () => {
-    const { title, properties } = this.state.model;
+    const { title, properties, path } = this.state.model;
     const { list, classes } = this.props;
     const key = list !== undefined ? list : `empty${title}`;
     const rows = list !== undefined ? list : [];
@@ -55,6 +55,7 @@ class List extends React.Component {
                columns={ properties }
                rows={ rows }
                rowsPerPage={ 5 }
+               path={ path }
         />
       </main>
     );

@@ -65,16 +65,19 @@ const createHeaders = (headersInit) => {
   return new Headers(obj);
 };
 
-const createInit = (method, body, headersInit) => ({
-  method,
-  body: JSON.stringify(body),
-  mode: 'cors',
-  headers: createHeaders(headersInit)
-});
+const createInit = (method, headersInit, body = null) => {
+  let init = {
+    method,
+    mode: 'cors',
+    headers: createHeaders(headersInit)
+  };
+  if(body) init.body = JSON.stringify(body);
+  return init;
+};
 
-export const post = (route, body) => {
-  return new Promise(resolve => {
-    const init = createInit('POST', body, ['json', 'auth']);
+export const create = (route, body) =>
+  new Promise(resolve => {
+    const init = createInit('POST', ['json', 'auth'], body);
     
     fetch(`${PATH_API}${route}`, init)
       .then(response => {
@@ -88,5 +91,40 @@ export const post = (route, body) => {
         }
       })
       .then(json => resolve(json))
-  })
-};
+  });
+
+export const update = (route, body) =>
+  new Promise((resolve, reject) => {
+    const init = createInit('POST', ['json', 'auth'], body);
+    
+    fetch(`${PATH_API}${route}`, init)
+      .then(response => {
+        switch(response.status) {
+          case 201:
+          case 422:
+            resolve(response.json());
+            break;
+          case 403: reject('User has no permission'); break;
+          case 500: reject('Fail to request'); break;
+          default:  reject('Impossible to request'); break;
+        }
+      })
+      .then(json => resolve(json))
+  });
+
+export const getById = (route, id) =>
+  new Promise((resolve, reject) => {
+    const init = createInit('GET', ['json', 'auth'])
+    fetch(`${PATH_API}${route}/${id}`, init)
+      .then(response => {
+        if(response.ok) return response.json();
+
+        switch(response.status) {
+          case 403: reject('User has no permission'); break;
+          case 404: reject(`${route} not found`); break;
+          case 500: reject('Fail to request'); break;
+          default:  reject('Impossible to request'); break;
+        }
+      })
+      .then(json => resolve(json));
+  });
