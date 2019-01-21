@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Loading from './Loading';
-import Form from '../components/Form';
+import Form from '../controllers/FormController';
 import { getById } from '../services/api';
 
 class FormTemplate extends React.Component {
