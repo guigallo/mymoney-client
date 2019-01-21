@@ -1,17 +1,4 @@
-import { getAll, getById } from '../services/api';
-
-
-const resolveRelations = (rels, callback) => {
-  let promises = rels.map(rel => getAll(rel));
-  Promise.all(promises)
-    .then(datas => {
-      let relates = datas.map((data, index) => {
-        const store = rels[index];
-        return({ [store]: data });
-      });
-      callback(relates);
-    });
-}
+import { getAll } from '../services/api';
 
 export default class Controller {
   constructor(name, action) {
@@ -36,15 +23,4 @@ export default class Controller {
         dispatch(this.action.relations(relates))
       });
     }
-
-  // deprecated
-  edit = (id, rel) => dispatch => {
-    getById(this.name, id)
-      .then(obj => {
-        obj = obj.hasOwnProperty('result') ? obj.result : obj;
-        rel === undefined ? dispatch(this.action.edit(obj)) :
-          resolveRelations(rel, relationsData => dispatch(this.action.edit(obj, relationsData)))
-      })
-      .catch(error => dispatch(this.action.edit(error)));
-  }
 }

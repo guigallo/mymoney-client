@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles'; // tirar daqui
+import { withStyles } from '@material-ui/core/styles';
 
 import List from '../templates/List';
-import Edit from '../templates/Edit';
-import stylesForm from '../styles/form'; // tirar daqui
-import stylesList from '../styles/list'; // tirar daqui
+import Form from '../templates/FormTemplate';
+import stylesList from '../styles/list';
 import { dispatchProps } from '../reducers/rest.reducers';
 
 import { create, update } from '../services/api';
@@ -20,7 +19,7 @@ export default (restfulRoutes) =>
       
       create: connect(
         ...dispatchProps(route.id, route.controller, route.relations)
-      )(exportFactory(route, Edit, stylesForm, {
+      )(exportFactory(route, Form, null, {
         type: 'Create',
         actionForm: create,
       })),
@@ -31,7 +30,7 @@ export default (restfulRoutes) =>
         
       edit: connect(
         ...dispatchProps(route.id, route.controller, route.relations)
-      )(exportFactory(route, Edit, stylesForm, {
+      )(exportFactory(route, Form, null, {
         type: 'Edit',
         actionForm: update,
       }))
