@@ -14,8 +14,8 @@ export function reducer(name, state, action) {
 export const dispatchProps = (store, Controller, relations = []) => {
   const mapStateToProps = state => ({
     list: state[store].list,
-    order: state[store].order,
-    orderBy: state[store].orderBy,
+    //order: state[store].order,
+    //orderBy: state[store].orderBy,
     relations,
     relationsData: state[store].relationsData
   });

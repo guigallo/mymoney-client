@@ -55,6 +55,15 @@ class Layout extends React.Component {
   handleMenuUser = (event) => this.setState({ openMenuUser: true, anchorEl: event.currentTarget });
   handleCloseMenuUser = () => this.setState({ openMenuUser: false, anchorEl: null });
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.open !== nextState.open)
+      return true;
+    if (this.state.openMenuUser !== nextState.openMenuUser)
+      return true;
+
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
 

@@ -43,7 +43,7 @@ class FormTemplate extends React.Component {
   
   propertiesToFields(properties) {
     let fields = {};
-    let obj = {};
+    //let obj = {};
     properties.forEach(property => {
       fields[property.id] = {
         value: '',
@@ -54,7 +54,16 @@ class FormTemplate extends React.Component {
         },
       };
     });
-    return { fields, obj };
+    return { fields, /*obj*/ };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(this.props.relationsData !== nextProps.relationsData)
+      return true;
+    if(this.state.status !== nextState.status)
+      return true;
+
+    return false;
   }
 
   render = () => {

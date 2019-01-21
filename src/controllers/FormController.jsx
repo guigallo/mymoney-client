@@ -43,7 +43,10 @@ class FormController extends React.Component {
     const fields = this.state.fields;
     for(let prop in fields) {
       fields[prop].value = '';
-      fields[prop].error = false;
+      fields[prop].error = {
+        hasError:false,
+        message: '',
+      };
     }
     this.setState({ fields });
   }
