@@ -1,12 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Loading from './Loading';
 import Form from '../components/Form';
 import { getById } from '../services/api';
 
-class Edit extends React.Component {
+class FormTemplate extends React.Component {
   constructor(middleware) {
     super(middleware.props);
 
@@ -15,7 +13,6 @@ class Edit extends React.Component {
 
     this.state = {
       status: 'loading',
-      classes: middleware.props.classes,
       ...this.propertiesToFields(middleware.model.properties),
     };
   };
@@ -60,7 +57,7 @@ class Edit extends React.Component {
   render = () => {
     const { title, properties, path } = this.model;
     const { status, fields } = this.state;
-    const { classes, relationsData } = this.props;
+    const { relationsData } = this.props;
     const { type, actionForm } = this.config;
 
     if(status === 'notFound')
@@ -70,31 +67,18 @@ class Edit extends React.Component {
       return <Loading/>
     
     return (
-      <main className={ classes.content }>
-        <div className={ classes.appBarSpacer } />
-
-        <Typography variant="h4" gutterBottom component="h2">
-          { `${type} ${title}` }
-        </Typography>
-
-        <Typography variant="caption" gutterBottom component="p">
-          { fields._id }
-        </Typography>
-
-        <Paper className={classes.root}>
-          <Form
-            formType={ type }
-            actionForm={ actionForm }
-            fields={ fields }
-            properties={ properties }
-            path={ path }
-            relationsData={ relationsData }
-            createNotify ={ this.createNotify }
-          />
-        </Paper>
-      </main>
+      <Form
+        title={ title }
+        formType={ type }
+        actionForm={ actionForm }
+        fields={ fields }
+        properties={ properties }
+        path={ path }
+        relationsData={ relationsData }
+        createNotify ={ this.createNotify }
+      />
     )
   };
 }
-//export default withStyles(styles)(Edit);
-export default Edit;
+
+export default FormTemplate;

@@ -1,10 +1,9 @@
+import { root } from './mixins/main';
 import { green, red } from "@material-ui/core/colors";
 
 export const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-  },
+  ...root(theme),
+
   table: {
     minWidth: 500,
   },

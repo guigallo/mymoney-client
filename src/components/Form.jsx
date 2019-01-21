@@ -3,17 +3,21 @@ import { Link, Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Input from '../components/Input';
 import { show } from '../utils/propertyType';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 import { withStyles } from '@material-ui/core/styles';
-import stylesForm from '../styles/form';
+import styles from '../styles/form';
+import FormController from '../controllers/FormController';
 
-class Edit extends React.Component {
+class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       fields: props.fields,
       saved: false,
     }
+    this.title = props.title;
     this.actionForm = props.actionForm;
     this.formType = props.formType;
     this.properties = props.properties;
@@ -21,11 +25,14 @@ class Edit extends React.Component {
     this.relationsData = props.relationsData;
     this.createNotify = props.createNotify;
 
+    this.constroller = new FormController();
+
     this.handleChange = this.handleChange.bind(this);
     this.propRelation = this.propRelation.bind(this);
     this.sendForm = this.sendForm.bind(this);
   };
 
+  //binded
   handleChange = (name, property = '') => event => {
     let value = event.target.value;
     
@@ -140,43 +147,55 @@ class Edit extends React.Component {
       return <Redirect to={ this.path } />
 
     const { fields } = this.state;
-    const { properties, formType } = this;
+    const { properties, formType, title } = this;
     const { classes } = this.props;
-
-    //console.log(fields)
     
     return (
-      <form className={classes.tableWrapper} onSubmit={this.sendForm} method="post">
-        {properties.map(property => (
-          <Input
-            error={ fields[property.id].error }
-            key={ property.id + property.label }
-            value={ fields[property.id].value }
-            handleChange={ this.handleChange }
-            togleChange={ this.togleSwitch }
-            property={ property }
-            propRelation={ property.type === 'Select' ? this.propRelation(property.id) : [] }
-          />
-        ))}
+      <main className={ classes.content }>
+        <div className={ classes.appBarSpacer } />
 
-        <div className={ classes.buttonWrapper }>
-          <Button type='submit' variant="contained" color="primary" className={ classes.button }>
-            Save
-          </Button>
+        <Typography variant="h4" gutterBottom component="h2">
+          { `${formType} ${title}` }
+        </Typography>
 
-          {formType !== 'Edit' && (
-            <Button variant="outlined" className={ classes.button } onClick={ this.clearForm }>
-              Clear
-            </Button>
-          )}
+        <Typography variant="caption" gutterBottom component="p">
+          { fields._id !== undefined ? `Id: ${fields._id}` : '' }
+        </Typography>
 
-          <Button variant="outlined" color="secondary" className={ classes.button } component={ this.cancelLink }>
-            Cancel
-          </Button>
-        </div>
-      </form>
+        <Paper className={classes.root}>
+          <form className={classes.tableWrapper} onSubmit={this.sendForm} method="post">
+            {properties.map(property => (
+              <Input
+                error={ fields[property.id].error }
+                key={ property.id + property.label }
+                value={ fields[property.id].value }
+                handleChange={ this.handleChange }
+                togleChange={ this.togleSwitch }
+                property={ property }
+                propRelation={ property.type === 'Select' ? this.propRelation(property.id) : [] }
+              />
+            ))}
+
+            <div className={ classes.buttonWrapper }>
+              <Button type='submit' variant="contained" color="primary" className={ classes.button }>
+                Save
+              </Button>
+
+              {formType !== 'Edit' && (
+                <Button variant="outlined" className={ classes.button } onClick={ this.clearForm }>
+                  Clear
+                </Button>
+              )}
+
+              <Button variant="outlined" color="secondary" className={ classes.button } component={ this.cancelLink }>
+                Cancel
+              </Button>
+            </div>
+          </form>
+        </Paper>
+      </main>
     )
   };
 }
 
-export default withStyles(stylesForm)(Edit);
+export default withStyles(styles)(Form);

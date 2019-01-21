@@ -1,4 +1,4 @@
-const drawerWidth = 240;
+import { drawerWidth } from './mixins/variables';
 
 const styles = theme => ({
   toolbar: {
@@ -63,12 +63,6 @@ const styles = theme => ({
   link: {
     textDecoration: 'none'
   },
-  chartContainer: {
-    marginLeft: -22,
-  },
-  h5: {
-    marginBottom: theme.spacing.unit * 2,
-  },
 });
 
-export default styles
+export default styles;
