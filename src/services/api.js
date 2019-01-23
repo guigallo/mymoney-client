@@ -2,6 +2,7 @@ import configs from '../configs/configs';
 
 const PATH_API = configs.apiAdrres;
 
+
 export const logIn = (email, password) =>
   new Promise((resolve, reject) => {
     const requestInfo = {
@@ -18,11 +19,11 @@ export const logIn = (email, password) =>
           switch(response.status) {
             case 401: throw new Error('Invalid password');
             case 404: throw new Error('User not found');
-            default: throw new Error('Impossible to log in');
+            default:  throw new Error('Impossible to log in');
           }
       })
       .then(token => resolve(token))
-      .catch(error =>  reject(error.message));
+      .catch(error => reject(error.message));
   });
 
 export const getAll = (route) =>
@@ -36,19 +37,21 @@ export const getAll = (route) =>
       cache: 'default'
     };
 
+    //let statusCode = 0;
     fetch(`${PATH_API}/${route}`, init)
       .then(response => {
-        if(response.ok)
-          return response.json();
-  
+        if(response.ok) return response.json();
         switch(response.status) {
-          case 404: reject(`No ${route} found`); break;
-          case 500: reject('Fail to access server'); break;
-          default:  reject(`Fail to get ${route}`);
+          case 401: 
+            localStorage.removeItem('auth-token');
+            throw new Error('Session expired');
+          case 404: throw new Error(`No ${route} found`);
+          case 500: throw new Error('Fail to access server');
+          default:  throw new Error(`Fail to get ${route}`);
         }
       })
       .then(json => resolve(json.result))
-      .catch(err => reject(`Fail to get ${route}. ${err}`));
+      .catch(err => reject(err));
   });
   
 const createHeaders = (headersInit) => {
@@ -83,6 +86,9 @@ export const create = (route, body) =>
       .then(response => {
         switch(response.status) {
           case 201:
+          case 401: 
+            localStorage.removeItem('auth-token');
+            throw new Error('Session expired');
           case 422:
             resolve(response.json());
             break;
@@ -101,6 +107,9 @@ export const update = (route, body) =>
       .then(response => {
         switch(response.status) {
           case 201:
+          case 401: 
+            localStorage.removeItem('auth-token');
+            throw new Error('Session expired');
           case 422:
             resolve(response.json());
             break;
@@ -120,6 +129,9 @@ export const getById = (route, id) =>
         if(response.ok) return response.json();
 
         switch(response.status) {
+          case 401: 
+            localStorage.removeItem('auth-token');
+            throw new Error('Session expired');
           case 403: reject('User has no permission'); break;
           case 404: reject(`${route} not found`); break;
           case 500: reject('Fail to request'); break;

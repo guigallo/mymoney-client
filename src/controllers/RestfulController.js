@@ -10,7 +10,8 @@ export default class Controller {
 
   list = () => dispatch =>
     getAll(this.name)
-      .then(json => dispatch(this.action.list(json)));
+      .then(json => dispatch(this.action.list(json)))
+      .catch(err => console.log(err));
 
   relations = rels => dispatch => {
     let promises = rels.map(rel => getAll(rel));
@@ -23,4 +24,8 @@ export default class Controller {
         dispatch(this.action.relations(relates))
       });
     }
+
+  delete = id => dispatch => {
+    console.log(id);
+  }
 }

@@ -10,13 +10,16 @@ export const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
+});
+
+export const bodyStyles = theme => ({
   paid: {
     color: green[500],
   },
   unpaid: {
     color: red[500],
-  }
-});
+  },
+})
 
 export const actionsStyles = theme => ({
   root: {

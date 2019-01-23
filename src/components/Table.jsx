@@ -2,43 +2,88 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import TableHead from './TableHead';
-import TablePaginationActionsWrapped from './TablePagination';
-import DateUtils from '../utils/DateUtils';
+import TableBody from './TableBody';
+import TableFooter from './TableFooter';
 import { sortList } from '../utils/sortUtils';
-import { ignoreFormProperties } from '../utils/propertyType';
 import { styles } from '../styles/table';
+import Modal from '../components/Modal';
+import { getById } from '../services/api';
 
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import LensIcons from '@material-ui/icons/Lens';
-
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import InfoIcon from '@material-ui/icons/Info';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 class TableCustom extends React.Component {
   constructor(props) {
    super(props); 
    this.state = {
-     page: 0,
-     rowsPerPage: props.rowsPerPage,
-     rows: props.rows,
-     order: 'asc',
-     orderBy: 'none',
-     path: props.path
+    page: 0,
+    rowsPerPage: props.rowsPerPage,
+    rows: props.rows,
+    order: 'asc',
+    orderBy: 'none',
+    modal: {
+      open: false,
+      id: '',
+      obj: null,
+    }
    };
+   this.path = props.path;
+   this.title = props.title;
+   this.Notify = props.Notify;
+   this.Delete = props.Delete;
+
+   this.editLink = this.editLink.bind(this);
+   this.openModal = this.openModal.bind(this);
+   this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
   handleChangePage = (event, page) => this.setState({ page });
   handleChangeRowsPerPage = event => this.setState({ rowsPerPage: parseInt(event.target.value) });
-  editLink = props => <Link to={`${this.state.path}/${props.id}`} {...props} />;
+  editLink = props => <Link to={`${this.path}/${props.id}`} {...props} />;
+
+  openModal = props => {
+    const id = props.currentTarget.id;
+    const type = props.currentTarget.getAttribute('modaltype');
+    const { modal } = this.state;
+
+    switch(type) {
+      case 'info': 
+        if(modal.id === id) {
+          modal.open = true;
+          return this.setState({ modal })
+        }
+    
+        getById(this.path, id)
+          .then(data => {
+            this.setState({ modal: {
+              open: true,
+              id,
+              obj: data.result
+            }});
+          })
+          .catch(err => {
+            this.Notify({ message: err, options: { variant: 'error' } })
+          });
+        break;
+
+      case 'delete':
+        console.log(id)
+        console.log(type)
+        console.log(modal)
+        console.log(this.props.Delete)
+        break;
+
+      default:
+        this.Notify({ message: 'Error to open modal', options: { variant: 'error' } })
+    }
+  }
+
+  handleCloseModal = () => {
+    const modal = this.state.modal;
+    modal.open = false;
+    this.setState({ modal })
+  }
 
   handleRequestSort = (event, property) => {
     let newOrder;
@@ -58,7 +103,6 @@ class TableCustom extends React.Component {
     });
   };
 
-  
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.rows !== nextProps.rows)
       return true;
@@ -71,13 +115,20 @@ class TableCustom extends React.Component {
 
   render() {
     const { classes, columns } = this.props;
-    const { rowsPerPage, page, rows, order, orderBy } = this.state;
+    const { rowsPerPage, page, rows, order, orderBy, modal } = this.state;
     const totalRows = rows.size !== undefined ? rows.size : 0;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
 
     return (
-      <Paper className={classes.root}>
-        <div className={classes.tableWrapper}>
+      <Paper className={ classes.root }>
+        <div className={ classes.tableWrapper }>
+          <Modal
+            title={ this.title }
+            obj={ modal.obj }
+            open={ modal.open }
+            handleCloseModal={ this.handleCloseModal }
+          />
+
           <Table className={classes.table}>
             <TableHead 
               columns={ columns }
@@ -86,108 +137,29 @@ class TableCustom extends React.Component {
               onRequestSort={ this.handleRequestSort }
             />
 
-            <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-                <TableRow key={ row.hasOwnProperty('_id') ? row._id : row.id }>
-                  {columns.map(column => {
-                    let display = ''
-                    switch(column.type) {
-                      case String:
-                      case 'email':
-                      case 'Select':
-                        display = row[column.id];
-                        break;
+            <TableBody
+              rows={ rows }
+              rowsPerPage={ rowsPerPage }
+              page={ page }
+              columns={ columns }
+              emptyRows={ emptyRows }
 
-                      case Number:
-                        display = row[column.id] !== undefined ? row[column.id].toFixed(2) : row[column.id];
-                        break;
+              openModal={ this.openModal }
+              handleCloseModal={ this.handleCloseModal }
 
-                      case Date:
-                        display = DateUtils.toStringDate(new Date(row[column.id]), 'pt-br');
-                        break;
+              editLink={ this.editLink }
+            />
 
-                      case Boolean:
-                        display = (<LensIcons className={ row[column.id] ? classes.paid : classes.unpaid } />)
-                        break;
+            <TableFooter
+              columns={ columns }
+              rows={ rows }
+              totalRows={ totalRows }
+              rowsPerPage={ rowsPerPage }
+              page={ page }
 
-                      case 'Money':
-                        display = row[column.id] !== undefined ? `R$ ${row[column.id].toFixed(2)}` : row[column.id];
-                        break;
-                  
-                      case 'password':
-                        display = '';
-                        break;
-
-                      default:
-                        display = column.type(row[column.id]);
-                        break;
-                    }
-
-                    return ignoreFormProperties(column) ? null : (
-                      <TableCell key={ column.id + column.label } align={ column.align } >{ display }</TableCell>
-                    )
-                  })}
-
-                  <TableCell align="right">
-                    <IconButton id={row._id} className={classes.button} aria-label="Info">
-                      <InfoIcon />
-                    </IconButton>
-                    <IconButton id={row._id} className={classes.button} aria-label="Edit" component={this.editLink.bind(this)} >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton id={row._id} className={classes.button} aria-label="Delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow> 
-                
-              ))}
-
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={7} />
-                </TableRow>
-              )}
-            </TableBody>
-
-            <TableFooter>
-              {hasSum(columns) && (
-                <TableRow>
-                  {totalRows > 0 ? (
-                    columns.map((column, index) => {
-                      if(ignoreFormProperties(column)) return null;
-
-                      if(isHeaderCell(index)) 
-                        return ( <TableCell key="header">Total</TableCell> )
-
-                      return column.sum ? (
-                        <TableCell key={column.id + column.name} align="right">{ sumColumn(column, rows, rowsPerPage, page) }</TableCell>
-                      ) : (
-                        <TableCell key={column.id + column.name} colSpan={1} />
-                      )
-                    })
-                  ) : (
-                    <TableCell colSpan={columns.length + 1} />
-                  )}
-                  <TableCell/>
-                </TableRow>
-              )}
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  colSpan={columns.length + 1}
-                  count={totalRows}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    native: true,
-                  }}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActionsWrapped}
-                />
-              </TableRow>
-            </TableFooter>
+              handleChangePage={ this.handleChangePage }
+              handleChangeRowsPerPage={ this.handleChangeRowsPerPage }
+            />
           </Table>
         </div>
       </Paper>
@@ -195,22 +167,14 @@ class TableCustom extends React.Component {
   };
 };
 
-const hasSum = (columns) => columns.find(column => column.sum === true);
-const isHeaderCell = (index) => index === 0 ? true : false;
-
-const sumColumn = (column, rows, rowsPerPage, page) => {
-  let sum = 0;
-  rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-    .forEach(row => {
-      sum += row[column.id];
-    });
-  return sum.toFixed(2);
-};
-
 TableCustom.propTypes = {
+  path: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
-  rowsPerPage: PropTypes.number.isRequired
+  rowsPerPage: PropTypes.number.isRequired,
+  Notify: PropTypes.func.isRequired,
+  Delete: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(TableCustom);
