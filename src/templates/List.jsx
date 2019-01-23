@@ -23,7 +23,7 @@ class List extends React.Component {
     return newState;
   }
 
-  componentDidMount = () => this.props.List();
+  componentDidMount = () => this.props.List().catch(err => console.log(err));
   createLink = props => <Link to={`${this.model.path}/create`} {...props} />
 
   shouldComponentUpdate(nextProps) {
@@ -36,10 +36,10 @@ class List extends React.Component {
   render = () => {
     const { title, properties, path } = this.model;
     const { classes } = this;
-    const { list } = this.props;
+    const { list, Notify, Delete, /*expiredSession*/ } = this.props;
     const key = list !== undefined ? list : `empty${title}`;
     const rows = list !== undefined ? list : [];
-    
+
     return (
       <main className={ classes.content }>
         <div className={ classes.appBarSpacer } />
@@ -59,11 +59,15 @@ class List extends React.Component {
           </Fab>
         </div>
 
-        <Table key={ key }
-               columns={ properties }
-               rows={ rows }
-               rowsPerPage={ 5 }
-               path={ path }
+        <Table
+          path={ path }
+          title={ title }
+          key={ key }
+          columns={ properties }
+          rows={ rows }
+          rowsPerPage={ 5 }
+          Notify={ Notify }
+          Delete={ Delete }
         />
       </main>
     );

@@ -26,6 +26,9 @@ export const listMenu = category =>
     return route.menu.category === category ? true : false;
   });
 
+/**
+ * Obsolete
+ */
 const getRestReducers = () => {
   let reducers = {};
   routes.forEach(route => {
