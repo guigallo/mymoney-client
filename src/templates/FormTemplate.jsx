@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Loading from './Loading';
 import FormController from '../controllers/FormController';
 import { getById } from '../services/api';
+import DateUtils from '../utils/DateUtils'
 
 class FormTemplate extends React.Component {
   constructor(middleware) {
@@ -13,7 +14,7 @@ class FormTemplate extends React.Component {
 
     this.state = {
       status: 'loading',
-      ...this.propertiesToFields(middleware.model.properties),
+      ...this.propertiesToFields(middleware.model.properties, this.config.type),
     };
   };
 
@@ -41,11 +42,17 @@ class FormTemplate extends React.Component {
     this.props.Relations(this.props.relations);
   }
   
-  propertiesToFields(properties) {
+  propertiesToFields(properties, formType) {
     let fields = {};
     properties.forEach(property => {
+      let value = ''
+      if(formType === 'Create' && property.type === Date)
+        value = DateUtils.todayToDate();
+      if(property.type === Boolean)
+        value = false;
+
       fields[property.id] = {
-        value: '',
+        value,
         required: property.required,
         error: {
           hasError: false,

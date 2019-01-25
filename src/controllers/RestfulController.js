@@ -26,15 +26,13 @@ export default class Controller {
     }
 
   delete = id => dispatch => {
-    deleteById(this.name, id)
-      .then(resolve => {
-        console.log(resolve);
-        dispatch(this.action.deleteObj(resolve))
-
+    const promises = [deleteById(this.name, id), getAll(this.name)];
+    Promise.all(promises)
+      .then(datas => {
+        dispatch(this.action.list(datas[1]))
       })
-      //.then(response => {console.log(response)})
-    console.log(this)
-    console.log('delete no controller')
-    console.log(id);
+      .catch(err => {
+        console.log(err)
+      });
   }
 }

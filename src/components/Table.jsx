@@ -44,15 +44,7 @@ class TableCustom extends React.Component {
   handleChangeRowsPerPage = event => this.setState({ rowsPerPage: parseInt(event.target.value) });
   editLink = props => <Link to={`${this.path}/${props.id}`} {...props} />;
 
-  openModal = (type, id, cells) => {/*
-  openModal = props => {/*
-    const id = props.currentTarget.id;
-    const row = props.currentTarget.parentElement.parentElement
-    console.log( typeof row)
-    for(let prop in row) {
-      console.log(prop)
-    }
-    const type = props.currentTarget.getAttribute('modaltype');*/
+  openModal = (type, id, cells) => {
     const { modal } = this.state;
 
     switch(type) {
@@ -86,14 +78,12 @@ class TableCustom extends React.Component {
         break;
 
       default:
-        this.setState({
-          modal: {
-            type: '',
-            open: false,
-            id: '',
-            obj: null,
-          }
-        });
+        this.setState({ modal: {
+          type: '',
+          open: false,
+          id: '',
+          obj: null,
+        }});
         this.Notify({ message: 'Error to open modal', options: { variant: 'error' } })
     }
   }
@@ -129,8 +119,14 @@ class TableCustom extends React.Component {
     return false;
   }
 
+  cbDelete = id => {
+    this.props.Delete(id);
+    this.Notify({ message: `Deleted successfully: ${id}`, options: { variant: 'success' } });
+    this.handleCloseModal();
+  }
+
   render() {
-    const { classes, columns, Delete, getNewList } = this.props;
+    const { classes, columns, } = this.props;
     const { rowsPerPage, page, rows, order, orderBy, modal } = this.state;
     const totalRows = rows.size !== undefined ? rows.size : 0;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
@@ -145,8 +141,7 @@ class TableCustom extends React.Component {
             obj={ modal.obj }
             open={ modal.open }
             cells={ modal.cells }
-            Delete={ Delete }
-            getNewList={ getNewList }
+            cbDelete={ this.cbDelete }
             handleCloseModal={ this.handleCloseModal }
           />
 
@@ -172,11 +167,11 @@ class TableCustom extends React.Component {
             />
 
             <TableFooter
-              columns={ columns }
               rows={ rows }
-              totalRows={ totalRows }
               rowsPerPage={ rowsPerPage }
               page={ page }
+              columns={ columns }
+              totalRows={ totalRows }
 
               handleChangePage={ this.handleChangePage }
               handleChangeRowsPerPage={ this.handleChangeRowsPerPage }
@@ -194,8 +189,6 @@ TableCustom.propTypes = {
   classes: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  Delete: PropTypes.func.isRequired,
-  getNewList: PropTypes.func.isRequired,
   Notify: PropTypes.func.isRequired,
 };
 
