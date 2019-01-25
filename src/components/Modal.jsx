@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 
 const ModalCustom = props => {
-  const { classes, title, obj, open, type, handleCloseModal, confirmDelete, cells, Delete } = props;
+  const { classes, title, obj, open, type, handleCloseModal, confirmDelete, cells, Delete, getNewList } = props;
   
   if (obj === null) return <></>
   

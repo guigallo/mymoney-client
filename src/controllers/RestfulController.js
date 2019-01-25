@@ -27,7 +27,11 @@ export default class Controller {
 
   delete = id => dispatch => {
     deleteById(this.name, id)
-      .then(resolve => resolve)
+      .then(resolve => {
+        console.log(resolve);
+        dispatch(this.action.deleteObj(resolve))
+
+      })
       //.then(response => {console.log(response)})
     console.log(this)
     console.log('delete no controller')

@@ -1,16 +1,11 @@
 import React from 'react';
-import { connect } from "react-redux";
+import { withReducer } from 'recompose';
 import TableInfo from './TableInfo';
 import { confirmDeleteStyle} from '../styles/modal';
+import TestCompose from './TestCompose';
+import { reducer } from '../reducers/crud.reducers';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { bindActionCreators } from 'redux'
-import { deleteRoute } from '../actions/crud.actions'
-
-const deleteFunction = (props) => {
-  console.log(props)
-}
-const deleteObj = connect(null, mapDispatchToProps)(deleteFunction)
 
 const ConfirmDelete = props => {
   const { classes, id, confirmDelete, cells, handleCloseModal, Delete } = props;
@@ -18,10 +13,21 @@ const ConfirmDelete = props => {
   let obj = {};
   confirmDelete.forEach(prop => obj[prop] = cells.namedItem(prop).innerText);
 
-  const deleteClick = () => {
-    deleteRoute(id)
+
+  let state = {
+    route: 'incomes',
+    id
   }
-  console.log(this)
+  const enhance = withReducer('state', 'dispatch', reducer, state)
+  const DeleteButton = enhance(({ state, dispatch }) =>
+    <Button type='submit' variant="contained" color="primary" className={ classes.button } onClick={ dispatch({type: 'DELETE_INCOMES'}) }>
+      Delete
+    </Button>
+  )
+
+  const deleteClick = () => {
+    //console.log(Delete(id));
+  }
 
   return (
     <>
@@ -31,9 +37,11 @@ const ConfirmDelete = props => {
       />
 
       <div className={ classes.buttonWrapper }>
-        <Button type='submit' variant="contained" color="primary" className={ classes.button } onClick={ deleteObj }>
+        <Button type='submit' variant="contained" color="primary" className={ classes.button } onClick={ deleteClick }>
           Delete
         </Button>
+
+        <DeleteButton/>
 
         <Button variant="outlined" color="secondary" className={ classes.button } onClick={ handleCloseModal }>
           Cancel
@@ -43,11 +51,4 @@ const ConfirmDelete = props => {
   )
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-    ...bindActionCreators({ deleteRoute }, dispatch)
-  }
-}
-//export default withStyles(confirmDeleteStyle)(ConfirmDelete);
-export default connect(null, mapDispatchToProps)(ConfirmDelete);
+export default withStyles(confirmDeleteStyle)(ConfirmDelete);

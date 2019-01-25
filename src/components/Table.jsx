@@ -67,7 +67,6 @@ class TableCustom extends React.Component {
             this.setState({ modal: {
               type: 'info',
               open: true,
-              //id,
               obj: data.result,
               cells: []
             }});
@@ -84,13 +83,17 @@ class TableCustom extends React.Component {
           obj: { _id: id },
           cells
         }});
-        //console.log(id)
-        //console.log(type)
-        //console.log(modal)
-        //console.log(this.props.Delete)
         break;
 
       default:
+        this.setState({
+          modal: {
+            type: '',
+            open: false,
+            id: '',
+            obj: null,
+          }
+        });
         this.Notify({ message: 'Error to open modal', options: { variant: 'error' } })
     }
   }
@@ -127,7 +130,7 @@ class TableCustom extends React.Component {
   }
 
   render() {
-    const { classes, columns, Delete } = this.props;
+    const { classes, columns, Delete, getNewList } = this.props;
     const { rowsPerPage, page, rows, order, orderBy, modal } = this.state;
     const totalRows = rows.size !== undefined ? rows.size : 0;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
@@ -143,6 +146,7 @@ class TableCustom extends React.Component {
             open={ modal.open }
             cells={ modal.cells }
             Delete={ Delete }
+            getNewList={ getNewList }
             handleCloseModal={ this.handleCloseModal }
           />
 
@@ -191,6 +195,7 @@ TableCustom.propTypes = {
   columns: PropTypes.array.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
   Delete: PropTypes.func.isRequired,
+  getNewList: PropTypes.func.isRequired,
   Notify: PropTypes.func.isRequired,
 };
 
