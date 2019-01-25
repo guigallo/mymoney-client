@@ -65,7 +65,7 @@ const Input = (props) => {
             value={ value }
             onChange={ handleChange(property.id) }
             input={
-              <OutlinedInput labelWidth={100} /* use ref to labelWidth */ name="age" id={ property.id } />
+              <OutlinedInput labelWidth={100} /* use ref to labelWidth */ id={ property.id } />
             }
           >
             {relations !== undefined && relations.map(prop =>

@@ -1,0 +1,1 @@
+export const deleteRoute = (route, deleteId) => ({ type: `DELETE_${route.toUpperCase()}`, deleteId });

@@ -23,6 +23,7 @@ class TableCustom extends React.Component {
     order: 'asc',
     orderBy: 'none',
     modal: {
+      type: '',
       open: false,
       id: '',
       obj: null,
@@ -30,6 +31,7 @@ class TableCustom extends React.Component {
    };
    this.path = props.path;
    this.title = props.title;
+   this.confirmDelete = props.confirmDelete;
    this.Notify = props.Notify;
    this.Delete = props.Delete;
 
@@ -42,9 +44,15 @@ class TableCustom extends React.Component {
   handleChangeRowsPerPage = event => this.setState({ rowsPerPage: parseInt(event.target.value) });
   editLink = props => <Link to={`${this.path}/${props.id}`} {...props} />;
 
-  openModal = props => {
+  openModal = (type, id, cells) => {/*
+  openModal = props => {/*
     const id = props.currentTarget.id;
-    const type = props.currentTarget.getAttribute('modaltype');
+    const row = props.currentTarget.parentElement.parentElement
+    console.log( typeof row)
+    for(let prop in row) {
+      console.log(prop)
+    }
+    const type = props.currentTarget.getAttribute('modaltype');*/
     const { modal } = this.state;
 
     switch(type) {
@@ -57,9 +65,11 @@ class TableCustom extends React.Component {
         getById(this.path, id)
           .then(data => {
             this.setState({ modal: {
+              type: 'info',
               open: true,
-              id,
-              obj: data.result
+              //id,
+              obj: data.result,
+              cells: []
             }});
           })
           .catch(err => {
@@ -68,10 +78,16 @@ class TableCustom extends React.Component {
         break;
 
       case 'delete':
-        console.log(id)
-        console.log(type)
-        console.log(modal)
-        console.log(this.props.Delete)
+        this.setState({ modal: {
+          type: 'delete',
+          open: true,
+          obj: { _id: id },
+          cells
+        }});
+        //console.log(id)
+        //console.log(type)
+        //console.log(modal)
+        //console.log(this.props.Delete)
         break;
 
       default:
@@ -104,17 +120,14 @@ class TableCustom extends React.Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.rows !== nextProps.rows)
-      return true;
-
-    if (this.state !== nextState)
-      return true;
+    if (this.props.rows !== nextProps.rows) return true;
+    if (this.state !== nextState) return true;
 
     return false;
   }
 
   render() {
-    const { classes, columns } = this.props;
+    const { classes, columns, Delete } = this.props;
     const { rowsPerPage, page, rows, order, orderBy, modal } = this.state;
     const totalRows = rows.size !== undefined ? rows.size : 0;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
@@ -124,8 +137,12 @@ class TableCustom extends React.Component {
         <div className={ classes.tableWrapper }>
           <Modal
             title={ this.title }
+            confirmDelete={ this.confirmDelete }
+            type={ modal.type }
             obj={ modal.obj }
             open={ modal.open }
+            cells={ modal.cells }
+            Delete={ Delete }
             handleCloseModal={ this.handleCloseModal }
           />
 
@@ -173,8 +190,8 @@ TableCustom.propTypes = {
   classes: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  Notify: PropTypes.func.isRequired,
   Delete: PropTypes.func.isRequired,
+  Notify: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(TableCustom);
