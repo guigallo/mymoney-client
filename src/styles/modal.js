@@ -19,3 +19,14 @@ export const styles = theme => ({
     outline: 'none',
   },
 });
+
+export const confirmDeleteStyle = theme => ({
+  buttonWrapper: {
+    marginTop: '8px',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+})

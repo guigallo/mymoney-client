@@ -3,11 +3,11 @@ import { enqueueSnackbar } from '../actions/notification.actions';
 
 export function reducer(name, state, action) {
   if(state === undefined) state = [];
-
+  
   switch (action.type) {
     case `LIST_${name}`: return { list: new List(action.list) }
     case `RELATIONS_${name}`: return { relationsData: action.relationsData };
-    case `DELETE_${name}`: return { deleteId: action.deleteId };
+    case `DELETE_${name}`: console.log('delete no reducer'); return { deleteId: action.id };
     default: return state;
   }
 }

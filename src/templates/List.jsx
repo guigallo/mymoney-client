@@ -23,7 +23,9 @@ class List extends React.Component {
     return newState;
   }
 
-  componentDidMount = () => this.props.List().catch(err => console.log(err));
+  getNewList = () => this.props.List().catch(err => console.log(err))
+
+  componentDidMount = () => this.getNewList();
   createLink = props => <Link to={`${this.model.path}/create`} {...props} />
 
   shouldComponentUpdate(nextProps) {
@@ -34,9 +36,9 @@ class List extends React.Component {
   }
 
   render = () => {
-    const { title, properties, path } = this.model;
-    const { classes } = this;
-    const { list, Notify, Delete, /*expiredSession*/ } = this.props;
+    const { title, properties, path, confirmDelete } = this.model;
+    const { classes, getNewList } = this;
+    const { list, Notify, Delete } = this.props;
     const key = list !== undefined ? list : `empty${title}`;
     const rows = list !== undefined ? list : [];
 
@@ -50,10 +52,11 @@ class List extends React.Component {
           </Typography>
           
           <Fab component={this.createLink}
-               aria-label="Create"
-               color='primary'
-               variant="extended"
-               className={ classes.create }>
+            aria-label="Create"
+            color='primary'
+            variant="extended"
+            className={ classes.create }
+          >
             <AddIcon className={ classes.extendedIcon } />
             Create
           </Fab>
@@ -66,8 +69,10 @@ class List extends React.Component {
           columns={ properties }
           rows={ rows }
           rowsPerPage={ 5 }
-          Notify={ Notify }
+          confirmDelete={ confirmDelete }
           Delete={ Delete }
+          getNewList={ getNewList }
+          Notify={ Notify }
         />
       </main>
     );

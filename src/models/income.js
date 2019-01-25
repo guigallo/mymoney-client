@@ -20,5 +20,9 @@ const menu = {
   icon: icon.atachMoney
 };
 const relations = ['accounts', 'categories'];
+const confirmDelete = [
+  'description',
+  'value'
+]
 
-export default new Model(id, title, properties, menu, relations);
+export default new Model(id, title, properties, menu, relations, confirmDelete);

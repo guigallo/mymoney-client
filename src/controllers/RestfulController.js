@@ -1,4 +1,4 @@
-import { getAll } from '../services/api';
+import { getAll, deleteById } from '../services/api';
 
 export default class Controller {
   constructor(name, action) {
@@ -26,6 +26,15 @@ export default class Controller {
     }
 
   delete = id => dispatch => {
+    deleteById(this.name, id)
+      .then(resolve => {
+        console.log(resolve);
+        dispatch(this.action.deleteObj(resolve))
+
+      })
+      //.then(response => {console.log(response)})
+    console.log(this)
+    console.log('delete no controller')
     console.log(id);
   }
 }

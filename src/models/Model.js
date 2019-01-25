@@ -6,7 +6,7 @@ const createController = id =>
   new Controller(id, new Action(id));
 
 export default class Model {
-  constructor(id, title, properties, menu = { enable: false }, relations = []) {
+  constructor(id, title, properties, menu = { enable: false }, relations = [], confirmDelete = [] ) {
     this.id = id;
     this.title = title;
     this.path = `/${id}`;
@@ -14,6 +14,7 @@ export default class Model {
     this.properties = properties;
     this.menu = menu;
     this.relations = relations;
+    this.confirmDelete = confirmDelete;
   }
 
   getReducer = () => (state, action) => reducer(this.id.toUpperCase(), state, action)

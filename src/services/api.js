@@ -1,8 +1,12 @@
+/**
+ * reutilize codes with response.status
+ */
+
 import configs from '../configs/configs';
 
 const PATH_API = configs.apiAdrres;
 
-
+//user create init
 export const logIn = (email, password) =>
   new Promise((resolve, reject) => {
     const requestInfo = {
@@ -26,6 +30,7 @@ export const logIn = (email, password) =>
       .catch(error => reject(error.message));
   });
 
+//user create init
 export const getAll = (route) =>
   new Promise((resolve, reject) => {
     const auth = JSON.parse(localStorage.getItem('auth-token'));
@@ -84,8 +89,9 @@ export const create = (route, body) =>
     
     fetch(`${PATH_API}${route}`, init)
       .then(response => {
+        if(response.ok) return response.json();
+
         switch(response.status) {
-          case 201:
           case 401: 
             localStorage.removeItem('auth-token');
             throw new Error('Session expired');
@@ -105,8 +111,9 @@ export const update = (route, body) =>
     
     fetch(`${PATH_API}${route}`, init)
       .then(response => {
+        if(response.ok) return response.json();
+
         switch(response.status) {
-          case 201:
           case 401: 
             localStorage.removeItem('auth-token');
             throw new Error('Session expired');
@@ -140,3 +147,24 @@ export const getById = (route, id) =>
       })
       .then(json => resolve(json));
   });
+
+  export const deleteById = (route, id) => 
+    new Promise((resolve, reject) => {
+      const init = createInit('DELETE', ['json', 'auth']);
+      fetch(`${PATH_API}/${route}/${id}`, init)
+        .then(response => {
+          if(response.ok) return response.json();
+  
+          switch(response.status) {
+            case 401: 
+              localStorage.removeItem('auth-token');
+              throw new Error('Session expired');
+            case 403: reject('User has no permission'); break;
+            case 404: reject(`${route} not found`); break;
+            case 500: reject('Fail to request'); break;
+            default:  reject('Impossible to request'); break;
+          }
+        })
+        .then(json => resolve(json));
+    });
+  

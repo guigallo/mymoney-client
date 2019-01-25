@@ -17,11 +17,27 @@ import DeleteIcon from '@material-ui/icons/Delete';
 const TableBodyCustom = props => {
   const { classes, rows, rowsPerPage, page, columns, emptyRows } = props;
   const { openModal, editLink } = props;
+  let typeAction = undefined;
+
+  const clickRow = e => {
+    if(typeAction === undefined) return;
+    let cells = [];
+    if(typeAction === 'delete') cells = e.currentTarget.cells;
+
+    openModal(typeAction, e.currentTarget.id, cells);
+    typeAction = undefined;
+  }
+  
+  const typeButton = e => typeAction = e.currentTarget.getAttribute('modaltype');
 
   return (
     <TableBody>
       {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-        <TableRow key={ row.hasOwnProperty('_id') ? row._id : row.id /**Change api to return only _id */ }>
+        <TableRow
+          id={row.hasOwnProperty('_id') ? row._id : row.id /**Change api to return only _id */ }
+          key={row.hasOwnProperty('_id') ? row._id : row.id /**Change api to return only _id */ }
+          onClick={clickRow}
+        >
           {columns.map(column => {
             let display = ''
             switch(column.type) {
@@ -57,18 +73,18 @@ const TableBodyCustom = props => {
             }
 
             return ignoreFormProperties(column) ? null : (
-              <TableCell key={ column.id + column.label } align={ column.align } >{ display }</TableCell>
+              <TableCell id={ column.id } key={ column.id + column.label } align={ column.align } >{ display }</TableCell>
             )
           })}
 
           <TableCell align="right">
-            <IconButton id={row._id} aria-label="Info" modaltype="info" onClick={openModal}>
+            <IconButton /*id={row._id}*/ aria-label="Info" modaltype="info" /*onClick={openModal}*/ onClick={typeButton}>
               <InfoIcon />
             </IconButton>
             <IconButton id={row._id} aria-label="Edit" component={editLink} >
               <EditIcon />
             </IconButton>
-            <IconButton id={row._id} aria-label="Delete" modaltype="delete" onClick={openModal}>
+            <IconButton /*id={row._id}*/ aria-label="Delete" modaltype="delete" /*onClick={openModal}*/onClick={typeButton}>
               <DeleteIcon />
             </IconButton>
           </TableCell>
