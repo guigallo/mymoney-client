@@ -105,11 +105,13 @@ export const create = (route, body) =>
       .then(json => resolve(json))
   });
 
-export const update = (route, body) =>
+export const update = (route, body, id) =>
   new Promise((resolve, reject) => {
-    const init = createInit('POST', ['json', 'auth'], body);
+    const init = createInit('PUT', ['json', 'auth'], body);
     
-    fetch(`${PATH_API}${route}`, init)
+    const path = `${PATH_API}${route}`
+    const fullPath = id === undefined ? path : `${path}/${id}`;
+    fetch(fullPath, init)
       .then(response => {
         if(response.ok) return response.json();
 

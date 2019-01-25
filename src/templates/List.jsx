@@ -23,9 +23,7 @@ class List extends React.Component {
     return newState;
   }
 
-  getNewList = () => this.props.List().catch(err => console.log(err))
-
-  componentDidMount = () => this.getNewList();
+  componentDidMount = () => this.props.List().catch(err => console.log(err));
   createLink = props => <Link to={`${this.model.path}/create`} {...props} />
 
   shouldComponentUpdate(nextProps) {
@@ -37,7 +35,7 @@ class List extends React.Component {
 
   render = () => {
     const { title, properties, path, confirmDelete } = this.model;
-    const { classes, getNewList } = this;
+    const { classes } = this;
     const { list, Notify, Delete } = this.props;
     const key = list !== undefined ? list : `empty${title}`;
     const rows = list !== undefined ? list : [];
@@ -71,7 +69,6 @@ class List extends React.Component {
           rowsPerPage={ 5 }
           confirmDelete={ confirmDelete }
           Delete={ Delete }
-          getNewList={ getNewList }
           Notify={ Notify }
         />
       </main>

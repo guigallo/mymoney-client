@@ -8,10 +8,9 @@ import { Provider } from 'react-redux';
 
 import { restReducers } from './routes/restRoutes';
 import notificationStore from './reducers/notification.reducers';
-import testReducer from './reducers/test.reducers';
 import Routes from './routes/Routes';
 
-const reducers = combineReducers({ ...restReducers, notificationStore, testReducer });
+const reducers = combineReducers({ ...restReducers, notificationStore });
 const store = new createStore(reducers, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(

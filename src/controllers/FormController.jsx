@@ -119,9 +119,10 @@ class FormController extends React.Component {
       if(prop.show === show.all || prop.show === show.form)
         body[prop.id] = fields[prop.id].value;
     });
+    const editId = this.formType === 'Edit' ? fields._id : undefined;
 
     const route = path;
-    this.actionForm(route, body)
+    this.actionForm(route, body, editId)
       .then(response => {
         if(response.errors) {
           response.errors.forEach(error => {
@@ -132,7 +133,11 @@ class FormController extends React.Component {
         }
         
         this.setState({ saved: true });
-        this.createNotify(`${response.result.name} saved`, 'success');
+
+        let message = '';
+        if (this.formType === 'Create') message = `${response.result._id} created`;
+        if (this.formType === 'Edit') message = response.message;
+        this.createNotify(message, 'success');
       })
       .catch(fail => {
         this.createNotify(fail, 'error');
