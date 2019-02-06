@@ -4,5 +4,5 @@ const apiPort = '3001';
 
 export default {
   //apiAdrress: `${apiProtocol}://${apiHost}:${apiPort}`
-  apiAdrress: 'http://mymoney-server.herokuapp.com'
+  apiAdrress: 'https://mymoney-server.herokuapp.com'
 }
