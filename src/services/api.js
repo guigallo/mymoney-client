@@ -5,6 +5,7 @@
 import configs from '../configs/configs';
 
 const PATH_API = process.env.PATH_API || configs.apiAdrress;
+console.log(PATH_API)
 
 //user create init
 export const logIn = (email, password) =>
