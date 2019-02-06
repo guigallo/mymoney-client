@@ -3,5 +3,5 @@ const apiHost = 'localhost';
 const apiPort = '3001';
 
 export default {
-  apiAdrres: `${apiProtocol}://${apiHost}:${apiPort}`
+  apiAdrress: `${apiProtocol}://${apiHost}:${apiPort}`
 }
